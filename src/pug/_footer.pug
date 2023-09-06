@@ -1,0 +1,43 @@
+mixin textLoop()
+  -
+    const spacedBull = `\u2003${BULL}\u2003`,
+          brandName = 'АкТер',
+          brandDescriptor = `Балетная${spacedBull}студия`
+  svg(width="480" height="320" viewBox="0 0 600 400" version="2"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink")
+    title= brandName
+    defs
+      path#topSemiCircle(d="M 120, 200 a 175, 175 0 1, 1 350,0")
+      path#bottomSemiCircle(d="M 470, 200 a 175, 175 0 1, 1 -350,0")
+    text(dy="1" font-size="40" textLength="531")
+      textPath(
+        textLength="531"
+        href="#topSemiCircle"
+        aria-label= brandName)= `${spacedBull + brandName + spacedBull}`
+    text(dy="1" font-size="40" textLength="531")
+      textPath(textLength="531" href="#bottomSemiCircle" aria-label="School")
+        | #{brandDescriptor}
+
+mixin contactWidget(props)
+  - let { contactsList=[], socialsList=[] } = props
+  aside.widget.flow.mask-border-gradient(data-backdrop="glassy")
+    if !isArrEmpty(socialsList)
+      +list({ class: 'social',
+              items: social,
+              ordered: false })
+    if !isArrEmpty(contactsList)
+      +list({ class: 'contacts',
+              items: contactsList,
+              ordered: false })
+
++contactWidget({ contactsList: contacts, socialsList: social })
+
+footer.page__footer.sideways(itemscope itemtype="https://schema.org/WPFooter")
+  span.overline.copr
+    | #[span(itemprop="name")= data.meta.brand]
+    | &COPY;
+    | #[time(datetime= y itemprop="copyrightYear")= y]
+    //- | #[span(itemprop="telephone")= data.meta.phone]
+  //- u.logo.flex-centered: +textLoop()
+  //- span.byline= data.meta.author

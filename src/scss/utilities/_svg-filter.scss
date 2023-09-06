@@ -1,0 +1,52 @@
+/* REFS:
+    → https://dev.to/codingdudecom/everything-about-stroke-text-in-css-561i
+    → https://www.coding-dude.com/wp/css/svg-filters/
+*/
+
+// Paint SVG Stroke
+// https://svgwg.org/svg2-draft/painting.html
+.svg-stroke,
+.outline-stroke { filter: url(#stroke); }
+.outline-stroke {
+  stroke-width: 1px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-miterlimit: 1;
+  fill: none;
+  letter-spacing: 1px;
+}
+
+.svg-filter {
+  --duration: 500ms;
+  --easing: var(--ease-out-quart);
+  // --filter: url('#c6');
+  // --filter: url('#no-g-magenta');
+  // --filter: url('#g-colorized-magenta');
+  // --filter: url('#distort');
+  --filter: url('#duotone');
+
+  position: relative;
+  overflow: hidden;
+  background-color: var(--trn);
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    display: block;
+    opacity: var(--alpha, 1);
+    filter: var(--filter);
+    background: var(--bg-image) 50% 50% / cover no-repeat;
+    transition: opacity var(--duration) var(--easing);
+    content: '';
+  }
+
+  img {
+    opacity: var(--alpha, 0);
+    transition: opacity var(--duration) var(--easing);
+  }
+
+  &:hover {
+    &::after { --alpha: 0; }
+    & > img { --alpha: 1; }
+  }
+}

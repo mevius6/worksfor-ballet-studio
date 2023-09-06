@@ -1,0 +1,74 @@
+@use '../config';
+
+// shttps://h.daily-dev-tips.com/css-custom-numbered-list-styling
+::marker {
+  color: currentcolor;
+}
+
+.terms {
+  counter-reset: h-count;
+}
+
+.h-count {
+  color: var(--dark-blue);
+  counter-increment: h-count;
+}
+
+[role='list'] {
+  max-width: 960px;
+  // padding-inline-start: 30px;
+  // margin-block-start: 1rem;
+  // margin-block-end: 28px;
+
+  & > * + * {
+    margin-block-start: 10px;
+  }
+}
+
+@supports (counter-set: count) {
+  .h-count {
+    display: list-item;
+    padding-inline-start: 4px;
+    margin-inline-start: 20px;
+
+    &::marker {
+      content: counter(h-count) '.';
+    }
+  }
+
+  [role='list'] li {
+    padding-inline-start: 4px;
+
+    &::marker {
+      content: counters(list-item, '.', decimal) '.';
+    }
+  }
+}
+
+@supports not (counter-set: count) {
+  .h-count {
+    &::before {
+      color: currentcolor;
+      content: counter(h-count) '. ';
+    }
+  }
+
+  [role='list'] {
+    counter-reset: list-item;
+
+    li {
+      counter-increment: list-item;
+
+      &::before {
+        color: currentcolor;
+        content: counters(list-item, '.', decimal) '. ';
+      }
+    }
+  }
+}
+
+@include config.respond('tablet') {
+  .h-count {
+    margin-inline-start: 28px;
+  }
+}

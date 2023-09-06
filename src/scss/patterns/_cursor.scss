@@ -1,0 +1,40 @@
+// only supported in Chromium browsers
+// https://www.w3.org/TR/css-properties-values-api-1/#at-property-rule
+// https://css-tricks.com/exploring-property-and-its-animating-powers/
+// https://web.dev/at-property/
+// @supports (background: paint(something)) {
+//   @property --x {
+//     syntax: '<percentage>';
+//     inherits: true;
+//     initial-value: 50%;
+//   }
+//   @property --y {
+//     syntax: '<percentage>';
+//     inherits: true;
+//     initial-value: 50%;
+//   }
+// }
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--big-int);
+  display: none;
+  color: var(--cursor-color, inherit);
+  pointer-events: none;
+  opacity: var(--cursor-alpha, 0);
+  // transform: translate3d(var(--tx, 0), var(--ty, 0), var(--tz, 0));
+  // transition: --x 300ms 20ms ease-out, --y 300ms 20ms ease-out;
+
+  &__inner {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: var(--cursor-width, 1px);
+    filter: var(--cursor-svg-filter, none);
+  }
+
+  @media (hover: hover) {
+    & { display: block; }
+  }
+}

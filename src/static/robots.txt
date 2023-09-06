@@ -1,0 +1,4 @@
+Sitemap: https://prosvet.courses/sitemap.xml
+
+User-agent: *
+Disallow:

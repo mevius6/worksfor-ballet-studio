@@ -1,0 +1,27 @@
+// https://www.w3.org/TR/css-overflow-3/#fragmentation
+// https://codepen.io/chriscoyier/pen/iBtep
+// https://css-tricks.com/multi-line-truncation-with-pure-css/
+
+@mixin line-clamp($lines: 1, $line-height: null) {
+  overflow: hidden;
+
+  @if ($lines == 1) {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @if ($lines > 1) {
+    // @supports not (-webkit-line-clamp: 1) {}
+    @if ($line-height) {
+      $max-height: #{$lines + ' * (' + $line-height + ')'};
+      max-height: calc(#{$max-height});
+    }
+
+    @supports (-webkit-line-clamp: 1) {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: $lines;
+      max-height: 100%; // unset
+    }
+  }
+}

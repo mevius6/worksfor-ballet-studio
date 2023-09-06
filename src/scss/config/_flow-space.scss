@@ -1,0 +1,7 @@
+// https://caniuse.com/#feat=flexbox-gap
+// https://github.com/w3c/csswg-drafts/issues/3559
+@mixin flow-space($space: 1em) {
+  & > * + * {
+    margin-block-start: var(--flow-space, #{$space});
+  }
+}

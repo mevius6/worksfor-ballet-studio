@@ -1,0 +1,194 @@
+@use '../config';
+
+// https://ryanmulligan.dev/blog/layout-breakouts/
+// https://www.smashingmagazine.com/2019/10/editorial-design-patterns-css-grid-subgrid-naming/
+
+.grid {
+  display: grid;
+  grid-template-rows: minmax(min-content, 1fr);
+  grid-template-columns:
+    [full-start] minmax(0, 1fr)
+    [content-start start-half-start] minmax(0, 1fr)
+    [center-start] minmax(0, 2fr)
+    [start-half-end end-half-start] minmax(0, 2fr) // <-- midway
+    [center-end] minmax(0, 1fr)
+    [end-half-end content-end] minmax(0, 1fr)
+    [full-end];
+  // row-gap: var(--spacer-6x);
+  column-gap: var(--gutter);
+  overflow-x: hidden;
+  contain: layout;
+
+  @for $i from 1 through 10 {
+    .container:nth-child(#{$i}) {
+      grid-row: $i;
+    }
+  }
+
+  &__full {
+    grid-column: full-start / full-end;
+    grid-column: full;
+  }
+
+  &__third-lhs,
+  &__third-rhs,
+  &__start-half,
+  &__end-half,
+  &__center,
+  &__content {
+    grid-column: full;
+  }
+
+  @include config.respond('tablet') {
+    // & { row-gap: var(--spacer-14x); }
+
+    // LHS
+    &__start-half {
+      grid-column: start-half-start / start-half-end;
+      grid-column: start-half;
+
+      block-size: 100%;
+    }
+
+    // RHS
+    &__end-half {
+      grid-column: end-half-start / end-half-end;
+      grid-column: end-half;
+    }
+
+    &__content {
+      display: grid;
+      grid-column: content-start / content-end;
+      grid-column: content;
+    }
+
+    &__center {
+      grid-column: center-start / center-end;
+      grid-column: center;
+    }
+
+    // ? utility-first classes
+    &__col {
+      grid-column: var(--col-start, var(--s, 1)) / var(--col-end, var(--e, 2));
+    }
+    &__row {
+      grid-row: var(--row-start, var(--s, 1)) / var(--row-end, var(--e, 2));
+    }
+
+    // intervals: 1/3, 1/4, etc.
+    &__col--third   { --col-start: 1; --col-end: 3; }
+    &__col--quarter { --col-start: 1; --col-end: 4; }
+
+    // left-to-right (across the middle of)
+    &__edge-to-edge   { grid-column: full-start / full-end; }
+    &__edge-to-center { grid-column: full-start / center-start; }
+    &__center-to-edge { grid-column: center-end / full-end; }
+
+    // asymmetrical left-hand side
+    &__third-lhs {
+      grid-column: 1 / span 2;
+      grid-column: 1 / 3;
+    }
+
+    // asymmetrical right-hand side
+    &__third-rhs {
+      grid-column: 3 / span 4;
+      grid-column: 3 / 7;
+    }
+  }
+
+  &--2cols {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: inherit;
+  }
+
+  &--3cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: inherit;
+  }
+
+  &--4cols {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: inherit;
+  }
+}
+
+@for $i from 1 through 4 {
+  [data-columns='#{$i}'] {
+    display: grid;
+
+    @include config.respond('tablet') {
+      grid-template-columns: repeat($i, 1fr);
+    }
+  }
+}
+
+$w: min(20em, 100%);
+$s: 1rem; // 0.5em;
+
+// .grid--masonry { grid-template-rows: masonry; }
+// .grid--col-raf { grid-template-columns: repeat(auto-fit, min(10em, 100%)); }
+
+.grid--masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, min(10em, 100%));
+  grid-template-columns: repeat(auto-fit, $w);
+  grid-template-rows: masonry;
+  justify-content: center;
+  gap: $s;
+  // padding: $s;
+
+  > * { align-self: start; }
+
+  > :first-child {
+    grid-column: 1 / -1;
+    picture { max-block-size: 100svh; }
+  }
+
+  & figure {
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 1.5rem 1rem -1rem hsl(var(--gray));
+  }
+  & figure:hover img {
+    transform: scale(125%);
+    cursor: zoom-in;
+  }
+
+  img {
+    inline-size: 100%;
+    max-block-size: inherit;
+
+    transition: transform 600ms var(--ease-out-cubic);
+
+    // @supports not (grid-template-rows: masonry) {
+    //   aspect-ratio: 3 / 4;
+    // }
+  }
+
+  @supports not (grid-template-rows: masonry) {
+    display: block;
+    columns: 20em;
+    max-inline-size: var(--container-lg);
+    margin: 0 auto;
+
+    figure {
+      margin-block-end: $s;
+      break-inside: avoid;
+    }
+  }
+}
+
+figure {
+  display: grid;
+  margin: 0;
+  grid-template-rows: 1fr auto;
+
+  > img {
+    grid-row: 1 / -1;
+    grid-column: 1;
+  }
+}

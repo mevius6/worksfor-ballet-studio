@@ -1,0 +1,37 @@
+{
+  "env": {
+    "es2020": true,
+    "browser": true,
+    "serviceworker": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    // "ecmaVersion": 11,
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    // Handle cases where we are destructuring
+    // but may not be using the initial variables
+    // https://github.com/carbon-design-system/carbon/blob/main/config/eslint-config-carbon/base.js#L21
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    // https://eslint.org/docs/rules/curly
+    // "curly": ["error", "multi-or-nest"], // or "multi-line"
+    "max-len": [
+      "error",
+      {
+        "ignoreStrings": true,
+        "ignoreUrls": true,
+        "ignoreTemplateLiterals": true
+      }
+    ]
+  }
+}

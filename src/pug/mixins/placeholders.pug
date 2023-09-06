@@ -1,0 +1,177 @@
+//- Refs:
+  - https://it-tools.tech/svg-placeholder-generator
+-
+  // XML Namespace Name (NSName)
+  const XMLNS_NAMES = {
+    svg: 'http://www.w3.org/2000/svg',
+    svgjs: 'http://svgjs.dev/svgjs',
+    xlink: 'http://www.w3.org/1999/xlink',
+  }
+-
+  // Qualified Name (QName := (un)prefixed NSName)
+  const XMLNS_QNAMES = {
+    svg: `xmlns="http://www.w3.org/2000/svg"`, // <-- unprefixed
+    svgjs: `xmlns:svgjs="http://svgjs.dev/svgjs"`,
+    xlink: `xmlns:xlink="http://www.w3.org/1999/xlink"`,
+  }
+-
+  // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElementNS
+  // const bindNS = (...args) => args.map(x => XMLNS_QNAMES[x]);
+  // const format = (str) => str.split('\n').map(line => line.trim()).join(' ')
+-
+  const SYS_UI_SANS = 'system-ui, sans-serif'
+  const FONT_FAMILY = `MaisonNeue, ${SYS_UI_SANS}`
+-
+  const svgDecl = (content, namespaces=[], vb={}) => {
+    let svg = `<svg \n
+      version=\"${SVG_VERSION_NUM}\" \n
+      ${XMLNS_QNAMES['svg']} \n
+      ${pickItemsFrom(XMLNS_QNAMES, ...namespaces) ?? (namespaces.length >= 1)}
+      viewBox=\"${vb?.minX || 0} \
+                ${vb?.minY || 0} \
+                ${vb?.w || 100} \
+                ${vb?.h || 100}\">`
+    let stag = svg
+      // .trim()
+      // .replace(/[\n\r\v\t]/g, '')
+      .replace(/\s+/g, ' ')
+      // .replace(/\s+\b/g, ' ')
+      // .replace(/\s{1,}\b/g, ' ')
+      .replace(/,/g, ' ')
+    let etag = SVG_ETAG
+
+    return [stag, content, etag].join('')
+  }
+-
+  // Neon-like glow
+  // Ref -> https://fffuel.co/nnneon/
+  const SVG_FILTER_BLUR = `<filter id="glow" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox">
+    <feGaussianBlur stdDeviation="17 8" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur></filter><filter id="glow2" x="-100%" y="-100%" width="400%" height="400%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="10 17" x="0%" y="0%" width="100%" height="100%" in="SourceGraphic" edgeMode="none" result="blur"></feGaussianBlur>
+  </filter>`
+  const GRAD_COLOR1 = '#fff'
+  const GRAD_COLOR2 = '#c9aa98' // '#f4e0c4'
+  const SVG_GRAD = `<linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="grad"><stop stop-color="${GRAD_COLOR1}" stop-opacity="1" offset="0%"></stop><stop stop-color="${GRAD_COLOR2}" stop-opacity="1" offset="100%"></stop></linearGradient>`
+  const SVG_CIRC_GLOW = '<g stroke-width="8" stroke="url(#grad)" fill="none"><circle r="50" cx="50" cy="50" filter="url(#glow)"></circle><circle r="50" cx="62" cy="50" filter="url(#glow2)" opacity="0.25"></circle><circle r="50" cx="38" cy="50" filter="url(#glow2)" opacity="0.25"></circle><circle r="50" cx="50" cy="50"></circle></g>'
+  const SVG_CIRC = '<g stroke-width="8" stroke="url(#grad)" fill="none"><circle r="50" cx="50" cy="50"></circle></g>'
+-
+  // https://www.w3.org/TR/SVG11/pservers.html#Gradients
+  const lingrad01 = `<linearGradient id="grad1"><stop offset="5%" stop-color="#F60" /><stop offset="95%" stop-color="#FF6" /></linearGradient>`
+-
+  const svgTextStroke = (content) => svgDecl(
+    encodeUrl(`
+    <defs>${SVG_GRAD + SVG_FILTER_BLUR}</defs>
+    ${SVG_CIRC}
+    <g stroke-width="2" stroke="url(#grad)" fill="none">
+      <text filter="url(#glow)" text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700" opacity="0.75">${content}</text>
+      <text filter="url(#glow2)" text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700" opacity="0.25">${content}</text>
+      <text text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700">${content}</text>
+    </g>
+    `), ['xlink']
+  //, ['xlink', 'svgjs'], {w: 512, h: 512} <-- test
+  )
+//-
+  const svgTextBloom = (content) => svgDecl(
+    encodeUrl(`
+    <defs>${SVG_GRAD + SVG_FILTER_BLUR}</defs>
+    ${SVG_CIRC}
+    <g fill="url(#grad)">
+      <text filter="url(#glow)" text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700" opacity="0.75">${content}</text>
+      <text filter="url(#glow2)" text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700" opacity="0.375">${content}</text>
+      <text text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700">${content}</text>
+    </g>
+    `), ['xlink']
+  )
+-
+  const svgTextBloom = (content) => svgDecl(
+    encodeUrl(`
+    <defs>${SVG_GRAD + SVG_FILTER_BLUR}</defs>
+    ${SVG_CIRC}
+    <g fill="url(#grad)">
+      <text text-anchor="middle" y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-size="50" font-weight="700">${content}</text>
+    </g>
+    `), ['xlink']
+  )
+-
+  const svgText = (content, color = randomColor()) => svgDecl(
+    encodeUrl(`
+    <g fill="${color}">
+      <text y="1.333em" x="1em" font-family="${FONT_FAMILY}" font-weight="700" font-size="50" xml:space="preserve" text-anchor="middle" text-rendering="geometricPrecision" opacity="0.7">${content}</text>
+    </g>
+    `), ['xlink']
+  )
+
+//- Refs:
+  - https://css-tricks.com/snippets/svg/svg-knockout-text
+  - https://css-tricks.com/emoji-as-a-favicon/
+  - https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/
+  - https://codepen.io/jakob-e/pen/doMoML
+  - https://parceljs.org/languages/svg/
+
+    Arcade-style 8-bit pixelated face generation:
+  - https://en.gravatar.com/site/implement/images/
+  - https://gist.github.com/alejandro/1516297
+  - https://github.com/M66B/FairEmail/blob/master/app/src/dummy/java/eu/faircode/email/Avatar.java
+
+mixin placeholder(props)
+  -
+    // Type: (chars | image)
+    // TODO: implement these options
+    let typeEnums = ['monogram', 'gradient', '8-bit', 'emoji', 'LQIP'],
+        monogramStyle = ['neon', 'gradient', 'noise']
+  -
+    let { type = '', index: id = 1, text = '', size = {} } = props
+  -
+    let initials = firstLetter(text)
+  -
+    // Setting a background gradient with CSS variables
+    // and random colors as a fallback
+    let linGrad = `linear-gradient(var(--grad-color-stop1, ${randomColor()}),
+                                   var(--grad-color-stop2, ${randomColor()}))`
+    let bgImage = {
+      'background-image': linGrad
+    }
+  -
+    let getById = (id = 'noise') => `url(#${ id })`
+    let filter = {
+      'filter': getById('noise'),
+      // 'background': 'linear-gradient(#ffca85, #f694ff)',
+    }
+  -
+    let imgSrc = `data:${SVG_MEDIA_TYPE};${SVG_ENCODING_DECL},`
+  -
+    let styles = { 'aspect-ratio': '1 / 1' }
+    let classList = []
+  -
+    let picAttList = {},
+        imgAttList = {}
+
+  //- if type?.monogram?.gradient
+  if type === 'gradient'
+    -
+      styles = {
+        ...bgImage,
+        ...filter,
+      }
+    -
+      imgSrc += svgText(initials, 'none')
+
+  if type === 'monogram'
+    -
+      picAttList.class = [`placeholder--${type}`]
+    -
+      imgSrc += svgTextBloom(initials)
+      // size = w ?? (w === h)
+      imgAttList = {}, { size = '256px' } = imgAttList
+
+  if type === 'test'
+    picture(class= classList)&attributes(picAttList)
+      img(
+        src="data:image/webp;base64,UklGRkoAAABXRUJQVlA4WAoAAAAQAAAAAAAAAAAAQUxQSAwAAAARBxAR/Q9ERP8DAABWUDggGAAAABQBAJ0BKgEAAQAAAP4AAA3AAP7mtQAAAA=="
+        width= size.w height= size.h)
+  else
+    picture(style= styles class= classList)&attributes(picAttList)
+      //- https://www.rfc-editor.org/rfc/rfc2397#section-4
+      img(src= imgSrc alt=""
+          width= size.w height= size.h)&attributes(imgAttList)
+
+  //- TODO: +svg({ encName: 'url', data: initials })

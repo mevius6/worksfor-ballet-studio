@@ -1,0 +1,41 @@
+@use 'sass:list';
+@use 'sass:map';
+
+// ? https://github.com/propjockey/css-media-vars
+@mixin respond($breaks...) {
+  $width-breaks: (
+    'mobile': 20em, // ~320px
+    'tablet': 48em, // ~768px
+    'laptop': 80em, // ~1280px
+  );
+  @each $break in $breaks {
+    $has-width-break: map.has-key($width-breaks, $break);
+
+    @if $has-width-break {
+      $break-count: list.length($breaks);
+
+      @if $break-count > 1 {
+        $breakpoint1: map.get($width-breaks, list.nth($breaks, 1));
+        $breakpoint2: map.get($width-breaks, list.nth($breaks, 2));
+
+        @media (min-width: #{$breakpoint1}) and (max-width: #{$breakpoint2}) {
+          @content;
+        }
+      }
+      @else {
+        $breakpoint: map.get($width-breaks, $break);
+
+        @media (min-width: $breakpoint) {
+          @content;
+        }
+      }
+    }
+    @if $break == 'retina' {
+      @media screen and (min-resolution: 192dpi),
+        screen and (min-resolution: 2dppx),
+        screen and (-webkit-min-device-pixel-ratio: 2) {
+        @content;
+      }
+    }
+  }
+}

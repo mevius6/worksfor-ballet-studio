@@ -1,0 +1,215 @@
+//- Refs:
+  - https://web.dev/carousel-best-practices/
+  - https://css-tricks.com/css-only-carousel/
+  - https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
+  - https://w3c.github.io/i-slide/
+  - https://www.w3.org/TR/uievents-key/#keys-navigation
+  - https://github.com/una/calculating-color#configuration
+  - https://revealjs.com/
+  - https://github.com/cfjedimaster/HTML-Code-Demos/blob/master/slides.js
+  - https://codepen.io/jakob-e/pen/KKvjaBq
+
+mixin slideControl(props)
+  -
+    let { action = 'switch', slides=[] } = props,
+        { length: total=1 } = slides
+
+  //- Next/Previous Slide Control (to switch between next/prev slide)
+  if action === 'switch'
+    .carousel__controls
+      button(aria-label="Предыдущий").carousel__control--prev
+        svg#prev(
+          viewBox="0 0 50 50"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2")
+          //- circle(fill="currentColor" cx="25" cy="25" r="20")
+          polyline#arrow(points="29,15 17,25 29,35")
+      button(aria-label="Следующий").carousel__control--next
+        svg#next(
+          viewBox="0 0 50 50"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2")
+          //- circle(fill="currentColor" cx="25" cy="25" r="20")
+          polyline#arrow(points="21,15 33,25 21,35")
+
+  //- Slide Picker Controls (styled as: dots, tabs, thumbs, etc.)
+  if action === 'select'
+    nav.carousel__pagination(role="tablist")
+      each slide, i in slides
+        -
+          let n = i+1,
+              label = `Item ${n}`,
+              title = `Item ${n}: ${label}`
+        button.carousel__paging-control(
+          type="button"
+          role="tab"
+          title= label
+          aria-label= label
+          aria-setsize= slides.length
+          aria-posinset= n
+          aria-selected= (i < 1) ? 'true' : 'false'
+          tabindex= (i < 1) ? 0 : '-1'
+          aria-controls=`carousel-item-${n}`)
+      //- +paging(slides)
+
+mixin carousel(props)
+  -
+    let defaults = {
+      counter: false,
+      control: true,
+      pagination: true, // <-- picker controls + progress indicators
+      // progress: true, // <-- scrollbar
+    }
+  -
+    let {
+      id: hashLinkBase,
+      ariaLabelledBy: id,
+      counter = defaults['counter'],
+      control = defaults['control'],
+      pagination = defaults['pagination'],
+      data: fragments, // <-- subset of slides
+      type = 'slide', // <-- identifies the type of slide content by
+      instance = 1,
+      textWrap,
+      imageDims: ratio,
+      imagePath: media,
+      slideCols: num = 1, // <-- switch between (1 | 2) column layout
+      ...rest
+    } = props, { length: total } = fragments
+  -
+    let attrs = {
+      'id': hashLinkBase,
+      //- 'carousel-pagination': 'dots',
+      //- 'carousel-controls': 'auto',
+      //- 'carousel-snapstop': 'auto',
+      'aria-roledescription': 'carousel',
+    },
+        classes = [],
+        styles = {}
+
+  if !pagination
+    - attrs['data-pagination'] = 'none'
+    - counter = true
+
+  .carousel(
+    class= classes class=[`carousel--${instance}`, ...props.class]
+  )&attributes(attrs)
+    -
+      // TODO: bools → obj enums
+      let wrap = {
+        article: (textWrap === 'article'),
+        caption: (textWrap === 'caption'),
+      }
+    ul.carousel__container.--side-fade(
+      style={ '--columns': count(fragments) }
+      role="group"
+    )&attributes({ 'aria-labelledby': id })
+      each entry, i in fragments
+        -
+          let {
+            date,
+            field,
+            link,
+            text,
+            title,
+            user,
+            rating,
+            ...rest
+          } = entry,
+          w = 1080,
+          h = 1080
+        -
+          let slideAttList = {
+            'id': hashLinkBase + '-' + type + increment(i),
+            'aria-label': `${i+1} / ${total}`,
+            'aria-roledescription': 'item',
+          }
+        li.carousel__slide(style={ '--columns': num })&attributes(slideAttList)
+          if media
+            -
+              let figureAttList = {},
+                  attAspectRatio = { '--aspect-ratio': ratio },
+                  // ↓ is figure contains figcaption
+                  attRoleGroup = { 'role': 'group' }
+            -
+              h = num > 1
+                ? 1350 // <-- vert
+                : 720 // <-- horiz
+            if props.figClipping
+              -
+                figureAttList['data-clip-region'] = props.figClipping['region']
+                figureAttList['class'] = ['clip-geometry', ...props.figClipping['class']]
+            figure.carousel__image&attributes(figureAttList)
+              +picture({
+                class: 'tucked-corners',
+                path: media,
+                name: increment(i),
+                desc: '',
+                hdim: w,
+                vdim: h,
+                transform: true,
+              })
+              if wrap.caption
+                +textContent({ parentDOM: textWrap })
+                  +dataFilter({ ...entry })
+
+          if wrap.article
+            +textContent({ parentDOM: textWrap })
+              +dataFilter({ ...entry })
+
+          else if type === 'review'
+            +review({
+              class: 'carousel__text',
+              id: `review${i+1}`,
+              date: date,
+              rating: rating,
+              stars: true,
+              title: title,
+              text: text,
+              link: user.link,
+              avatar: user.avatar,
+              username: user.name,
+              collapsible: true,
+            })
+
+      //- TODO: looped slide rotation (it now works as follows)
+                and helps turn-on ambient light…
+      //- if props.isLooped
+        ul.carousel__loop(
+          style={ '--columns': count(fragments) }
+          aria-hidden="true"
+        )
+          each entry, i in fragments
+            -
+              let w = 1080,
+                  h = 1080
+            li.carousel__slide(style={ '--columns': num })&attributes(slideAttList)
+              if media
+                - h = num > 1 ? 1350 : 720
+                figure.carousel__image
+                  +placeholder({ type: 'test', size: {w, h} })
+
+    if counter
+      h6.carousel__counter(
+        data-count=`1/${total}`
+      )
+        span.carousel__counter-current= 1
+        | &frasl;
+        span.carousel__counter-max= total
+
+    if control
+      //- +slideControl(fragments)
+
+    if pagination
+      //- +slideControl({
+      //-   slides: fragments,
+      //-   action: 'select',
+      //- })
+      nav.carousel__pagination(role="tablist")
+        each i in Array.from(Array(total).keys())
+          a.carousel__paging-control(
+            href=`#${hashLinkBase}-${type + increment(i)}`)

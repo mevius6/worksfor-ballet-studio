@@ -1,0 +1,30 @@
+// https://web.dev/building-a-tooltip-component/
+
+.tooltip {
+  position: relative;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 1px;
+}
+
+.tooltip::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 20px;
+  margin: auto;
+  content: '';
+  background: white;
+  transform:
+    translateY(
+      calc(+100% - 1px)
+    );
+  clip-path:
+    polygon(
+      0% 0%,
+      50% 100%,
+      100% 0%
+    );
+}

@@ -1,0 +1,34 @@
+@use 'fvar';
+@use 'tools';
+
+@mixin typeset($font, $weight: 400) {
+  $fonts: (
+    'display': (
+      'name': '',
+      'axes': 'wght'
+    ),
+    'serif': (
+      'name': 'GT-Sectra',
+    ),
+    'sans': (
+      'name': 'MaisonNeue',
+    ),
+    'mono': (
+      'name': 'MaisonNeueMono',
+    ),
+  );
+  $has-variable-axes: tools.check($fonts, $font, 'axes');
+
+  font-family: tools.fetch($fonts, $font, 'name');
+
+  @if $has-variable-axes {
+    $axis-tag: tools.fetch($fonts, $font, 'axes');
+
+    @if $axis-tag == 'wght' {
+      font-variation-settings: fvar.weight($weight);
+    }
+  }
+  @else {
+    font-weight: $weight;
+  }
+}

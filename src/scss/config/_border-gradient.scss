@@ -1,0 +1,36 @@
+@use 'sass:list';
+@use './scrim-gradient';
+
+// https://codepen.io/cobra_winfrey/pen/mdJeqZb?editors=0100
+@mixin border-gradient($direction, $colors...) {
+  $color-stops: list.length($colors);
+
+  border-color: var(--border-color, var(--background));
+  border-style: solid;
+  border-width: var(--border-width, 1px);
+  border-image-source:
+    linear-gradient(
+      $direction,
+      list.nth($colors, 1),
+      calc(100% - (100% / #{$color-stops + 1} * #{$color-stops})),
+      list.nth($colors, 2),
+    );
+  border-image-slice: 1;
+  border-image-width: 1;
+}
+
+@mixin border-gradient2($direction, $colors) {
+  @include scrim-gradient.gradient(
+    $direction,
+    list.nth($colors, 1)
+    list.nth($colors, 2)
+    list.nth($colors, 3),
+    'border'
+  );
+
+  border-color: var(--border-color, var(--background));
+  border-style: solid;
+  border-width: var(--border-width, 1px);
+  border-image-slice: 1;
+  border-image-width: 1;
+}

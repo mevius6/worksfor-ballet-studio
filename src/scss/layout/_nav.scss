@@ -1,0 +1,176 @@
+@use '../config';
+
+// https://github.com/argyleink/gui-challenges/tree/main/sidenav
+// https://web.dev/website-navigation/
+.nav {
+  --duration: 150ms;
+  --easing: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+  display: grid;
+  inline-size: 100%;
+  block-size: 100%;
+  transform: translateX(-100%);
+  place-content: center;
+  will-change: transform;
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    content: '';
+    background-color: var(--background-a75);
+    transform-origin: 0 50%;
+    backdrop-filter: blur(10px);
+  }
+
+  @include config.respond('tablet') {
+    inline-size: 50%;
+  }
+
+  // TODO: show nested levels on hover -> https://kizu.dev/restoring-visibility/
+  // &__subitems {…}
+
+  &__items {
+    --list-gap: 0;
+
+    max-inline-size: 70ch;
+    margin: 1rem;
+  }
+
+  &__item {
+    display: block;
+    opacity: var(--item-a, 0);
+    transition: opacity 150ms ease-in-out;
+    will-change: transform, opacity;
+
+    @media(hover: hover) and (pointer: fine) {
+      // https://drafts.csswg.org/selectors-4/#negation
+      :is(:hover, :focus-within) > &:not(:hover) { --a: .5; }
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    overflow: visible;
+    position: relative;
+    font-style: italic;
+    letter-spacing: var(--letter-spacing-1);
+
+    opacity: var(--a, 1);
+    transition: opacity var(--duration) var(--easing);
+
+    &-text {
+      @include config.typeset('serif', 300);
+
+      --px-size: 48;
+      --px2rem: calc((var(--px-size) / 16) * 1rem);
+
+      font-size: var(--px2rem);
+    }
+
+    &::before {
+      --full: 3vw;
+      --half: calc(var(--full) * 0.5);
+      --offset: calc(-1 * var(--full) * 2);
+
+      position: absolute;
+      top: 50%;
+      left: var(--offset);
+      display: inline-block;
+      inline-size: var(--full);
+      block-size: 1px;
+      content: '';
+      background-color: var(--bg);
+      transition:
+        transform var(--duration) var(--easing),
+        background-color calc(var(--duration) * 2);
+      transform: translateX(var(--tx, 0)) scale3d(var(--sx, 0), 1, 1);
+      transform-origin: 0 100%;
+
+      @include config.respond('retina') {
+        & { block-size: 0.5px; }
+      }
+    }
+
+    &:is(:hover, [aria-current='page']) {
+      // color: var(--accent);
+
+      &::before {
+        --tx: var(--half);
+        --sx: 1;
+        --bg: currentcolor;
+      }
+
+      [data-theme-style='light'] & { --bg: var(--accent); }
+      [data-theme-style='dark'] & { --bg: var(--accent); }
+    }
+  }
+}
+
+.nav-button {
+  --full: 44px;
+  --half: 0.625rem;
+
+  // position: fixed;
+  z-index: 1020;
+  display: flex;
+  inline-size: var(--full);
+  block-size: var(--full);
+  padding: 0;
+  border: 0;
+  align-items: center;
+  justify-content: center;
+
+  & > svg {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+
+  @include config.respond('tablet') {
+    --half: calc(var(--full) * 0.5);
+  }
+}
+
+.line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: var(--duration);
+  transition-property: stroke-dasharray, stroke-dashoffset;
+  stroke-dasharray: var(--pattern);
+  stroke-dashoffset: var(--distance);
+
+  &:nth-of-type(1) {
+    --pattern: 60 207;
+
+    [aria-pressed='true'] & {
+      --pattern: 90 207;
+      --distance: -134;
+    }
+  }
+
+  &:nth-of-type(2) {
+    --pattern: 60 60;
+
+    [aria-pressed='true'] & {
+      --pattern: 1 60;
+      --distance: -30;
+    }
+  }
+
+  &:nth-of-type(3) {
+    --pattern: 60 207;
+
+    [aria-pressed='true'] & {
+      --pattern: 90 207;
+      --distance: -134;
+    }
+  }
+}

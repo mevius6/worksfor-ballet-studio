@@ -1,0 +1,167 @@
+extends page
+
+block vars
+  - let page = data.pages.index
+  -
+    // https://github.com/cfjedimaster/Serverless-Examples/tree/master/recaptcha
+    const HOST = 'https://www.google.com/recaptcha/api.js',
+          KEY = '6LchYK0UAAAAAMRflt6o0V_1imaH5KDnH5XVjWjB'
+
+append head-start
+  if !isArrEmpty(hosts)
+    each host in hosts
+      link(rel="preconnect" href=`https://${host}` crossorigin)
+      link(rel="dns-prefetch" href=`https://${host}` crossorigin)
+
+append head-end
+  script(src=`${HOST}?render=${KEY}&onload=initRecaptcha&render=explicit`)
+  script(type="text/javascript").
+    var initRecaptcha = function() {
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LchYK0UAAAAAMRflt6o0V_1imaH5KDnH5XVjWjB', { action: "homepage" }).then(function(token) {
+          document.getElementById('recaptcha_token').value = token;
+        });
+      });
+    }
+
+block content
+  section(role="region").grid
+    .container.bg-overlay#hero(data-id="hero")
+      video-player.grid__full(basename="page-hero")
+      //- noscript: +video({ fileName: 'hero', dims: [1920, 1080] })
+      //- TODO: add markup https://schema.org/logo
+      .logo.grid__center(itemprop="logo"): include ../images/logo.svg
+      .grid__full: include ../images/loop.svg
+
+      article.flow(data-hidden)
+        h1.title(itemprop="name")
+          if Array.isArray(intro.head)
+            each line in intro.head
+              span= line
+          else
+            = intro.head
+        span(itemprop="description")= page.description
+        p(role="subtitle")= intro.body
+
+    .container.spaced.--ada-lg.grid-items-center#intent
+      .grid__start-half
+        +head({
+          level: 2,
+          text: ['Открыт набор', 'на 2023–2024', 'учебный год'],
+          reveal: 'chars',
+        })
+      article.flow.grid__end-half.--ada-lg
+        p.reveal(role="subtitle")= intro.body
+        p.reveal= lead
+        +cta({
+          type: 'anchor',
+          link: '#contact',
+          text: 'Записаться'
+        })(data-js-anim='bg-gradient')
+
+    .container.spaced.--ada-md
+      .grid__third-lhs.sideways
+        +head({ level: 2, text: 'Занятия для детей', reveal: 'chars' })
+      .grid__third-rhs
+        //- H2F: “class” prop will no longer be iterable if this is removed
+        +carousel({
+          id: 'child-activities',
+          class: [],
+          data: slides1,
+          imageDims: 1350 / 1080,
+          imagePath: 'slides1',
+          instance: 1,
+          pagination: true,
+          slideCols: 2,
+          textWrap: 'article',
+        })
+
+    .container.spaced.--ada-lg.grid-items-center.popout#about
+      .grid__center: +head({ level: 2, text: about.head, reveal: 'chars' })
+      article.flow.grid__center.--ada-lg
+        p= about.body
+        +cta({
+          type: 'anchor',
+          link: 'https://zoon.ru/msk/trainings/shkola_tantsev_akter_na_metro_dinamo/3d_tour/',
+          text: 'Посмотреть студии'
+        })(data-js-anim='bg-gradient', target='_blank')
+
+    .container.spaced.--ada-md
+      .grid__third-lhs.sideways
+        +head({ level: 2, text: 'Занятия для взрослых', reveal: 'chars' })
+      .grid__third-rhs
+        +carousel({
+          id: 'adult-activities',
+          class: [],
+          data: slides2,
+          imageDims: 1350 / 1080,
+          imagePath: 'slides2',
+          instance: 2,
+          pagination: true,
+          slideCols: 2,
+          textWrap: 'article',
+        })
+
+    .container.spaced.--ada-md.popout
+      .grid__third-lhs.sideways
+        +head({ level: 2, text: 'Наши партнёры', reveal: 'chars' })
+      .grid__third-rhs.d-grid.grid-items-center
+        +marquee()
+
+    .container.spaced.--ada-md
+      .grid__third-lhs.sideways
+        +head({ level: 2, text: 'Команда педагогов', reveal: 'chars' })
+      //- TODO: add markup https://schema.org/Person
+      .grid__third-rhs
+        +carousel({
+          id: 'teachers',
+          class: [],
+          data: employees,
+          imageDims: 1350 / 1080,
+          imagePath: 'portraits',
+          instance: 3,
+          pagination: true,
+          slideCols: 2,
+          textWrap: 'article',
+        })
+
+    .container.spaced.--ada-lg
+      .grid__center.d-grid.grid-items-center
+        +head({ level: 2, text: 'Отзывы', reveal: 'chars' })
+      .grid__content
+        p.overline(
+          itemprop="aggregateRating"
+          itemscope itemtype="https://schema.org/AggregateRating"
+          data-hidden
+        )
+          | #[span(itemprop="ratingValue")= 5] из 5 звёзд —
+          | #[span(itemprop="reviewCount")= count(reviews)] отзывов на
+          | #[+link({href: 'https://akterstudio.ru', text: 'АкТер'})]
+        +carousel({
+          id: 'reviews',
+          class: [],
+          data: reviews,
+          type: 'review',
+          instance: 4,
+          pagination: true,
+        })
+
+    //- section#feed(aria-label="all blog posts")
+
+    .container(data-id="map"): +map({
+      classes: 'grid__full',
+      controls: true,
+      headings: true,
+    })
+
+    .container.spaced.--ada-md#contact(data-id="contact")
+      .grid__center: +head({ level: 2, text: 'Пишите нам', reveal: 'chars' })
+      +form({
+        class: 'grid__center',
+        endpoint: '294b2d20',
+        phone: data.meta.phone,
+        recaptcha: true,
+      })
+      //- offer: data.pages.offer.path[0]
+
+block scripts

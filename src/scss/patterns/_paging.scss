@@ -1,0 +1,53 @@
+@use '../config';
+
+.paging {
+  --dot-size: 1rem;
+  --list-item-gap: 0;
+
+  column-gap: 0;
+  display: inline-flex;
+  // margin-block-start: var(--gutter);
+
+  & > * + * {
+    margin-left: calc(var(--dot-size) * 0.75);
+
+    @include config.respond('tablet') {
+      margin-inline-start: calc(var(--dot-size));
+    }
+  }
+
+  [type='radio'] {
+    appearance: none;
+    outline: none;
+
+    &:hover ~ label {
+      --sx: 1;
+      --alpha: 0.75;
+    }
+
+    &:checked ~ label,
+    &:focus ~ label {
+      --sx: 0.8;
+      --alpha: 1;
+    }
+  }
+
+  label {
+    --sx: 0.9;
+    --alpha: 0.5;
+
+    flex: 0 0 auto;
+    inline-size: var(--dot-size);
+    block-size: var(--dot-size);
+    margin: 0;
+    cursor: pointer;
+    background-color: var(--foreground);
+    border-radius: 50%;
+    opacity: var(--alpha);
+
+    transition-timing-function: var(--timing, var(--ease-out-quint));
+    transition-duration: 150ms;
+    transition-property: opacity, transform;
+    transform: scale(var(--sx));
+  }
+}

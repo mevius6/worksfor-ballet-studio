@@ -1,0 +1,20 @@
+@use 'sass:list';
+
+// https://codepen.io/argyleink/pen/GRZoQLB?editors=1100
+@mixin text-gradient($direction, $colors...) {
+  $color-stops: list.length($colors);
+
+  color: transparent;
+  background:
+    linear-gradient(
+      $direction,
+      list.nth($colors, 1),
+      calc(100% - (100% / #{$color-stops + 1} * #{$color-stops})),
+      list.nth($colors, 2),
+    );
+  background-clip: text;
+
+  /* autoprefixer: ignore next */
+  -webkit-text-fill-color: transparent;
+  box-decoration-break: clone;
+}

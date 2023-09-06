@@ -1,0 +1,117 @@
+@use 'sass:list';
+@use 'sass:math';
+@use 'sass:color';
+
+/*
+  https://drafts.csswg.org/css-images/#gradients
+  https://drafts.csswg.org/css-images/#color-transition-hint
+  https://drafts.csswg.org/css-images/#coloring-gradient-line */
+
+// https://css-tricks.com/snippets/sass/striped-gradient-mixin/
+// TODO: https://drafts.csswg.org/css-images/#color-stop-fixup
+@mixin gradient($direction, $colors, $is-border: null) {
+  $length: list.length($colors);
+  $start-color: list.nth($colors, 1);
+  $end-color: list.nth($colors, $length - 1);
+
+  @if $length > 1 {
+    $stripes: ();
+    $halfway: ();
+
+    @for $i from 1 through $length {
+      @if $length > 3 {
+        $hint: math.div(100%, $length) * ($i - 1);
+
+        @if $i > 1 {
+          $stripes: list.append(
+            $stripes,
+            list.nth($colors, $i - 1) $hint,
+            comma
+          );
+        }
+
+        $stripes: list.append($stripes, list.nth($colors, $i) $hint, comma);
+      }
+      @else {
+        $hint: math.div(100%, $length) * $i;
+
+        @if $i <= ($length - 1) {
+          $halfway: list.join($halfway, (list.nth($colors, $i) $hint), comma);
+        }
+        @else {
+          $halfway: list.join($halfway, list.nth($colors, -1), comma);
+        }
+      }
+    }
+
+    @if $length > 3 {
+      background-image: linear-gradient($direction, $stripes);
+    }
+    @else if $is-border {
+      border-image-source: linear-gradient($direction, $halfway);
+    }
+    @else {
+      background-image: linear-gradient($direction, $halfway);
+    }
+  }
+  @else if $length == 1 {
+    background-color: $colors;
+  }
+}
+
+/*
+  https://css-tricks.com/easing-linear-gradients/
+  https://github.com/larsenwork/postcss-easing-gradients/blob/master/lib/colorStops.js
+  https://github.com/bugsnag/chromatic-sass */
+
+@mixin scrim-gradient($start-color: #000, $direction: 'to bottom') {
+  $scrim: (
+    0: 1,
+    19: 0.738,
+    34: 0.541,
+    47: 0.382,
+    56.5: 0.278,
+    65: 0.194,
+    73: 0.126,
+    80.2: 0.075,
+    86.1: 0.042,
+    91: 0.021,
+    95.2: 0.008,
+    98.2: 0.002,
+    100: 0,
+  );
+
+  $ease-out-sine: (
+    0: 0,
+    5.3: 0.917,
+    10.6: 0.834,
+    15.9: 0.753,
+    21.3: 0.672,
+    26.8: 0.591,
+    32.5: 0.511,
+    38.4: 0.433,
+    44.5: 0.357,
+    50.9: 0.283,
+    57.7: 0.213,
+    65: 0.147,
+    72.9: 0.089,
+    81.4: 0.042,
+    90.6: 0.011,
+    100: 0,
+  );
+
+  $hue: color.hue($start-color);
+  $sat: color.saturation($start-color);
+  $lum: color.lightness($start-color);
+  $stops: ();
+
+  $coords: $scrim;
+
+  @each $value, $alpha in $coords {
+    $stop: hsla($hue, $sat, $lum, $alpha)
+      math.percentage(math.div($value, 100));
+    $stops: list.append($stops, $stop, comma);
+  }
+
+  background-image: linear-gradient(unquote($direction), $stops);
+}

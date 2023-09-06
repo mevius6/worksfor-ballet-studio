@@ -1,0 +1,24 @@
+mixin extra(text)
+  each i in Array(4)
+    span
+  each i in Array(4)
+    p(aria-hidden="true")= text
+
+mixin cta(props)
+  -
+    let { base, type, link, text = '↳ Goto hash-link' } = props
+  -
+    let isBEM = base ? `${base}__cta` : 'cta'
+
+  if type === 'anchor'
+    a(class= isBEM href= link)&attributes(attributes)
+      | #{text}
+      //- +extra(text)
+  if type === 'button'
+    button(
+      class= isBEM
+      type= (base === 'form' ? 'submit' : 'button')
+      tabindex='0'
+    )&attributes(attributes)
+      | #{text}
+      //- +extra(text)

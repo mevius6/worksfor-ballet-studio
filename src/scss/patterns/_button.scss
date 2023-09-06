@@ -1,0 +1,174 @@
+@use '../config';
+
+@layer components, states, instances;
+
+// https://github.com/primer/css/blob/master/src/buttons/button.scss
+// https://web.dev/building-a-button-component/
+// https://codepen.io/smashingmag/pen/MWOgmjK?editors=0100
+
+@layer components {
+  button {
+    --tap-size: var(--min-touch-target-size); // 44px ~ 2.75rem
+    --turn-off-shadow: 0 0 0 var(--shadow);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    min-block-size: var(--btn-min-size); //= --tap-size
+
+    padding-block: 0.75ch;
+    padding-inline: 1.75ch;
+    border-radius: 0.5ch;
+    overflow: hidden;
+
+    // font-family: ui-monospace, monospace;
+    font-weight: 500;
+    line-height: 1.5; // 1
+    color: var(--btn-text-color, var(--foreground));
+    background: var(--btn-background, var(--background));
+    text-align: center;
+    text-shadow: 1px 1px #000a;
+    text-shadow: var(--shadow-elevation-low);
+
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+
+    @media (hover: hover) {
+      min-inline-size: var(--tap-size);
+      min-block-size: var(--tap-size);
+    }
+  }
+}
+
+@layer states {
+  button {
+    &:where(:not(
+      :is(header, nav, [class*='control']) &
+    )) {
+      min-inline-size: var(--btn-min-hdim);
+    }
+
+    &:where(:not([disabled], [class*='control'])) {
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    &:where(:not([class*='control'])) {
+      transition-name:
+        filter,
+        transform,
+        box-shadow,
+        background-color;
+      transition-duration: 150ms;
+      transition-timing-function: var(--ease-in-out-cubic); // ease-in-out
+    }
+
+    &:is(:hover, :focus) {
+      text-decoration: none;
+      outline: none;
+    }
+
+    // &:hover {…}
+    // &:focus-visible {…}
+
+    &:active:not([disabled], [role='tab'], [class*='control']) {
+      box-shadow: var(--turn-off-shadow);
+      transform: translateY(1px) scale3d(.95, .95, 1);
+    }
+
+    &[disabled] {
+      box-shadow: var(--turn-off-shadow);
+      transform: translateY(0) scale3d(.95, .95, 1);
+    }
+
+    // &[class*='prev'],
+    // &[class*='next'] {…}
+
+    // https://www.smashingmagazine.com/2017/09/building-inclusive-toggle-buttons/#a-true-toggle-button
+    // https://w3c.github.io/core-aam/#mapping_events_state-change
+    // &[aria-pressed] {…}
+    // &[aria-pressed="true"] {…}
+    // &[aria-pressed]:focus {…}
+    // &[aria-pressed="true"]:focus {…}
+  }
+}
+
+@layer instances {
+  // CTA
+  :is(button, a):where([data-js-anim='bg-gradient']) {
+    --rad-grad-color-1: var(--accent-extra);
+    --rad-grad-color-2: var(--accent-shade);
+    --btn-background:
+      linear-gradient(var(--background-a95), var(--background)) padding-box,
+      radial-gradient(
+        farthest-corner at var(--x, 0) var(--y, 0),
+        var(--rad-grad-color-1),
+        var(--rad-grad-color-2)
+      ) border-box;
+    --bloom-light:
+      radial-gradient(
+        farthest-corner at var(--x, 0) var(--y, 0),
+        var(--accent-extra),
+        var(--accent)
+      ) border-box;
+    --bloom-dark:
+      radial-gradient(
+        farthest-corner at var(--x, 0) var(--y, 0),
+        var(--accent-extra),
+        var(--trn)
+      ) border-box;
+    --link-background: var(--btn-background);
+
+    appearance: none;
+    border: 2px solid transparent;
+    overflow: visible;
+
+    [data-theme-style='light'] & {
+      --rad-grad-color-2: var(--accent);
+      &::after { --bg-image: var(--bloom-light); }
+    }
+
+    [data-theme-style='dark'] & {
+      &::after { --bg-image: var(--bloom-dark); }
+    }
+
+    &:where(:not([disabled]))::after {
+      position: absolute;
+      inset: 0;
+      // inline-size: 100%;
+      // block-size: 100%;
+      z-index: -1;
+      border-radius: inherit;
+      background: var(--bg-image, var(--bloom-dark));
+      background-blend-mode: color-burn;
+      mix-blend-mode: color-burn;
+      transform: translateY(15%) scale(.85);
+      filter: blur(20px) brightness(.75) opacity(.25);
+      content: '';
+    }
+
+    &:active:not([disabled]) {
+      --btn-background:
+        linear-gradient(var(--background-a60), var(--background-a80)) padding-box,
+        radial-gradient(
+          farthest-corner at var(--x,50%) var(--y,50%),
+          var(--accent-extra),
+          var(--accent)
+        ) border-box;
+
+      box-shadow: var(--turn-off-shadow);
+      transform: translateY(1px) scale3d(.95, .95, 1);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    button:focus {
+      transition: outline-offset .25s ease;
+    }
+    button:focus:not(:active) {
+      outline-offset: 5px;
+    }
+  }
+}

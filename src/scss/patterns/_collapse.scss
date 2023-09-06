@@ -1,0 +1,53 @@
+// https://css-tricks.com/using-css-transitions-auto-dimensions/
+// https://www.digitalocean.com/community/tutorials/css-collapsible
+// https://getbootstrap.com/docs/4.3/components/collapse/
+// http://youmightnotneedjs.com/#accordion
+
+// only w/ input+label
+/* .collapsible-wrap {
+  input[type='checkbox'] { display: none; }
+
+  .label {
+    display: block;
+    padding: 1rem;
+    font: inherit;
+    color: var(--foreground);
+    cursor: pointer;
+    background: var(--background);
+  }
+
+  .collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease-in-out;
+  }
+
+  [type='checkbox']:checked + .label + .collapsible-content {
+    max-height: 100vh;
+  }
+} */
+
+[data-disclosure] {
+  --w: 6px;
+
+  &::before {
+    display: inline-block;
+    margin-inline-end: 1ch; // 0.5em
+    vertical-align: middle;
+    content: ' ';
+    border-style: solid;
+    border-width: var(--w) 0 var(--w) var(--w);
+    border-top-color: var(--trn);
+    border-bottom-color: var(--trn);
+    // border-left-color: currentcolor;
+    border-left-color: var(--foreground-a80);
+
+    transition: transform 200ms var(--ease-out-cubic);
+    transform-origin: 50% 50%;
+  }
+
+  &[aria-expanded='true']::before {
+    will-change: transform;
+    transform: rotate(-90deg);
+  }
+}

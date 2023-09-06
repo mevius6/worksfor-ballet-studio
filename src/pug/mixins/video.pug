@@ -1,0 +1,6 @@
+mixin video({ pathName='video', fileName='hero', dims=[] })
+  video(autoplay muted loop playsinline
+        width=(dims[0] || 1920) height=(dims[1] || 1080)
+        poster=`./${pathName}/${fileName}-poster.png`)
+    source(src=`./${pathName}/${fileName}.webm` type="video/webm")
+    source(src=`./${pathName}/${fileName}.mp4` type="video/mp4")

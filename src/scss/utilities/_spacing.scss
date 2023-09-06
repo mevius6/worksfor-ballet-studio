@@ -1,0 +1,36 @@
+@use '../config';
+
+// Spacing
+// Sizing scale steps are indicated by suffixes ('sm' | 'md' | 'lg')
+// Adaptive padding edges indicated by modifier '--ada'
+:where(.spaced) {
+  --unset: unset;
+  --reset: 0;
+
+  // The padding edge surrounds the box padding
+  padding-block: var(--flow-y,
+    var(--pt, var(--reset))
+    var(--pb, var(--reset))
+  );
+  // padding-inline: var(--flow-x, var(--pl) var(--pr));
+
+  &:where([class*='md']) {
+    --flow-y: var(--spacer-3x);
+
+    &:where([class*='--ada']) {
+      @include config.respond('tablet') { --flow-y: var(--spacer-6x); }
+    }
+  }
+
+  &:where([class*='lg']) {
+    --flow-y: var(--spacer-6x);
+
+    &:where([class*='--ada']) {
+      @include config.respond('tablet') { --flow-y: var(--spacer-12x); }
+    }
+  }
+
+  &:where(:not([class*='--ada'])) {
+    @include config.respond('tablet') { --flow-y: var(--unset); }
+  }
+}

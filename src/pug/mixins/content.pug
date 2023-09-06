@@ -1,0 +1,25 @@
+mixin dataFilter({ title='', field='', link='', text='', id='', date: meta='' })
+  if title
+    +head({ text: title, level: 3, hasId: id })
+  if field
+    +list({ items: field, icon: MARKER })
+  if text
+    if Array.isArray(text)
+      each line in text
+        p= line
+    else
+      p= text
+  if link
+    +link({ href: link, icon: 'ig' })
+
+mixin textContent(props)
+  -
+    let {
+      parentDOM: wrap='',
+      classList: classes=['flow', 'carousel__text'],
+    } = props
+
+  if wrap === 'article'
+    article(class= classes): block
+  else if wrap === 'caption'
+    figcaption(class= classes): block

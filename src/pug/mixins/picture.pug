@@ -1,0 +1,125 @@
+//- Useful sections of Parcel's documentation which describe the processing for:
+  - CSS `url()` function → https://parceljs.org/languages/css/#url()
+  - Dependency specifiers → https://parceljs.org/features/dependency-resolution/
+  - Image files → https://parceljs.org/recipes/image/
+//-
+  - https://web.dev/learn/html/images/
+  - https://github.com/GoogleChromeLabs/squoosh
+  - https://replicate.com/collections/super-resolution
+  - https://codepen.io/challenges/2023/august/
+
+mixin picture(props)
+  -
+    let {
+      assetPrefix = SRC, // <-- same as dirName
+      sourcePath = 'images', // <-- same as baseName or basePath
+      sourceName = 'img',
+      base = sourcePath ?? '',
+      path: sub = '', // <-- sub-directory
+      name = '', // <-- +picture({ name: i+1 }) => 1.jpg, 2.jpg, etc.
+      desc, title,
+      hdim: w,
+      vdim: h,
+      format: ext = 'jpg', // <-- default filename extension
+      cors = ANON ?? '',
+      policy = STRICTER ?? '',
+      placeholder, //= true ?? !name,
+      thumbnail: thumb,
+      ...rest // <-- e.g. class
+    } = props
+  -
+    // Define path segments
+    let pathInfo = `${base}${SEP}${sub}`
+    let fileName = `${name}${DOT}${ext}`
+  -
+    // Merge path segments to the relative or full path
+    // i.e., location relative to the current or root file's directory
+    let relativePathname = `${CURR}${pathInfo}${SEP}${fileName}`
+    let absolutePathname = `${ROOT}${SRC}${pathInfo}${SEP}${fileName}`
+    // Aliases
+    let relPath = D + relativePathname,
+        absPath = D + absolutePathname
+  -
+    let path = relPath ?? isRelative(relPath)
+  -
+    let srcAsPerFormat = (suffix) => D + CURR
+      + pathInfo
+      + SEP
+      + name
+      + DOT
+      + suffix
+  -
+    let subtypes = ['webp'] // ['avif', 'webp', 'jpeg']
+    let classes = []
+  -
+    let bgImage = { '--bg-image': `url(${absPath ?? name})` }
+    let styles = {
+      // ...bgImage,
+    }
+
+  picture.image-wrapper(
+    class= classes class= [props.class]
+    style= styles
+  )
+    //- if !placeholder
+    if !props.transform
+      each subtype of subtypes
+        source(
+          type=`image/${subtype}`
+          srcset= srcAsPerFormat(subtype))
+    else
+      //- Image processing w/ Sharp:
+        - https://parceljs.org/recipes/image/
+        - https://sharp.pixelplumbing.com/api-output
+      //-
+        // Sharp API
+        const sharpConfig = {}, {
+          queryParams: transform = {
+            // toFormat -> avif, webp, jpeg
+            convert: (f = 'avif') => `?as=${f}`,
+            quality: (q = 80) => `&quality=${q}`,
+            // TODO: 2:3 aspectRatio -> 256×384, 512×768, 1024×1536
+            width: (w = 1024) => `&width=${w}`,
+            height: (h) => `&height=${h || w}`,
+          }
+        } = sharpConfig
+      //-
+        const sharpQuery = (params = {}) => relPath
+          if params.toFormat
+            + transform.convert(params.toFormat)
+          if params.resize
+            + transform.quality(params.resize)
+          if params.width
+            + transform.width(params.width)
+          if params.height
+            + transform.height(params.height)
+      -
+        subtypes = ['avif', 'webp', 'jpeg'] // <-- convert to
+        let q = 95 // <-- output quality
+
+      each subtype of subtypes
+        - let query = `?as=${subtype}&quality=${q}`
+        - let transform = `${relPath}${query}`
+        source(
+          type=`image/${subtype}`
+          srcset= transform)
+    img(
+      src= !name || placeholder ? generatePlaceholderImage(1, {
+        width: w,
+        height: (h || w),
+        style: 'tiles'
+      }) : path
+      alt= desc
+      width= w height= (h || w)
+      crossOrigin= cors
+      referrerPolicy= policy
+      fetchPriority= (placeholder
+        ? 'high'
+        : 'auto')
+      decoding= (placeholder
+        ? 'auto'
+        : 'async')
+      loading= (placeholder
+        ? 'eager'
+        : 'lazy')
+      )&attributes({ title: title ?? desc })

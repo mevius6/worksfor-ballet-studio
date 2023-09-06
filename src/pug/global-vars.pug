@@ -1,0 +1,180 @@
+include ./tools
+
+//- Defines the default global constants
+-
+  const filePath = (basename='', dirname='', {...operands}) => {},
+    {
+      pathname: comps = {
+        basename: base = (nm = 'index', ext = 'pug') => `${nm}.${ext}`,
+        dirname: dir = (nm = 'views') => `${nm}`,
+        pathname: op = (abs = false, rel = true) => {
+          return
+            './' +
+            'src/' ?? abs +
+            `${dir}/${base}`
+        }
+      }
+    } = filePath
+-
+  /**
+   * If the main bundle's entry located in a subdirectory,
+   * the pathnames specified in it for loading/importing files
+   * will not match the required pathname resolution e.g.:
+   *
+   * Bundler failed to resolve <rel_pathname><slash><file_name>
+   * from <abs_pathname><slash><main_entry>
+   *
+   * Resolver cannot load file <rel_pathname><slash><file_name>
+   * in <abs_pathname><slash><curr_dir>
+   *
+   * FIXIT: ( ".." )
+   * For the pathname to be resolved, must be added special filename dot-dot,
+   * which must refer to the parent directory of its predecessor.
+   * —or—
+   * move the main package entry back to the root directory
+   *
+   * [#1]: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap04.html#tag_04_13
+   */
+-
+  // https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_137
+  const DOT = '.',
+        D = DOT,
+        DD = D+D
+  const SOL = '/'
+  const DOTSLASH = `${DOT}${SOL}`
+-
+  const SEP = SOL // Directory Separator
+  const DIR = {}, // An object-like “pattern” for corresponding directories
+    {
+      ROOT = SOL,
+      CURR = DOTSLASH, // <-- Current directory or currdir operand
+      PARENT = DD+SEP, // <-- Parent directory of its predecessor
+      SRC = `src${SEP}` // <-- Source directory or project root
+    } = DIR
+-
+  // https://github.com/component/escape-html
+  // https://github.com/cfjedimaster/htmlescape-vscode
+  // OR
+  const chars = {}, sequences = {},
+  {
+    block: FULL_BLOCK = '█',
+    thinsp: THSP = ' ',
+    hairsp: HSP = ' ',
+    hardsp: NBSP = ' ',
+    narrow_hardsp: NNBSP = ' ', // U+202F
+    emdash: MDASH = '—',
+    larrow: LARR = '←',
+    rarrow: RARR = '→',
+    bullet: BULL = '•'
+  } = chars, {
+    spacedEmDash = `${HSP}${MDASH}${HSP}`, // The sequence <HSP, EM DASH, HSP>
+    // https://stackoverflow.com/a/51371892
+    personNameFormatter: fullName = {
+      first: (givenName='') => `${firstLetter(givenName)}${DOT}${NNBSP}`,
+      middle: (middleName='') => `${firstLetter(middleName)}${DOT}${NBSP}`,
+      last: (familyName='') => `${familyName}`,
+    }
+  } = sequences
+-
+  // personNameFormatter
+  const initials = (params={}) => (
+    params.mid
+    ?
+      fullName.first(params.first) +
+      fullName.middle(params.mid) +
+      fullName.last(params.last)
+    :
+      fullName.middle(params.first) +
+      fullName.last(params.last)
+  )
+-
+  // %-escaped delimiters
+  const LT = '%3C' // '<'
+  const EQ = '%3D' // '=' Equal
+  const GT = '%3E' // '>'
+  /*
+   * https://www.unicode.org/reports/tr14/#QU
+   * https://www.unicode.org/reports/tr29/#Single_Quote
+   * https://www.unicode.org/reports/tr29/#Double_Quote
+   * https://www.unicode.org/reports/tr14/#SP
+   * https://www.unicode.org/reports/tr14/#SY
+   */
+  const SQ = '%27' // ''' &apos; Apostrophe, Quote (APL)
+  const DQ = '%22' // '"' &quot; Quotation Mark
+  const SP = '%20' // ' ' White Space (WS | S)
+  const SL = '%2F' // '/' Solidus, Slash
+-
+  const MARKER = RARR // ('•' | '◦' | '‣' | '⁃' | '☞' | '→' | '❧')
+-
+  // XML/SVG
+  const XML = 'xml'
+  const SVG = 'svg'
+  const SVG_STAG = `${LT}${SVG}`,
+        SVG_ETAG = `${LT}${SOL}${SVG}${GT}`
+-
+  // Attribute Values (AttValue)
+  const SVG_VERSION_NUM = 2,                    // 1.1 | 1.2 | 2
+        SVG_MEDIA_TYPE = `image/${SVG}+${XML}`, // MIME type
+        SVG_ENCODING_DECL = 'utf8'              // encName := (UTF-8 | UTF-16)
+  // Attribute-list Declaration (AttlistDecl)
+  const SVG_VERSION_INFO = `version${EQ+DQ}${SVG_VERSION_NUM}${DQ}`,
+        SVG_VIEWBOX = `viewBox`
+-
+  // CORS attValues
+  const ANON = 'anonymous'
+  const STRICTER = 'strict-origin-when-cross-origin'
+-
+  // Dummy content for skeleton or wireframing:
+  // - https://fonts.google.com/specimen/Flow+Block
+  // - https://github.com/los-gordos/BLOKK
+  // - https://v-fonts.com/fonts/adobe-blank-vf-and-friends
+  // OR
+  const solid = {}, {
+    lineXs = FULL_BLOCK.repeat(4),
+    lineSm = FULL_BLOCK.repeat(8),
+    lineMd = FULL_BLOCK.repeat(16),
+    lineLg = FULL_BLOCK.repeat(32),
+    lineXl = FULL_BLOCK.repeat(64)
+  } = solid
+-
+  // Frequently used URL's fragments
+  const links = {
+    IG: 'https://www.instagram.com/',
+    VK: 'https://vk.com/'
+  }, {
+    IG,
+    VK
+  } = links
+-
+  // Host list for resource hint links
+  const hosts = [
+    // 'graphql.datocms.com',
+    // 'stream.mux.com',
+    'res.cloudinary.com',
+    'api.mapbox.com',
+  ]
+-
+  // Colour swatches
+  const colors = {
+    // ...
+  }, {
+    purple = '#a277ff',
+    green  = '#61ffca',
+    red    = '#ff6767',
+    pink   = '#f694ff',
+    white  = '#edecee',
+    gray   = '#6d6d6d',
+    orange = '#ffca85',
+    blue   = '#82e2ff'
+  } = colors
+-
+  const colorPairs = {
+    'grdOrangePink': [orange, pink],
+    'grdPurplePink': [purple, pink],
+  }
+-
+  // ¯\_(ツ)_/¯ = &macr;&bsol;&lowbar;&lpar;\u30C4&rpar;&lowbar;&sol;&macr;
+  const asciiShrug = '\u00AF\u005C\u005F\u0028\u30C4\u0029\u005F\u002F\u00AF'
+  const alert = 'NO JS‽'
+  const alertDesc = `В вашем браузере выключен JavaScript, из-за этого функционал некоторых элементов будет ограничен, например, переключение слайдов, отправка формы, интернет-эквайринг и т. п. ${asciiShrug}`
+  const alertAction = 'OK'

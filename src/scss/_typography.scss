@@ -1,0 +1,490 @@
+@use 'sass:map';
+@use 'config';
+
+/*
+ * Refs:
+ * https://design.firefox.com/photon/visuals/typography.html
+ * https://github.com/primer/css/blob/main/src/utilities/typography.scss
+ * https://drafts.csswg.org/css-fonts-4/#font-palette-values
+ * https://every-layout.dev/rudiments/modular-scale/
+ *
+ * Tools:
+ * https://piccalil.li/tutorial/fluid-typography-with-css-clamp/
+ * https://websemantics.uk/tools/responsive-font-calculator/
+ */
+
+:root {
+  min-height: 0; // <-- Safari fix
+  // RFS: https://css-tricks.com/accessible-font-sizing-explained/
+  font-size: clamp(1rem, calc(1rem + ((1vw - 0.48rem) * 0.8772)), 1.5rem);
+}
+
+body {
+  // Value conversion helpers
+  --px2rem: calc((var(--px-size) / 16) * 1rem);
+  /* px → rem
+    20px → 1.25rem
+    19px → 1.1875rem
+    18px → 1.125rem
+    17px → 1.0625rem
+    16px → 1rem
+    15px → 0.9375rem
+    14px → 0.875rem */
+  --rem2px: calc(var(--px, 14) * 1rem / 16);
+
+  // Tracking
+  --letter-spacing-0: 0.01em;     // ~ 0.16px
+  --letter-spacing-1: 0.025em;    // ~ 0.4px
+  --letter-spacing-2: 0.03em;     // ~ 0.48px
+  --letter-spacing-3: 0.0394em;   // ~ 0.63px
+  --letter-spacing-4: 0.078125em; // ~ 1.25px
+  --letter-spacing-5: 0.09375em;  // ~ 1.5px
+  --text-pos-tracking-1: 0.01em;
+  --text-pos-tracking-2: 0.03em;
+  --text-neg-tracking-1: -0.01em;
+  --text-neg-tracking-2: -0.03em;
+
+  // Interlineage
+  --lh-equals: 1; // condensed-ultra
+  --lh-precise: 1.1;
+  --lh-thinest: 1.15;
+  --lh-eighty: 1.25; // condensed
+  --lh-default: 1.5; // default
+
+  // Fonts
+  --font-primary: MaisonNeue; // body copy
+  --font-extra: 'GT-Sectra'; // heads
+  // System defaults
+  --font-stack-sans:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+  --font-stack-mono:
+    ui-monospace, -apple-system, BlinkMacSystemFont,
+    Menlo,
+    Monaco,
+    monospace;
+  --font-stack:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    "Liberation Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+
+  font-family: var(--font-stack);
+  font-size: var(--px2rem);
+  font-weight: 400;
+  line-height: 1.5;
+  font-display: swap; // fallback
+  // text-rendering: optimizeSpeed;
+  text-rendering: optimizeLegibility;
+  font-feature-settings:
+    'kern' var(--kern, 1),
+    'liga' var(--liga, 1),
+    'tnum' var(--tnum, 0),
+    'zero' var(--zero, 0),
+    'case' var(--case, 0);
+
+  @include config.respond('retina') {
+    & {
+      /* autoprefixer: off */
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+    }
+  }
+}
+
+:is(ul, ol) > li,
+:where(p, a, span, form, label, strong, time) {
+  font-family: var(--font-primary);
+}
+
+p,
+li {
+  word-break: break-word;
+  word-wrap: break-word;
+  letter-spacing: var(--text-pos-tracking-1);
+}
+
+p { hyphens: auto; }
+
+small { --px-size: 12; }
+
+// Primer DS refs:
+// → https://github.com/primer/css/blob/main/src/utilities/typography.scss
+// → https://github.com/primer/css/blob/main/src/marketing/type/typography.scss
+// :is(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6) {…}
+:where(
+  h1, .h1,
+  h2, .h2,
+  h3, .h3,
+  h4, .h4,
+  h5, .h5,
+  h6, .h6
+) {
+  --px2rem: calc((var(--px-size) / 16) * 1rem);
+
+  font-family: var(--font-primary);
+  font-size: var(--px2rem);
+  font-weight: 400;
+  font-feature-settings:
+    'kern' var(--kern, 1),
+    'liga' var(--liga, 1),
+    'tnum' var(--tnum, 0),
+    'zero' var(--zero, 0),
+    'case' var(--case, 0);
+}
+
+$type-scale: (
+  'mobile': (
+    1: 56,
+    // 1: 48,
+    // 1: 40,
+    2: 40,
+    // 2: 32,
+    3: 26,
+    4: 22,
+    5: 18,
+    6: 16
+  ),
+  'laptop': (
+    // 1: 96,
+    1: 72,
+    // 1: 64,
+    // 1: 48,
+    2: 56,
+    // 2: 48,
+    // 2: 40,
+    3: 32,
+    4: 24,
+    5: 20,
+    6: 16
+  )
+);
+$scale: map.get($type-scale, 'mobile');
+
+// Setup font scale steps and line height values
+// by the principle of mobile first.
+@each $level, $size in $scale {
+  :where(
+    h#{$level}, .h#{$level}
+  ) {
+    --px-size: #{$size};
+
+    @if $level < 3 {
+      line-height: calc(1ex / 0.42);
+    }
+    @else {
+      line-height: calc(1ex / 0.37);
+    }
+  }
+}
+
+h1 { line-height: 2.75rem; } //= font: 40px/44px
+
+// Define max line lengths for article and inner elements.
+article {
+  --max-line-length: 39ch;
+
+  max-inline-size: var(--max-line-length);
+  text-wrap: balance;
+
+  & :where(h2, h3, h4) {
+    max-inline-size: 30ch; // 30–40 chars
+  }
+
+  & :where(p, li) {
+    --px-size: 14;
+    max-inline-size: 100%; // full-width
+  }
+
+  @supports (font-size-adjust: 1) { font-size-adjust: 0.5; }
+}
+
+// Update font scale steps, line height and length values
+// for bigger screen size.
+@include config.respond('tablet') {
+  $scale: map.get($type-scale, 'laptop');
+
+  @each $level, $size in $scale {
+    :where(
+      h#{$level}, .h#{$level}
+    ) {
+      --px-size: #{$size};
+
+      @if $level == 3 {
+        line-height: calc(1ex / 0.42);
+      }
+    }
+  }
+
+  h1 { line-height: 4.75rem; } //= font: 72px/76px
+
+  article {
+    --max-line-length: 66ch; // 60–75 chars
+
+    & :where(h2, h3, h4) {
+      max-inline-size: 33ch; // 30–40 chars
+      text-wrap: pretty;
+    }
+  }
+}
+
+/* ------------------------------- Text styles ------------------------------ */
+
+$weights: (
+  1: 100,
+  2: 200,
+  3: 300,
+  4: 400,
+  5: 500,
+  6: 600,
+  7: 700,
+  8: 800,
+  9: 900,
+);
+
+// i,
+em { font-style: italic; }    // <-- emphasized text
+b,
+strong { font-weight: 500; }  // <-- important text
+mark { font-weight: 500; }    // <-- marked/highlighted text
+cite { font-style: normal; }  // <-- the title of a work
+dfn { font-style: italic; }
+sup { font-feature-settings: 'sups' 1; }
+sub { font-feature-settings: 'subs' 1; }
+
+[class$='title'] {
+  max-inline-size: 12ch;
+  inline-size: fit-content;
+  // font-weight: 700;
+  // line-height: 1.15;
+  // text-transform: uppercase;
+  letter-spacing: 0.63px; // var(--letter-spacing-3);
+  filter: drop-shadow(0px 0px 0.2vmin hsl(0 0% 0% / 0.3));
+}
+
+// https://adrianroselli.com/2020/08/be-wary-of-doc-subtitle.html
+[role$='subtitle'] {
+  --flow-space: var(--spacer-2x);
+}
+
+[class*='headline'] {
+  --font-primary: var(--font-extra);
+
+  font-weight: 300;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: var(--text-neg-tracking-1);
+}
+
+[class$='subhead'] {
+  letter-spacing: 0.16px;
+  font-weight: 500;
+
+  &:where(:not([class^='review'])) {
+    letter-spacing: -0.16px;
+    font-weight: 700;
+  }
+}
+
+[class*='cta'] { font-weight: 500; }
+
+[class*='overline'],
+[class*='byline'] {
+  --case: 1;
+
+  // margin-block-start: var(--spacer-2x);
+  font-size: 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-4);
+  opacity: 0.75;
+}
+
+[class*='overline'] {
+  color: var(--accent-shade);
+  font-size: .75em;
+  font-weight: 500;
+  letter-spacing: var(--text-pos-tracking-2);
+  font-feature-settings: 'case' 1;
+}
+
+[class*='keyline'] {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--spacer-2x);
+
+  &::before,
+  &::after {
+    align-self: center;
+    content: '';
+    border-top: 0.5px solid var(--trn);
+  }
+
+  [data-theme-style=light] & {
+    &::before {
+      @include config.border-gradient(
+        -90deg,
+        var(--trn),
+        var(--accent)
+      );
+    }
+    &::after {
+      @include config.border-gradient(
+        90deg,
+        var(--trn),
+        var(--accent)
+      );
+    }
+  }
+
+  [data-theme-style=dark] & {
+    &::before {
+      @include config.border-gradient(
+        -90deg,
+        var(--accent),
+        var(--accent-shade),
+        var(--trn)
+      );
+    }
+    &::after {
+      @include config.border-gradient(
+        90deg,
+        var(--accent),
+        var(--accent-shade),
+        var(--trn)
+      );
+    }
+  }
+}
+
+[href*='tel'],
+[type*='tel'] { --case: 1; }
+
+// [href^='mailto:'], .elm {…}
+
+// blockquote,
+// callout,
+.pullquote,
+.quote {
+  padding-inline-start: 1.77rem;
+  border-inline-start: 5px solid;
+}
+
+time {
+  --flow-space: var(--spacer);
+
+  display: inline-block;
+  color: var(--foreground-a80);
+  font-feature-settings: 'tnum' 1;
+}
+
+.price { font-variant-numeric: tabular-nums; }
+
+.amount { font-variant-numeric: oldstyle-nums diagonal-fractions; }
+
+// https://drafts.csswg.org/css-fonts-3/#propdef-font-variant-numeric
+// https://wakamaifondue.com/beta/
+.format-nums,
+.fmt-n {
+  // Enables the display of variants:
+  --lnum-on: lining-nums;
+  --onum-on: oldstyle-nums;
+  --pnum-on: proportional-nums;
+  --tnum-on: tabular-nums;
+  --frac-on: diagonal-fractions;
+  --afrc-on: stacked-fractions;
+  --ordn-on: ordinal;
+  --zero-on: slashed-zero;
+  --normal: normal; // <-- turns off all the variants listed above
+  --variants:
+    var(--figure)     //= [ lining-nums | oldstyle-nums ]
+    var(--spacing)    //= [ proportional-nums | tabular-nums ]
+    var(--fraction);  //= [ diagonal-fractions | stacked-fractions ]
+  // OpenType features:
+  --common-set:
+    'lnum' var(--lnum, 1),
+    'onum' var(--onum, 0),
+    'pnum' var(--pnum, 1),
+    'tnum' var(--tnum, 0),
+    'frac' var(--frac, 0),
+    'afrc' var(--afrc, 0),
+    'ordn' var(--ordn, 0),
+    'zero' var(--zero, 0);
+  // Presets:
+  --oldstyle: 'onum' 1;
+  --tabular: 'tnum' 1;
+  --frac: 'frac' 1;
+  --old-td: var(--oldstyle), var(--tabular); // <-- for tabular data
+  --old-fr: var(--oldstyle), var(--frac);
+  --math: 'lnum' 1, 'afrc' 1, 'zero' 1;
+
+  font-variant-numeric: var(--variants, var(--normal));
+  font-feature-settings: var(--features, var(--common-set));
+}
+
+// https://www.w3.org/TR/css-inline-3/#line-height
+.text-caps-trim {
+  --case: 1;
+
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-2);
+  text-edge: cap alphabetic;
+  leading-trim: both;
+}
+
+/* ----------------------------- Text decoration ---------------------------- */
+
+// Spec ☞ https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-u-element
+// u { text-decoration: var(--underline-color, var(--accent)) wavy underline; }
+
+.has-dropcap {
+  @include config.drop-cap(6rem, 0.65);
+}
+
+.sideways {
+  @include config.respond('tablet') {
+    @include config.sideways();
+  }
+}
+
+// Stars and asterisks ☞ https://www.unicode.org/charts/PDF/U2700.pdf
+.dinkus {
+  // Em-Space-Separated '✧' White Four Pointed Star(s)
+  --seq-star-emsp: '\2727\2003\2727\2003\2727';
+  // Em-Space-Separated '∞' Infinity Symbol(s)
+  --seq-infin-emsp: '\221E\2003\221E\2003\221E';
+  // '❧' Rotated Floral Heart Bullet = hedera, ivy leaf
+  --sym-hedera: '\2767';
+  // '⁂' Asterism
+  --sym-asterism: '\2042';
+
+  display: inline-block;
+  inline-size: 100%;
+  text-align: center;
+  color: var(--dinkus-color, inherit);
+  // opacity: 0.8;
+
+  &::after {
+    content: var(--dinkus, var(--seq-infin-emsp));
+    filter: drop-shadow(0 3px 6px var(--shadow-color));
+  }
+
+  [data-theme-style=light] & {
+    --dinkus-color: var(--accent-a80);
+  }
+  [data-theme-style=dark] & {
+    --dinkus-color: var(--accent);
+  }
+}

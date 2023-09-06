@@ -1,0 +1,589 @@
+@use '../config';
+@use 'sass:math';
+
+// https://github.com/primer/css/tree/main/src/utilities
+
+// https://tobiasahlin.com/blog/how-to-animate-box-shadow/
+// :where(.elevated) { @include config.smooth-shadow(); }
+.box-elevated-high {
+  box-shadow: 0 5px 2.5px hsl(200 95% 3% / 0.037),
+    0 12px 6.5px hsl(200 95% 3% / 0.053),
+    0 22.5px 13px hsl(200 95% 3% / 0.065),
+    0 40.2px 24px hsl(200 95% 3% / 0.077),
+    0 75.2px 44px hsl(200 95% 3% / 0.093),
+    0 180px 80px hsl(200 95% 3% / 0.13);
+}
+
+// https://ishadeed.com/article/use-cases-css-comparison-functions/#dynamic-line-separator
+// :is(.separator, .sep) {…}
+.divider {
+  &::before {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+
+    inline-size: 1px;
+    block-size: 100%;
+    background: var(--bg, var(--neutral));
+    content: '';
+  }
+}
+
+// https://css-tricks.com/snippets/css/ribbon/
+// https://dev.to/this-is-learning/fully-responsive-css-folded-ribbon-11h5
+// https://www.freecodecamp.org/news/make-a-css-only-ribbon/
+// https://codepen.io/willpaige/pen/nBKPmw
+.ribbon {
+  --d: 6px;
+  /* folded part */
+  --c: blue;
+  /* color */
+  --f: 16px;
+  /* ribbon font-size */
+
+  position: relative;
+  display: inline-block;
+  // margin: 20px;
+
+  &::before {
+    content: attr(data-ribbon);
+    position: absolute;
+    font-family: sans-serif;
+    font-size: var(--f);
+    top: 0;
+    right: 0;
+    transform: translate(29.29%, -100%) rotate(45deg);
+    color: #fff;
+    text-align: center;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    transform-origin: bottom left;
+    padding: 5px 35px calc(var(--d) + 5px);
+    background: linear-gradient(hsl(0 0% 0% / 0.5) 0 0) bottom/100% var(--d) no-repeat var(--c);
+    background-clip: padding-box;
+    clip-path: polygon(0 0,
+        100% 0,
+        100% 100%,
+        calc(100% - var(--d)) calc(100% - var(--d)),
+        var(--d) calc(100% - var(--d)),
+        0 100%);
+    -webkit-mask: linear-gradient(135deg,
+        transparent calc(50% - var(--d) * 0.707),
+        #fff 0) bottom left,
+      linear-gradient(-135deg, transparent calc(50% - var(--d) * 0.707), #fff 0) bottom right;
+    -webkit-mask-size: 300vmax 300vmax;
+    -webkit-mask-composite: destination-in, xor;
+    mask-composite: intersect;
+  }
+
+  &--left::before {
+    inset-inline: 0 auto;
+    transform: translate(-29.29%, -100%) rotate(-45deg);
+    transform-origin: bottom right;
+  }
+}
+
+/* ----------------------------- Backdrop (S)FX ----------------------------- */
+
+// Spotlight mask with smooth edges
+.spotlight-mask {
+  --maskSize1: 24px;
+  --maskSize2: 48px;
+  --maskSize3: 64px;
+  --spotlight: radial-gradient(circle at var(--x, 50%) var(--y, 50%),
+      hsl(0 0% 0%) var(--maskSize1, 0%) 0,
+      hsl(0 0% 0% / 0.1) calc(var(--maskSize1, 0%) + 0.1%),
+      var(--trn) 0,
+      var(--trn) var(--maskSize2, 0%),
+      hsl(0 0% 0% / 0.1) calc(var(--maskSize2, 0%) + 0.1%),
+      hsl(0 0% 0%) var(--maskSize2, 0%),
+      hsl(0 0% 0% / 0.1) calc(var(--maskSize3, 0%) - 0.1%),
+      hsl(0 0% 0%) var(--maskSize3, 0%),
+      hsl(0 0% 0% / 0.1) calc(var(--maskSize3, 0%) + 0.1%),
+      var(--trn) 0);
+
+  mask-image: var(--mask, var(--spotlight));
+}
+
+:where([class*='--side-fade']) {
+  @include config.side-fade();
+}
+
+[data-backdrop='overlay'],
+.bg-overlay {
+  &::after {
+    --overlay-color: var(--background-a60);
+
+    position: absolute;
+    inset: 0;
+    content: '';
+    background-color: var(--overlay, var(--trn));
+
+    :not([data-theme-style]) & {
+      --overlay: var(--background-a60);
+    }
+
+    [data-theme-style='light'] & {
+      --overlay: var(--foreground-a75);
+      mix-blend-mode: hard-light;
+    }
+
+    [data-theme-style='dark'] & {
+      --overlay: var(--background-a75);
+      mix-blend-mode: hard-light;
+    }
+  }
+}
+
+.draw-glory::before {
+  content: '';
+  mix-blend-mode:lighten;
+  z-index: 2;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  --x: 50%;
+  background:
+    /* sun rising */
+    radial-gradient(circle at 0% 100%,
+      hsl(var(--white)) 1vw,
+      #fccc,
+      #fc89,
+      #f855,
+      #f851,
+      #fff0 45vw) 50% 100%,
+    radial-gradient(circle at 0% 100%, #fff 0.5vw, #fff0 4%),
+    /* stars */
+    radial-gradient(circle, #fff5 0.125vmin, #fff0 0) 17% 17% / 31% 31%,
+    radial-gradient(circle, #fff8 0.15vmin, #fff0 0) 11% 21% / 21% 41%,
+    radial-gradient(circle, #fff4 0.125vmin, #fff0 0) 15% 11% / 41% 33%,
+    radial-gradient(circle, #fff3 0.2vmin, #fff0 0) 50% 50% / 37% 25%,
+    radial-gradient(circle, #fff7 0.125vmin, #fff0 0) 57% 13% / 34% 23%,
+    radial-gradient(circle, #ffc5 0.125vmin, #fff0 0) 77% -17% / 23% 27%;
+  background-attachment: fixed;
+}
+
+[data-backdrop='glassy'] {
+  position: relative;
+  border-radius: 2ch; // 3ch
+  backdrop-filter: blur(40px) brightness(1.2) saturate(2);
+  background-image: var(--lin-grad-convex);
+  overflow: hidden;
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    // width: 100%; height: 100%;
+    z-index: -1;
+    content: '';
+    // filter: url(#noiseFilter);
+
+    opacity: 0.125;
+    filter: brightness(1.25);
+    // background-color: var(--background-a25);
+    background-image: var(--lin-grad-4-hues);
+    background-blend-mode: color-burn;
+  }
+
+  [data-theme-style='dark'] & {
+    --lin-grad-convex: linear-gradient(-45deg,
+        var(--c1, hsl(0 0% 0% / 0.22)),
+        33.333%,
+        var(--c2, hsl(0 0% 0% / 0.25)));
+  }
+}
+
+[data-backdrop='reflect'] {
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    background-image: var(--src);
+    background-size: cover;
+    transform: translate(-50%, -50%) scale(-1) translate(0px, calc((100% + 0.5vmin) * -1));
+    filter: blur(4px) brightness(0.75) opacity(0.75);
+    overflow: hidden;
+  }
+}
+
+.clip-geometry {
+  @include config.polygonal-clipping();
+}
+
+.exclusion {
+  wrap-flow: both;
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  shape-outside: circle(50% at 50% 50%);
+  border: 1px solid red;
+}
+
+:where([class*='--bloom']) {
+  position: relative;
+  display: inline-block;
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    content: attr(data-count);
+    filter: blur(var(--bloom, var(--blur-md)));
+  }
+}
+
+[data-backdrop='bloom'],
+.fx-bloom {
+  --offset: 2.75rem;
+  --clip: polygon(0 0,
+      calc(100% - var(--offset, 0)) 0,
+      100% var(--offset, 0),
+      100% 100%,
+      var(--offset, 0) 100%,
+      0px calc(100% - var(--offset, 0)));
+  position: relative;
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+  }
+
+  &::before,
+  &>img {
+    clip-path: var(--clip);
+  }
+
+  // gradient bloom
+  &::after {
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(var(--accent), var(--accent-shade));
+    transform: translateY(15%) scale(0.85);
+    filter: blur(30px);
+  }
+
+  // gradient frame
+  &::before {
+    inset: -1px;
+    background-image: linear-gradient(90deg,
+        var(--accent),
+        var(--accent-shade));
+  }
+}
+
+// https://dev.to/codingdudecom/everything-about-stroke-text-in-css-561i
+.text-shadow-stroke {
+  @supports not (-webkit-text-stroke: #000) {
+    --stroke-color: var(--accent-extra);
+    --stroke-width: 1px;
+
+    color: var(--background);
+    text-shadow: var(--stroke-width) 0 0 var(--stroke-color),
+      calc(var(--stroke-width) * -1) 0 0 var(--stroke-color),
+      0 var(--stroke-width) 0 var(--stroke-color),
+      0 calc(var(--stroke-width) * -1) 0 var(--stroke-color);
+    // text-shadow: 1px 0 0 red, 0 1px 0 red, -1px 0 0 red, 0 -1px 0 red;
+  }
+}
+
+.stroke {
+  stroke-width: var(--stroke, 2px);
+
+  &--thick {
+    --stroke: 8px;
+  }
+}
+
+.stroke-gradient {
+  background: var(--lin-grad-4-hues);
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+.text-gradient {
+  // @include config.text-gradient(
+  //   135deg,
+  //   var(--accent-shade),
+  //   var(--accent)
+  // );
+
+  color: var(--trn);
+  background: var(--lin-grad-4-hues);
+  background-clip: text; // border-box
+  box-decoration-break: clone;
+
+  /* autoprefixer: ignore next */
+  -webkit-text-fill-color: transparent;
+}
+
+:where([class*='--stroke'], .paint-stroke) {
+  --stroke-width: 2px;
+  --stroke-color: var(--accent);
+
+  /* autoprefixer: ignore next */
+  -webkit-text-stroke: var(--stroke-width) var(--stroke-color);
+}
+
+.border-gradient {
+  --offset: 5px;
+
+  &::before {
+    position: absolute;
+    top: calc(-1 * var(--offset));
+    left: calc(-1 * var(--offset));
+    z-index: 1;
+    width: calc(100% + var(--offset) * 2);
+    height: calc(100% + var(--offset) * 2);
+    content: '';
+    background: linear-gradient(130deg,
+        var(--accent),
+        var(--accent) 41.07%,
+        var(--accent-shade) 76.05%);
+    border-radius: 12px;
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: #000;
+    border-radius: 8px;
+  }
+
+  & > * { z-index: 3; }
+}
+
+.mask-border-gradient {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: var(--border-gradient-width, 1px);
+    border-radius: inherit;
+    background-image: var(--border-gradient, var(--lin-grad-2-hues));
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: add, add;
+    mask-composite: exclude;
+  }
+}
+
+.bg-layer {
+  // <bg-layer> = <bg-image> || <bg-position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>
+
+  // <final-bg-layer> = <'background-color'> || <bg-image> || <bg-position> [ / <bg-size> ]? || <repeat-style> || <attachment> || <box> || <box>
+
+  background-image: var(--bg-image, var(--pattern));
+  background-position: var(--bg-pos, var(--bg-posx, 50%) var(--bg-posy, 50%));
+  background-size: var(--bg-size, 100%);
+  background-repeat: no-repeat;
+  background-clip: border-box;
+  background-origin: padding-box;
+  background-attachment: scroll;
+  background-image: none;
+
+  &--pattern-1 {
+    // https://drafts.csswg.org/css-images-4/#color-stop-syntax
+    --color-stop-1: var(--accent);
+    --color-stop-2: var(--accent-shade);
+    --pattern: repeating-radial-gradient(circle at 60%,
+        var(--color-stop-1),
+        var(--color-stop-1) 3px,
+        var(--trn) 4px,
+        var(--color-stop-1) 5px),
+      repeating-radial-gradient(circle at 45%,
+        var(--color-stop-2),
+        var(--color-stop-2) 3px,
+        var(--trn) 4px,
+        var(--color-stop-2) 5px);
+    --bg-size: 200%;
+  }
+
+  &--pattern-2 {
+    --color-stop-1: var(--accent-a50);
+    --color-stop-2: var(--accent-a50);
+    --pattern: radial-gradient(var(--color-stop-1) 15%, transparent 16%),
+      radial-gradient(var(--color-stop-2) 15%, transparent 16%),
+      linear-gradient(45deg,
+        var(--trn) 48%,
+        var(--color-stop-1) 48%,
+        var(--color-stop-1) 52%,
+        var(--trn) 52%),
+      linear-gradient(-45deg,
+        var(--trn) 48%,
+        var(--color-stop-2) 48%,
+        var(--color-stop-2) 52%,
+        var(--trn) 52%);
+    --bg-pos: 0 0, 0.625rem 0.625rem, 0 0, 0 0;
+    --bg-size: 1.25rem 1.25rem, 1.25rem 1.25rem, 0.625rem 0.625rem,
+      0.625rem 0.625rem;
+  }
+
+  &--pattern-3 {
+    --color-stop: var(--accent-a50);
+    // https://drafts.csswg.org/css-images/#repeating-gradients
+    --pattern: repeating-radial-gradient(ellipse at right,
+        var(--color-stop) 10%,
+        var(--color-stop) 1px,
+        transparent 1px,
+        transparent 3px,
+        var(--color-stop) 3px,
+        var(--color-stop) 4px,
+        transparent 4px,
+        transparent 5px,
+        var(--color-stop) 5px,
+        var(--color-stop) 6px,
+        transparent 6px,
+        var(--color-stop) 6px,
+        var(--color-stop) 7px,
+        transparent 7px,
+        transparent 8px,
+        var(--color-stop) 8px,
+        var(--color-stop) 9px,
+        transparent 9px,
+        transparent 10px);
+    --bg-size: 1.25rem 2.5rem;
+  }
+
+  &--pattern-4 {
+    --color-stop: var(--accent);
+    --pattern: repeating-radial-gradient(var(--color-stop),
+        var(--color-stop) 2px,
+        var(--trn) 2px,
+        var(--trn) 4px);
+  }
+}
+
+.admission {
+  // @include config.ticket();
+}
+
+// ( º0º) https://codepen.io/t_afif/pen/dyexeKO
+/* .rounded-cut-out {
+  --circle-offset:
+    calc(var(--big-circle-r) + var(--pillar-size) + var(--circle-r));
+  --filler:
+    conic-gradient(
+      at right var(--circle-r) top var(--circle-r),
+      #0000 25%,
+      var(--color) 0
+    );
+
+  position: relative;
+  border-top-right-radius: 0;
+  filter: drop-shadow(var(--shadow));
+  background:
+    radial-gradient(
+      var(--big-circle-r) at 100% 0%,
+      #0000 98%,
+      var(--color)
+    ) calc(-1*var(--pillar-size)) var(--pillar-size),
+    radial-gradient(
+      var(--circle-r) at top var(--circle-r) right var(--circle-offset),
+      var(--color) 98%,#0000),
+    radial-gradient(
+      var(--circle-r) at right var(--circle-r) top var(--circle-offset), var(--color) 98%,#0000
+    ),
+    var(--filler) calc(-1*(var(--big-circle-r) + var(--pillar-size))) 0,
+    var(--filler) 0 calc(var(--big-circle-r) + var(--pillar-size));
+  background-repeat: no-repeat;
+
+  --circle-r: 20px;
+  --big-circle-r: 22px;
+  --pillar-size: max(23px , var(--circle-r));
+  --color: #fff;
+  --shadow: 0 10px 48px rgba(21, 44, 115, 0.15);
+
+  width: 200px;
+  min-height: 240px;
+  border-radius: 25px;
+} */
+
+// Part of CSS-drawing glory -> https://codepen.io/alvaromontoro/pen/WNJyqxO
+.bg-halo {
+  --x: 50%;
+  background: radial-gradient(10vw 4vw at 50% calc(100% - 75.5vw),
+      #ccc 20%,
+      #0000 0) var(--x) 0 / 50% 50% no-repeat,
+    radial-gradient(10vw 4vw at 50% calc(100% - 75vw), #888 30%, #0000 0) var(--x) 0 / 50% 50% no-repeat,
+    /* sun rising */
+    radial-gradient(circle at 50% calc(100% - 20vw),
+      #ffef 1vw,
+      #fccc,
+      #fc89,
+      #f855,
+      #f851,
+      #fff0 45vw) 50% 100%,
+    radial-gradient(circle at 50% calc(100% - 20vw), #fff 0.5vw, #fff0 4%),
+    /* stars */
+    radial-gradient(circle, #fff5 0.125vmin, #fff0 0) 17% 17% / 31% 31%,
+    radial-gradient(circle, #fff8 0.15vmin, #fff0 0) 11% 21% / 21% 41%,
+    radial-gradient(circle, #fff4 0.125vmin, #fff0 0) 15% 11% / 41% 33%,
+    radial-gradient(circle, #fff3 0.2vmin, #fff0 0) 50% 50% / 37% 25%,
+    radial-gradient(circle, #fff7 0.125vmin, #fff0 0) 57% 13% / 34% 23%,
+    radial-gradient(circle, #ffc5 0.125vmin, #fff0 0) 77% -17% / 23% 27%,
+    /* dark areas */
+    radial-gradient(at 0 0, #123, #1230 50%),
+    radial-gradient(at 100% 0, #123, #1230 80%),
+    radial-gradient(circle at 50% 0, #456, #4560 30%),
+    radial-gradient(at 50% 0, #123 30%, #1230 50%),
+    radial-gradient(100% 100% at 0% 50%, #123, #1230 50%),
+    radial-gradient(100% 100% at 100% 50%, #123, #1230 70%),
+    radial-gradient(50% 25% at 50% calc(100% - 20vw), #34c7, #34c0 45vw) 50% 100%,
+    /* sun rays */
+    repeating-conic-gradient(at 50% calc(100% - 20vw),
+      #ffffff05 0 3%,
+      #fff0 7%),
+    repeating-conic-gradient(at 50% calc(100% - 20vw), #ffffff03 6%, #fff0 11%),
+    repeating-conic-gradient(at 50% calc(100% - 20vw),
+      #ffffff03 1deg,
+      #fff0 3deg);
+}
+
+// https://codepen.io/thebabydino/pen/GRwLOKp?editors=0100
+.tucked-corners {
+  --c: 50px;
+  --p: 30px;
+  --paper-color: hsl(var(--sw-paperwhite));
+  --shadow-color: 47deg 9% 54%;
+  --shadow-alpha: 0.34;
+
+
+  display: inline-block;
+  padding: var(--p);
+  background:
+    radial-gradient(
+      farthest-side at 0 0, hsl(var(--black)), var(--trn)
+    ) 0 0 / var(--c) var(--c),
+    radial-gradient(
+      farthest-side at 100% 100%, hsl(var(--black)), var(--trn)
+    ) 100% 100% / var(--c) var(--c),
+    linear-gradient(
+      var(--paper-color) 0 0
+    ) 50% 50% / calc(100% - var(--p)) calc(100% - var(--p));
+  background-repeat: no-repeat;
+  clip-path: polygon(0 var(--c), var(--c) 0, 100% 0, 100% calc(100% - var(--c)), calc(100% - var(--c)) 100%, 0 100%) !important;
+  // background-blend-mode: color-burn;
+  // Elevation low
+  filter:
+    drop-shadow(0.3px 0.5px 0.7px hsl(var(--shadow-color) / var(--shadow-alpha)))
+    drop-shadow(0.4px 0.8px 1px hsl(var(--shadow-color) / var(--shadow-alpha)))
+    drop-shadow(1px 2px 2.5px hsl(var(--shadow-color) / var(--shadow-alpha)));
+
+  [data-theme-style=dark] & {
+    --shadow-color: 270deg 4% 8%;
+  }
+}

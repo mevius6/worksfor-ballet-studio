@@ -1,0 +1,112 @@
+mixin map(props)
+  -
+    const { depts=locs, classes=[] } = props
+    const hasClasses = !isArrEmpty(classes)
+  -
+    let attrs = {}
+
+  #map(class= classes || '')
+  if props.headings
+    h4= name
+  if props.controls
+    ol.extra-controls
+      each dept, i in depts
+        -
+          let v = `loc${i+1}`
+          let {
+            type,
+            name,
+            desc,
+            img,
+            payment,
+            adds,
+            open,
+            lat,
+            lng,
+            tel,
+            smp,
+          } = dept
+
+        if props.microdata
+          li.extra-controls__item(
+            itemprop="department"
+            itemscope itemtype=`https://schema.org/${type}`
+          )
+          input(type="radio" id= v name="location" data-hidden)&attributes({
+            'checked': i === 0
+          })
+          label(for= v)
+            span(itemprop="name")= name
+            if desc
+              span(itemprop="description")= desc
+            meta(itemprop="paymentAccepted" content= payment)
+            meta(itemprop="priceRange" content="₽₽₽–₽₽₽₽")
+            if img
+              img(
+                src='./images/interior.jpg'
+                alt=`Интерьер ${name}`
+                itemprop="image"
+                width="900" height="600"
+                loading="lazy"
+                decoding="async"
+                data-hidden)
+            span(
+              itemprop="address"
+              itemscope itemtype="https://schema.org/PostalAddress"
+            )
+              meta(itemprop="addressLocality" content="Москва")
+              span(itemprop="streetAddress")= adds
+            span(
+              itemprop="geo"
+              itemscope itemtype="https://schema.org/GeoCoordinates"
+            )
+              meta(itemprop="latitude" content= lat)
+              meta(itemprop="longitude" content= lng)
+              //- https://schema.org/hasMap
+              //- a(itemprop="hasMap" href=`?ie=UTF8&ll=${lat},${lng}&z=13`)
+            span
+              | Открыто:
+              |
+              if isObject(open)
+                each hours, days in open
+                  time(itemprop="openingHours" datetime=`${days} ${hours}`)
+                    if i==0
+                      | Пн-Сб 11:00–22:00
+                    if i==1
+                      | Пн, Ср, Пт 16:30–21:00
+                    if i==2
+                      | Пн, Ср, Чт 17:00–19:00
+              else
+                time(itemprop="openingHours" datetime=`${open}`)= open
+            if tel
+              +link({ phone: tel })(itemprop="telephone")
+            if smp
+              +list({
+                class: 'social',
+                items: smp,
+                ordered: false,
+              })
+        else
+          li.extra-controls__item(
+            itemprop="department"
+            itemscope itemtype=`https://schema.org/${type}`
+          )
+            input(type="radio" id= v name="location" data-hidden)&attributes({
+              'checked': i === 0
+            })
+            label(for= v)
+              span= name
+              span(data-hidden)
+                | Время работы студии
+              if isObject(open)
+                each hours, days in open
+                  | График работы:
+                  time(itemprop="openingHours" datetime=`${days} ${hours}`)
+                    if i==0
+                      | Пн-Сб 11:00–22:00
+                    if i==1
+                      | Пн, Ср, Пт 16:30–21:00
+                    if i==2
+                      | Пн, Ср, Чт 17:00–19:00
+              else
+                time(itemprop="openingHours" datetime=`${open}`)= open

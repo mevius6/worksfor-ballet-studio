@@ -1,0 +1,692 @@
+@use 'config';
+
+* {
+  @include config.scrollbar;
+  box-sizing: inherit;
+
+  &::before,
+  &::after { box-sizing: inherit; }
+
+  &::selection {
+    color: var(--selection-foreground, inherit);
+    text-shadow: none;
+    background: var(--selection-background, inherit);
+
+    /* autoprefixer: ignore next */
+    -webkit-tap-highlight-color: var(--trn);
+  }
+}
+
+@layer theme {
+  @layer colours, defaults;
+}
+
+// Contains colour swatches and theme configuration
+@layer theme.colours {
+  :root {
+    // ----------------------------------
+    // Color Palettes
+    // ----------------------------------
+    // https://drafts.csswg.org/css2/#system-colors
+    // https://drafts.csswg.org/css-color-3/#css-system
+
+    // HSL helpers
+    --trn: hsl(0 0% 0% / 0);
+    --hue: 0;
+    --sat: 0%;
+    --lum: 98%; // #fafafa
+    --lum: 96%; // #f4f4f4
+    --hsl: var(--hue) var(--sat) var(--lum);
+    --white: var(--hsl);
+
+    // https://web.dev/color-spaces-and-functions/
+    // https://developer.chrome.com/articles/high-definition-css-color-guide/
+    // https://codepen.io/argyleink/pen/MWymQGj?editors=1100
+    // --srgb: color(srgb 1 1 1);
+    // --srgb-linear: color(srgb-linear 100% 100% 100% / 50%);
+    // --display-p3: color(display-p3 1 1 1);
+    // --rec2020: color(rec2020 0 0 0);
+    // --a98-rgb: color(a98-rgb 1 1 1 / 25%);
+    // --prophoto: color(prophoto-rgb 0% 0% 0%);
+    // --xyz: color(xyz 1 1 1);
+
+    // TODO: Lead colours | Contrasting highlight | Neutral
+    // SW Color Palette
+    --black: 240deg 1% 19%;
+    --white: 40deg 25% 88%;
+    --gray: 270deg 3% 31%;
+    --gold: 33deg 45% 63%;
+    --coral: 13deg 70% 82%;
+    // Red family swatches
+    // SW 9081 Redend Point
+    // https://www.sherwin-williams.com/en-us/color-of-the-year-2023
+    --sw-redend-point: 20deg 23% 59%;
+    // SW 6057 Malted Milk
+    --sw-malted-milk: 24deg 33% 81%;
+    // Purple family swatches
+    // SW 7580 Carnelian
+    --sw-carnelian: 0deg 17% 29%; // #573E3E
+    // White family swatches
+    // SW 7105 Paperwhite
+    --sw-paperwhite: 41deg 61% 92%; // #F7EFDE
+    // Yellow family swatches
+    // SW 7676 Paper Lantern
+    // https://www.sherwin-williams.com/en-us/color/color-family/yellow-paint-colors/SW7676-paper-lantern
+    --sw-paper-lantern: 37deg 64% 86%; // #F2E0C4
+
+    --neutral: hsl(var(--sw-redend-point));
+    --accent: hsl(var(--gold));
+    --accent-a25: hsl(var(--gold) / 0.25);
+    --accent-a50: hsl(var(--gold) / 0.5);
+    --accent-a80: hsl(var(--gold) / 0.8);
+    --accent-shade: hsl(var(--sw-redend-point));
+    --accent-major: hsl(var(--gold)); // primary
+    --accent-extra: hsl(var(--hsl)); // secondary • active
+
+    // --alert-ok: hsl(180deg 23% 20%);
+    --alert-ok: var(--accent-extra);
+    --alert-no: hsl(3deg 41% 53%); // SW Red EDE WildPoppy
+
+    --avatar-bg-dark: var(--accent-shade);
+    --avatar-bg-light: var(--accent-shade);
+
+    // ----------------------------------
+    // Gradients ∇
+    // ----------------------------------
+    // Gen → https://www.joshwcomeau.com/gradient-generator/
+    // Gen → https://larsenwork.com/easing-gradients/
+
+    // ROYGBIV
+    --lin-grad-voygb:
+      linear-gradient(
+        45deg,
+        var(--accent) 0%,
+        hsl(270deg 100% 75%) 8%,
+        hsl(281deg 100% 77%) 15%,
+        hsl(292deg 100% 78%) 23%,
+        hsl(324deg 100% 78%) 31%,
+        hsl(360deg 100% 81%) 38%,
+        hsl(27deg 100% 76%) 46%,
+        hsl(44deg 81% 73%) 54%,
+        hsl(75deg 65% 72%) 62%,
+        hsl(128deg 83% 78%) 69%,
+        hsl(164deg 98% 67%) 77%,
+        hsl(176deg 91% 63%) 85%,
+        hsl(186deg 96% 68%) 92%,
+        hsl(194deg 100% 75%) 100%
+      );
+    --lin-grad-4-hues:
+      linear-gradient(
+        45deg,
+        hsl(14deg 21% 57%) 0%,
+        hsl(19deg 21% 61%) 19%,
+        hsl(21deg 21% 65%) 27%,
+        hsl(25deg 22% 69%) 34%,
+        hsl(27deg 22% 72%) 41%,
+        hsl(27deg 26% 75%) 47%,
+        hsl(25deg 29% 77%) 53%,
+        hsl(24deg 32% 80%) 59%,
+        hsl(29deg 30% 83%) 66%,
+        hsl(35deg 26% 86%) 73%,
+        hsl(45deg 21% 89%) 81%,
+        hsl(51deg 16% 92%) 100%
+      );
+    // The sequence of 2 hues w/ hinting
+    --lin-grad-halfs-hint:
+      linear-gradient(
+        135deg,
+        var(--lin-grad-color-1, var(--accent)),
+        33.333%,
+        var(--lin-grad-color-2, var(--accent))
+      );
+    --lin-grad-convex:
+      linear-gradient(
+        -45deg,
+        hsl(0 0% 0% / 0.22),
+        33.333%,
+        hsl(0 0% 100% / 0.25)
+      );
+    // Stripes pattern
+    --lin-grad-stripes:
+      repeating-linear-gradient(
+        -24deg,
+        var(--trn),
+        var(--trn) 4px,
+        var(--accent) 0,
+        var(--accent) 5px
+      );
+    // Noise variations
+    --svg-noise: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 1920 1920' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
+
+    color-scheme: dark light;
+    // https://drafts.csswg.org/css-ui/#widget-accent
+    accent-color: var(--accent);
+
+    // https://www.w3.org/TR/css-scoping-1/
+    // https://web.dev/state-of-css-2022/#scoping-styles-is-really-hard
+    // https://css.oddbird.net/scope/explainer/
+    // @scope ([data-theme-style=light]) {…}
+    &[data-theme-style=light] {
+      --background-a25: hsl(var(--white) / 0.25);
+      --background-a50: hsl(var(--white) / 0.5);
+      --background-a60: hsl(var(--white) / 0.6);
+      --background-a75: hsl(var(--white) / 0.75);
+      --background-a80: hsl(var(--white) / 0.8);
+      --background-a95: hsl(var(--white) / 0.95);
+      --background: hsl(var(--white));
+      --foreground-a25: hsl(var(--black) / 0.25);
+      --foreground-a75: hsl(var(--black) / 0.75);
+      --foreground-a80: hsl(var(--black) / 0.8);
+      --foreground: hsl(var(--black));
+      --shadow: hsl(var(--black) / 0.16);
+      --selection-foreground: var(--background);
+      --selection-background: var(--accent-shade);
+      color-scheme: light;
+    }
+    // @scope ([data-theme-style=dark]) {…}
+    &:not([data-theme-style]),
+    &[data-theme-style=dark] {
+      --background-a25: hsl(var(--black) / 0.5);
+      --background-a50: hsl(var(--black) / 0.5);
+      --background-a60: hsl(var(--black) / 0.6);
+      --background-a75: hsl(var(--black) / 0.75);
+      --background-a80: hsl(var(--black) / 0.8);
+      --background-a95: hsl(var(--black) / 0.95);
+      --background: hsl(var(--black));
+      --foreground-a25: hsl(var(--white) / 0.25);
+      --foreground-a75: hsl(var(--white) / 0.75);
+      --foreground-a80: hsl(var(--white) / 0.8);
+      --foreground: hsl(var(--white));
+      --shadow: hsl(0 0% 0% / 0.25);
+      --selection-background: var(--accent-shade);
+      color-scheme: dark;
+    }
+  }
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  html,
+  body { scroll-behavior: smooth; }
+}
+
+html {
+  /* autoprefixer: off */
+
+  // Ref → https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit/#disqus_thread
+  inline-size: 100%;
+  inline-size: -webkit-fill-available;
+  block-size: 100%;
+  block-size: -webkit-fill-available;
+
+  /* Refs:
+      → https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
+      → https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/AdjustingtheTextSize/AdjustingtheTextSize.html */
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+/* autoprefixer: on */
+
+// Contains layout, utilities and helper tokens
+@layer theme.defaults {
+  body {
+    // ----------------------------------
+    // Breakpoint widths
+    // ----------------------------------
+
+    // → https://getbootstrap.com/docs/5.0/layout/breakpoints/
+    // → https://primer.style/css/support/breakpoints
+
+    // Alternate: [xs: 320, sm: 640, md: 768, lg: 960, xl: 1280, xxl: 1920]
+    --width-xs: 20em;
+    --width-sm: 34em;
+    --width-md: 48em;
+    --width-lg: 62em;
+    --width-xl: 80em;
+
+    // (992 - 16 * 2) = 960
+    --container-width: calc(var(--width-lg) - var(--gutter) * 2);
+    --container-sm: 34rem;    // ~ 544px
+    --container-md: 48rem;    // ~ 768px
+    --container-lg: 63.25rem; // ~ 1012px
+    --container-xl: 80rem;    // ~ 1280px
+
+    // ----------------------------------
+    // Aspect ratios
+    // ----------------------------------
+
+    // Square    := 1:1
+    // Portrait  := 1:2 | 2:3 | 3:4 | 4:5 | 9:16
+    // Landscape := 2:1 | 3:2 | 4:3 | 16:9
+    --ratio-square: 1;
+    --ratio-1: 1;
+    --ratio-2: 4 / 3;  //= 1.333 (SD)
+    --ratio-3: 16 / 9; //= 1.788 (HD)
+
+    // ----------------------------------
+    // Spacing scale
+    // ----------------------------------
+
+    --denser: calc(var(--spacer) * 0.5); // 0.25rem; ~ 4px
+    --spacer: 0.5rem; // <-- Step size ~ 8px
+    --spacer-2x: calc(var(--spacer) * 2);   // 1rem;      // ~ 16px
+    --spacer-3x: calc(var(--spacer) * 3);   // 1.5rem;    // ~ 24px
+    --spacer-4x: calc(var(--spacer) * 4);   // 2rem;      // ~ 32px
+    --spacer-5x: calc(var(--spacer) * 5);   // 2.5rem;    // ~ 40px
+    --spacer-6x: calc(var(--spacer) * 6);   // 3rem;      // ~ 48px
+    --spacer-8x: calc(var(--spacer) * 8);   // 4rem;      // ~ 64px
+    --spacer-10x: calc(var(--spacer) * 10); // 5rem;      // ~ 80px
+    --spacer-12x: calc(var(--spacer) * 12); // 6rem;      // ~ 96px
+    --spacer-14x: calc(var(--spacer) * 14); // 7rem;      // ~ 112px
+    --spacer-16x: calc(var(--spacer) * 16); // 8rem;      // ~ 128px
+    --spacer-20x: calc(var(--spacer) * 20); // 10rem;     // ~ 160px
+
+    // calc → https://jxnblk.github.io/formula/
+    --em-spacer-1: 0.0625em;  // 1/16
+    --em-spacer-2: 0.125em;   // 1/8
+    --em-spacer-3: 0.25em;    // 1/4
+    --em-spacer-4: 0.375em;   // 3/8
+    --em-spacer-5: 0.5em;     // 1/2
+    --em-spacer-6: 0.75em;    // 3/4
+
+    // ----------------------------------
+    // Gutters
+    // ----------------------------------
+
+    // spec → https://drafts.csswg.org/css-align-3/#gutter
+    --gutter-md: var(--spacer-2x);
+    --gutter-lg: var(--spacer-3x);
+    --gutter-condensed: var(--spacer-2x);
+    --gutter-spacious-md: var(--spacer-2x);
+    --gutter-spacious-lg: var(--spacer-4x);
+    --gutter-spacious-xl: var(--spacer-5x);
+    --gutter: var(--gutter-md);
+
+    /* ------------------------------ Border Box ------------------------------ */
+
+    // ----------------------------------
+    // Decorations
+    // ----------------------------------
+
+    --border-width: 1px;
+    --border-style: solid;
+    --border-color: var(--gray-20);
+    --border: var(--border-width) var(--border-style) var(--border-color);
+
+    // Shaping → https://moderncss.dev/pure-css-shapes-3-ways/
+    --caret-size: 10px;
+    --caret-up: 0 7px var(--caret-size) 7px;
+    --caret-right: 7px 0 7px var(--caret-size);
+
+    // Rounded corners
+    // Fixed
+    --border-radius-1: 4px;
+    --border-radius-2: 6px;
+    --border-radius-3: 8px;
+    --border-radius: var(--border-radius-2);
+    // Responsive
+    --radius-1: 0.5rem;
+    --radius-2: 1rem;
+    --radius-x: 1000rem; // <-- max radii, e.g. for a pill/stadium shaped button
+
+    // ----------------------------------
+    // Shadows
+    // ----------------------------------
+
+    // Vars from Primer CSS:
+    // --shadow-sm: 0 1px 0 rgba(27, 31, 36, 0.04);
+    // --shadow-md: 0 3px 6px rgba(140, 149, 159, 0.15);
+    // --shadow-lg: 0 8px 24px rgba(140, 149, 159, 0.2);
+    // --shadow-xl: 0 12px 28px rgba(140, 149, 159, 0.3);
+
+    --shadow-a: 0.04;
+    --shadow-sm: 0 1px 0 var(--shadow-color);
+    --shadow-a: 0.15;
+    --shadow-md: 0 3px 6px var(--shadow-color);
+    --shadow-a: 0.2;
+    --shadow-lg: 0 8px 24px var(--shadow-color);
+    --shadow-a: 0.3;
+    --shadow-xl: 0 12px 28px var(--shadow-color);
+
+    // Generators for smooth layered shadows
+    // → https://shadows.brumm.af/
+    // → https://www.joshwcomeau.com/shadow-palette/
+    --custom-shadow-1: 0 2.5rem 2rem -2rem hsl(0 0% 77.6%);
+
+    // Fine-tune the colour with strength/intensity
+    // → https://tobiasahlin.com/blog/layered-smooth-box-shadows/
+    --shadow-hsl: var(--background); --shadow-a: 0.35;
+    --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a, .125));
+    --shadow-elevation-low:
+      0.3px 0.5px 0.7px var(--shadow-color),
+      0.4px 0.8px 1px -1.2px var(--shadow-color),
+      1px 2px 2.5px -2.5px var(--shadow-color);
+    --shadow-elevation-medium:
+      0.3px 0.5px 0.7px var(--shadow-color),
+      0.8px 1.6px 2px -0.8px var(--shadow-color),
+      2.1px 4.1px 5.2px -1.7px var(--shadow-color),
+      5px 10px 12.6px -2.5px var(--shadow-color);
+    --shadow-elevation-high:
+      0.3px 0.5px 0.7px var(--shadow-color),
+      1.5px 2.9px 3.7px -0.4px var(--shadow-color),
+      2.7px 5.4px 6.8px -0.7px var(--shadow-color),
+      4.5px 8.9px 11.2px -1.1px var(--shadow-color),
+      7.1px 14.3px 18px -1.4px var(--shadow-color),
+      11.2px 22.3px 28.1px -1.8px var(--shadow-color),
+      17px 33.9px 42.7px -2.1px var(--shadow-color),
+      25px 50px 62.9px -2.5px var(--shadow-color);
+
+    /* ------------------------------- Animation ------------------------------ */
+    // https://github.com/primer/css/blob/main/src/utilities/animations.scss
+
+    // ----------------------------------
+    // Speed
+    // ----------------------------------
+
+    --duration-0: 75ms;
+    --duration-1: 100ms;
+    --duration-2: 150ms;
+    --duration-3: 200ms;
+    --duration-4: 300ms;
+    --duration-5: 400ms;
+    --duration-6: 500ms;
+    --duration-7: 700ms;
+    --duration-8: 1000ms;
+    --duration-9: 1200ms;
+    --duration: 0.4s; // typically in the range of 150–500 ms
+
+    // ----------------------------------
+    // Easing
+    // ----------------------------------
+
+    --ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+    --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    // Eases w/ power of 2 (POT)
+    --ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+    --ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+    // Eases w/ power of 3
+    --ease-in-quart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+    --ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+    --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+    // Eases w/ power of 4
+    --ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+    // https://cubic-bezier.com/#.2,1,.3,1
+    --easing: cubic-bezier(0.2, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.4, 0, 0.7, 1.8);
+
+    /* ------------------------------- Filtering ------------------------------ */
+    // https://drafts.fxtf.org/filter-effects-2/#BackdropFilterProperty
+
+    // ----------------------------------
+    // Blurring
+    // ----------------------------------
+
+    --blur-xs: 5px;
+    --blur-sm: 8px;
+    --blur-md: 20px;
+    --blur-lg: 30px;
+    --blur-avg: 40px;
+    --blur-max: 135px;
+    // https://web.dev/backdrop-filter/
+    --blur-os: 10px; // (macOS | iOS | Windows 10)-like frosted glass effect
+    --blur: var(--blur-os);
+    --smooth-glass: blur(9px) brightness(1.2); // smooth glass effect
+
+    // ----------------------------------
+    // Helpers
+    // ----------------------------------
+
+    // Misc helpers to fine control/tune GUI
+    --big-int: 9999;
+    --min-touch-target-size: 44px; // or 48px by Apple guidelines
+    // what → https://w3c.github.io/wcag/understanding/target-size.html
+    // spec → https://w3c.github.io/wcag/21/guidelines/#target-size
+    // refs → https://w3c.github.io/wcag/understanding/target-size.html#resources
+    --btn-min-size: var(--min-touch-target-size);
+    --btn-min-hdim: 90px;
+    --nav-max-vdim: 60px; // 8px + 44px + 8px
+    --nav-max-vdim: calc(var(--min-touch-target-size) + var(--spacer) * 2);
+
+    /* -------------------------- Clipping & Masking -------------------------- */
+    // Gens:
+    // → https://bennettfeely.com/clippy/
+    // → https://codepen.io/stoumann/full/abZxoOM
+    // Refs:
+    // → https://web.dev/css-clipping/
+    // → https://css-tricks.com/almanac/properties/c/clip-path/
+
+    // ✁---------------------------------
+    // Clipping Paths
+    // ✃---------------------------------
+    // https://yoksel.github.io/relative-clip-path/
+    // https://augmented-ui.com/mixinmixer/
+
+    --shape-circle: circle(50% at 50% 50%);
+    --shape-square: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+    --shape-plus:
+      polygon(
+        35% 0%, 65% 0%, 65% 35%, 100% 35%,
+        100% 60%, 65% 60%, 65% 100%, 35% 100%,
+        35% 60%, 0% 60%, 0% 35%, 35% 35%
+      );
+    --shape-cross:
+      polygon(
+        20% 0%, 0% 20%, 30% 50%, 0% 80%,
+        20% 100%, 50% 70%, 80% 100%, 100% 80%,
+        70% 50%, 100% 20%, 80% 0%, 50% 30%
+      );
+    --shape-blinds:
+      polygon(
+        0% 5%,100% 5%,100% 25%,0% 25%,
+        0% 40%,100% 40%,100% 60%,0% 60%,
+        0% 75%,100% 75%,100% 95%,0% 95%
+      );
+    // Polygonal (pointing) shapes that may be morphing between:
+    // https://drafts.csswg.org/css-shapes-1/#basic-shape-interpolation
+    // 5-angled
+    --shape-pentagon:
+      polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    --shape-point-left: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+    --shape-point-right: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    // 6-angled
+    --shape-hexagon:
+      polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    --shape-chev-right:
+      polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%, 0% 0%);
+    --shape-chev-left:
+      polygon(100% 0, 50% 0, 0% 50%, 50% 100%, 100% 100%, 50% 50%);
+    // 7-angled
+    --shape-heptagon:
+      polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+    --shape-arr-left:
+      polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+    --shape-arr-right:
+      polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+
+    min-inline-size: 100%;
+    min-inline-size: -webkit-fill-available;
+    min-block-size: 100vh;
+    // https://ishadeed.com/article/new-viewport-units/
+    min-block-size: 100svh;
+    min-block-size: -webkit-fill-available;
+
+    // scroll-padding-top: var(--header-height, 60px);
+    overflow-x: hidden;
+    color: var(--foreground);
+    background: var(--background);
+    transition:
+      color var(--duration) var(--easing),
+      background-color var(--duration) var(--easing);
+
+    @include config.respond('tablet') {
+      --gutter: var(--spacer-4x);
+    }
+
+    // https://caniuse.com/css-env-function
+    // https://w3c.github.io/csswg-drafts/css-env-1/
+    /* @supports (padding: env(safe-area-inset-top)) {
+      & {
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-right: max(12px, env(safe-area-inset-right));
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+        padding-left: max(12px, env(safe-area-inset-left));
+      }
+    } */
+  }
+}
+
+main {
+  min-inline-size: 100%;
+  block-size: 100%;
+  contain: size;
+  position: relative;
+}
+
+section {
+  position: relative;
+  inline-size: 100vw;
+  min-block-size: 100vh;
+
+  // https://web.dev/content-visibility/
+  content-visibility: auto;
+  // contain-intrinsic-size: auto 1000px;
+}
+
+video-player {
+  // https://codepen.io/thebabydino/pen/MWYrNaB
+  --video-player-width: 100%;
+  // https://web.dev/viewport-units/
+  --video-player-height: 100dvh;
+}
+
+theme-switch {
+  --theme-switch-border-color: transparent;
+  --theme-switch-icon-size: 1.75em; // var(--tap-size);
+  --theme-switch-icon-filter: drop-shadow(0 3px 6px var(--accent-a50));
+  --theme-switch-icon-fill: var(--accent);
+  --theme-switch-icon-fill-hover: var(--accent);
+
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  inline-size: 44px;
+  block-size: 44px;
+
+  color: var(--foreground);
+  border-radius: 50%;
+  background-color: var(--background);
+  box-shadow: 0 8px 24px var(--shadow);
+
+  :is([data-theme-style='light'], [data-theme-style='dark']) & {
+    // --theme-switch-icon: var(--_sym-day-night);
+    // --theme-switch-icon: var(--color-toggle);
+  }
+}
+
+img:is(.muted) { filter: grayscale(25%) saturate(75%); }
+
+dialog:where(#alert) { // <-- noscript alert
+  z-index: var(--big-int);
+  position: fixed;
+  inset: 0;
+  max-inline-size: 65ch;
+
+  &::backdrop {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2) 1px,
+      rgba(0, 0, 0, 0.3) 1px,
+      rgba(0, 0, 0, 0.3) 20px
+    );
+    backdrop-filter: blur(3px);
+  }
+
+  & > [method=dialog] > :is(h2,p,button) {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, monospace;
+    font-variation-settings: 'wght' var(--wght);
+  }
+
+  h2 { --wght: 525; }
+  p { --wght: 400; }
+  button {
+    --wght: 500;
+    background-color: var(--accent);
+    &:hover { background-color: var(--accent-shade); }
+  }
+}
+
+[data-hidden] {
+  @include config.is-hidden;
+}
+
+.grecaptcha-badge {
+  @include config.is-hidden;
+}
+
+// rounded-pill
+[class*=cta] { border-radius: calc(var(--big-int) * 1px) !important; }
+
+.popout {
+  // color: var(--background);
+  overflow: hidden;
+
+  :is([data-theme-style='light']) & {
+    // SW 6050 Abalone Shell
+    background-color: hsl(20deg 29% 80%); // #DBC7BD
+  }
+  :is([data-theme-style='dark']) & {
+    // SW 9080 Hushed Auburn
+    background-color: hsl(14deg 21% 57%); // #A8857A
+  }
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    content: "";
+    pointer-events: none;
+    inline-size: 100%;
+    block-size: 100%;
+    transform-origin: 100% 0;
+    background: url(../images/shadow.png) 100% 0/cover no-repeat fixed;
+    // background-attachment: fixed;
+    animation: move 7s 2s infinite alternate;
+    mix-blend-mode: overlay;
+    opacity: 0.7;
+  }
+}
+
+@keyframes move {
+  to {
+    transform:scaleX(1.1)
+  }
+}
+
+header .tels,
+footer .copr {
+  margin-block: var(--spacer-2x);
+}
+
+@supports(scroll-margin: 4rem) {
+  :target {
+    scroll-margin-block-start: var(--spacer-7x);
+  }
+}
+
+:where(.carousel--1, .carousel--3) .headline {
+  --flow-space: var(--denser);
+  letter-spacing: normal;
+}
+
+:where([data-id="agenda"], [data-id="gallery"]) {
+  .headline {
+    text-align: center;
+  }
+}

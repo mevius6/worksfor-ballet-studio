@@ -1,0 +1,55 @@
+@use 'sass:map';
+
+// TODO: ($subdir-list: ('slides1', 'slides2'), $subdir-items: 8) {…}
+@mixin bg-images($subdir, $selector: 'image') {
+  $subdir-prefix: '/src/images';
+  $subdir-list: (
+    'slides1': (
+      1: '1',
+      2: '2',
+      3: '3',
+      // 4: '4',
+      // 5: '5',
+      // 6: '6',
+      // 7: '7',
+      // 8: '8',
+      // 9: '9',
+      // 10: '10',
+    ),
+    'slides2': (
+      1: '1',
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5',
+      // 6: '6',
+      // 7: '7',
+      // 8: '8',
+      // 9: '9',
+      // 10: '10',
+    ),
+  );
+  $has-subdir: map.has-key($subdir-list, $subdir);
+
+  @if $has-subdir {
+    $opted-subdir: map.get($subdir-list, $subdir);
+
+    @each $index, $value in $opted-subdir {
+      // [class$='#{$selector}']
+      &:nth-of-type(#{$index}) {
+        .webp & {
+          // background-image: url('#{$subdir-prefix}/#{$subdir}/#{$value}.webp');
+          --bg-image: url('#{$subdir-prefix}/#{$subdir}/#{$value}.webp');
+        }
+
+        .no-webp & {
+          // background-image: url('#{$subdir-prefix}/#{$subdir}/#{$value}.webp');
+          --bg-image: url('#{$subdir-prefix}/#{$subdir}/#{$value}.webp');
+        }
+      }
+    }
+  }
+  @else {
+    @error 'Подкаталог #{$subdir} отсутствует в #{$subdir-prefix}';
+  }
+}

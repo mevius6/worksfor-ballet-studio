@@ -1,0 +1,44 @@
+//- mixin marquee(props)
+  .marquee
+    .marquee__inner(aria-hidden="true" style={
+      '--anim-direction': props.animDir || 'normal'
+    })
+      each val of Array(props.iter || 4)
+        if props.text
+          span= props.text
+        else if block
+          block
+
+-
+  const partners = [{
+    name: 'Музыкальный Клондайк',
+    link: 'https://www.muzklondike.ru',
+  },{
+    name: 'BRS Clinic',
+    link: 'https://brsclinic.ru/o-nas/',
+  },{
+    name: 'Балет Касаткиной и Василёва',
+    link: 'https://classicalballet.ru',
+  },{
+    name: 'Арт-центр',
+    link: 'https://www.art-center.ru',
+  }]
+
+mixin loopedPics(n)
+  //- each i in Array.from(Array(n).keys())
+  each el, i in partners
+    +link({ href: el.link, label: el.name })
+      +picture({
+        class: [],
+        path: 'logos',
+        name: i+1,
+        hdim: 256,
+        format: 'png',
+        transform: true,
+      })
+
+mixin marquee(props)
+  article.wrapper
+    .marquee
+      .marquee__group: +loopedPics(4)
+      .marquee__group(aria-hidden="true"): +loopedPics(4)

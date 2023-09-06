@@ -1,0 +1,94 @@
+@use 'sass:list';
+
+// $direction: 'inline' || 'block'
+@mixin side-fade($colors...) {
+  $colors: (
+    'hsl(0 0% 0%)',
+    'hsl(0 0% 0% / 0)',
+  );
+
+  /*
+  // V1
+  $color-stops: list.length($colors);
+
+  position: relative;
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    position: absolute;
+    inset-block-start: 0;
+    z-index: 1;
+    display: inline-block;
+    inline-size: calc(var(--side-fade) * 1px);
+    block-size: 100%;
+    content: '';
+    background-image: var(--bg-image);
+  }
+
+  &::before {
+    --bg-image:
+      linear-gradient(
+        to left,
+        #{list.nth($colors, 1)},
+        #{list.nth($colors, 2)}
+      );
+
+    inset-inline-start: 0;
+  }
+
+  &::after {
+    --bg-image:
+      linear-gradient(
+        to right,
+        #{list.nth($colors, 1)},
+        #{list.nth($colors, 2)}
+      );
+
+    inset-inline-end: 0;
+  } */
+
+  // H2F: Safari rendering
+  // 1. Prefix gradient
+  // OR
+  // 2. Override the property instead of using a variable
+
+  /* [1]
+  [data-browser='Safari'] &::after {
+    --bg-image:
+      -webkit-linear-gradient(
+        left,
+        #{list.nth($colors, 1)},
+        #{list.nth($colors, 2)}
+      );
+  } */
+
+  /* [2]
+  &::after {
+    background-image:
+      linear-gradient(
+        270deg,
+        #202124 0,
+        #202124 16%,
+        rgba(32,33,36,0)
+      );
+  } */
+
+  // V2: Horizontal scroller edge fade mask
+  --lin-grad-fading: linear-gradient(
+    90deg,
+    var(--trn),
+    var(--background) var(--spacer-2x) calc(100% - var(--spacer-2x)),
+    var(--trn));
+
+  mask: var(--mask, var(--lin-grad-fading));
+
+  // -webkit-mask: var(--lin-grad-fading);
+  // -webkit-mask-image: linear-gradient(
+  //   to right,
+  //   #0000,
+  //   #000,
+  //   #000,
+  //   #0000
+  // );
+}

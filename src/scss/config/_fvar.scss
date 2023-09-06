@@ -1,0 +1,20 @@
+// https://drafts.csswg.org/css-fonts-4/#font-named-instance
+@function weight($axis: 0) {
+  $tag: 'wght';
+  $preset-instances: (
+    'hairline': 80,
+    'light': 96,
+    'regular': 106,
+    'bold': 121,
+    'ultrabold': 131,
+    'dark': 145,
+  );
+
+  @each $instance, $value in $preset-instances {
+    @if $axis == $instance {
+      $axis: $value;
+    }
+  }
+
+  @return $tag var(--#{$tag}-axis, #{$axis});
+}

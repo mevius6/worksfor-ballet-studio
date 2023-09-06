@@ -1,0 +1,14 @@
+@mixin sideways() {
+  --inverse: -1;
+
+  transform: scale(var(--inverse));
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+
+  @supports (writing-mode: sideways-lr) {
+    & {
+      --inverse: 1;
+      writing-mode: sideways-lr;
+    }
+  }
+}

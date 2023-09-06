@@ -1,0 +1,138 @@
+//- Refs:
+  - http://youmightnotneedjs.com/#form_validation
+mixin form(props)
+  -
+    let { email,
+          endpoint,
+          fileupload,
+          offer,
+          phone,
+          privacy = './privacy.pug',
+          recaptcha,
+          ...rest } = props
+  -
+    let attrs = {}
+        attrs.class = props.class
+        //- attrs['data-backdrop'] = 'glassy'
+
+  // ↓ .mask-border-gradient
+  form.form#contact-form(style={'--clip': 0}
+    accept-charset="UTF-8"
+    action=`https://app.form2chat.io/f/${endpoint}`
+    method="POST"
+    autocomplete="on"
+    spellcheck="false"
+  )&attributes(attrs)
+
+    label.form__field(for="name")
+      span.form__label-text
+        | Имя #[span &ast;]
+      //- autofocus
+      // ↓ .mask-border-gradient
+      input.form__control#name(
+        name="Name"
+        role="text-box"
+        type="text"
+        placeholder="Ваше имя"
+        minlength="2"
+        maxlength="None"
+        required
+        autocapitalize="off"
+        autocomplete="name"
+        spellcheck="false"
+        aria-labelledby="name-label"
+        aria-required="true"
+      )
+      small.form__caption#name-label Укажите полное имя
+
+    label.form__field(for="phone")
+      span.form__label-text
+        | Телефон
+      input.form__control#phone(
+        name="Phone"
+        type="tel"
+        inputmode="tel"
+        placeholder= phone || data.meta.phone
+        minlength="11"
+        maxlength="18"
+        autocomplete="tel"
+        aria-required="false"
+      )
+      small.form__caption Укажите номер телефона
+
+    label.form__field(for="email")
+      span.form__label-text
+        | Email #[span &ast;]
+      input.form__control#email(
+        name="Email"
+        type="email"
+        inputmode="email"
+        placeholder= email || data.meta.email
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+        autocomplete="email"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-required="false"
+      )
+      small.form__caption Укажите адрес эл. почты
+
+    if (fileupload === true)
+      label.form__field(for="file")
+        input#file(
+          name="File"
+          type="file"
+          data-hidden
+        )
+        span.dropzone
+          | Выберите файл для загрузки
+
+    label.form__field(for="message")
+      span.form__label-text
+        | Сообщение
+      textarea#message(
+        name="Message"
+        role="text-box"
+        form="contact-form"
+        placeholder="…"
+        maxlength="140"
+        rows="2"
+        cols="20"
+        wrap="hard"
+        aria-required="false"
+      )
+
+    .form__group
+      input.form__checkbox.has-tooltip#terms(
+        type="checkbox"
+        tabindex="0"
+        aria-checked="true"
+        aria-labelledby="label-terms"
+        aria-describedby="Пожалуйста, перед тем, как нажать кнопку «Отправить», ознакомьтесь с политикой обработки персональных данных."
+        onclick="document.getElementById('cta').disabled = !document.getElementById('cta').disabled;"
+      )
+      label.form__checkbox-label#label-terms(for="terms")
+        | Принять&nbsp;
+        +link({ text: 'политику обработки персональных данных',
+                href: privacy })
+        if offer
+          | #[br]
+          | и
+          |
+          +link({ text: 'условия публичной оферты',
+                  href: offer })
+        | !{DOT}
+
+    +cta({
+      base: 'form',
+      type: 'button',
+      text: 'Отправить'
+    })(id="cta" data-js-anim='bg-gradient' disabled)
+
+    #submit-result
+    //- .admission
+
+    if recaptcha
+      input#recaptcha_token(type="hidden" name="recaptcha_token")
+      input(type="hidden" name="action" value="validate_captcha")
+      //- Приманка
+      input(type="hidden" name="_gotyou")

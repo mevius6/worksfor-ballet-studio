@@ -1,0 +1,118 @@
+//- Refs:
+  - https://wicg.github.io/local-font-access/
+  - https://web.dev/optimize-webfont-loading/#api-zagruzki-shriftov
+  - https://w3c.github.io/csswg-drafts/css-fonts-4/#font-face-rule
+  - https://drafts.csswg.org/css-fonts-4/#font-face-src-parsing
+  - https://github.com/jedmao/postcss-font-pack
+  - https://fullystacked.net/posts/new-font-face-syntax/
+
+append vars
+  -
+    let familyName1 = 'MaisonNeue' // ['MaisonNeue', 'MaisonNeueMono']
+    let MaisonNeue = [
+      {
+        'familyName': `${familyName1}`,
+        'fullName': `${familyName1}-Book`,
+        'varAxes': false,
+        'style': 'normal',
+        'weight': 400
+      }, {
+        'familyName': `${familyName1}`,
+        'fullName': `${familyName1}-BookItalic`,
+        'varAxes': false,
+        'style': 'italic',
+        'weight': 400
+      // }, {
+      //   'familyName': `${familyName1}`,
+      //   'fullName': `${familyName1}-Demi`,
+      //   'varAxes': false,
+      //   'style': 'normal',
+      //   'weight': 600
+      // }, {
+      //   'familyName': `${familyName1}`,
+      //   'fullName': `${familyName1}-DemiItalic`,
+      //   'varAxes': false,
+      //   'style': 'italic',
+      //   'weight': 600
+      }, {
+        'familyName': `${familyName1}`,
+        'fullName': `${familyName1}Extended-Bold`,
+        'varAxes': false,
+        'style': 'normal',
+        'weight': 700
+      }, {
+        'familyName': `${familyName1}`,
+        'fullName': `${familyName1}Extended-Medium`,
+        'varAxes': false,
+        'style': 'normal',
+        'weight': 500
+      }
+    ]
+    let MaisonNeueMono = [
+      {
+        'fullName': `MaisonNeueMono-Regular`,
+        'localName': '',
+        'varAxes': false,
+        'style': 'normal',
+        'weight': 400
+      }
+    ]
+  -
+    let familyName2 = 'GT-Sectra'
+    let GTSectraDisplay = [
+      {
+        'familyName': `${familyName2}`,
+        'fullName': `${familyName2}-LCGV-Display-Light`,
+        'localName': '',
+        'varAxes': false,
+        'style': 'normal',
+        'weight': 300
+      }, {
+        'familyName': `${familyName2}`,
+        'fullName': `${familyName2}-LCGV-Display-Light-Italic`,
+        'localName': '',
+        'varAxes': false,
+        'style': 'italic',
+        'weight': 300
+      }
+    ]
+  -
+    let pathName = 'fonts'
+    let typeName = 'font'
+    let fontFaces = [
+      ...MaisonNeue,
+      // ...MaisonNeueMono,
+      ...GTSectraDisplay,
+    ]
+
+each fontFace in fontFaces
+  -
+    let { familyName, fullName, varAxes, style, weight } = fontFace
+  -
+    let file = `${DD}/${pathName}/${fontFace.fullName}`,
+        format = !fontFace.varAxes ? 'woff2' : 'woff2-variations'
+  link(
+    rel="preload"
+    href=`${file}.woff2` as=typeName
+    type=`${typeName}/${format}`
+    crossorigin)
+  -
+    let cssFontRule = `@font-face {
+      font-display: swap;
+      font-family: ${familyName};
+      font-stretch: 100%;
+      font-style: ${style};
+      font-synthesis: none;
+      font-weight: ${weight};
+      src:
+        url(${DD}/${pathName}/${fullName}.woff2) format('woff2'),
+        url(${DD}/${pathName}/${fullName}.woff) format('woff');
+    }`
+  style=cssFontRule
+
+//- —OR—
+//- link(
+  rel="preload"
+  href="./scss/fonts.scss" as="style"
+  onload="this.onload=null;this.rel='stylesheet'")
+  noscript: link(rel="stylesheet" href="./scss/fonts.scss")

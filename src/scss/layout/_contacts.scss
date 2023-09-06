@@ -1,0 +1,60 @@
+@use '../config';
+
+:where([data-id='contact']) {
+  place-items: center;
+
+  .meta {
+    display: grid;
+    padding: var(--spacer-2x);
+    // place-self: center;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--gutter);
+    font-size: 0.75rem;
+
+    svg {
+      max-inline-size: 100%;
+      inline-size: calc(1.125rem + 2vw);
+      block-size: auto;
+    }
+
+    div {
+      place-self: start;
+    }
+
+    ul {
+      gap: var(--spacer);
+    }
+
+    li,
+    strong {
+      color: hsl(var(--gray));
+    }
+
+    li {
+      display: inline-block;
+
+      & > a:where(:not(:hover)) {
+        color: inherit !important;
+      }
+    }
+
+    strong {
+      font-weight: 500;
+    }
+
+    hr {
+      --flow-space: var(--spacer);
+      background-color: var(--foreground-a25);
+    }
+  }
+
+  @include config.respond('tablet') {
+    column-gap: var(--gutter);
+    grid-template-rows: 1fr auto;
+
+    & > .meta {
+      display: flex; // override
+      justify-content: space-around;
+    }
+  }
+}

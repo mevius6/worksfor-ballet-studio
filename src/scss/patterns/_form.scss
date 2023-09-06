@@ -1,0 +1,214 @@
+@use '../config';
+
+// https://cloudfour.com/thinks/progressively-enhanced-form-validation-part-1-html-and-css/
+// https://web.dev/learn/forms/
+
+.form-wrapper {
+  align-self: center;
+  padding-block: var(--spacer-3x);
+  padding-inline: var(--spacer-2x);
+  background-color: var(--form-bg, var(--trn));
+
+  h1 { margin-block-end: var(--spacer-2x); }
+
+  @include config.respond('tablet') {
+    & {
+      padding-block: var(--spacer-4x);
+      padding-inline: var(--spacer-4x);
+    }
+
+    & > h1 { margin-block-end: var(--spacer-4x); }
+  }
+}
+
+.form {
+  --duration: 200ms;
+  --easing: var(--ease-out-cubic);
+  // --alert-ok: var(--accent-extra);
+  // --alert-no: hsl(var(--accent));
+
+  position: relative;
+  display: grid;
+  contain: layout;
+  grid-template-columns: 1fr;
+  // inline-size: clamp(28ch, 100%, 60ch);
+  // max-inline-size: 75ex;
+  // padding-block: var(--spacer-3x);
+  color: var(--foreground);
+  transition:
+    color var(--duration) var(--easing);
+    // filter 300ms var(--ease-in-out-cubic);
+  row-gap: var(--spacer-2x);
+
+  --drop-shadow: drop-shadow(0 3px 6px var(--foreground-a25));
+  // filter: var(--drop-shadow);
+
+  &:focus-within {
+    --drop-shadow: drop-shadow(0 8px 24px var(--foreground-a25));
+  }
+  // & > *:focus-within {…}
+
+  &__field {
+    position: relative;
+    display: grid;
+    grid: inherit;
+    grid-template-columns: subgrid;
+    grid-column: 1;
+    gap: inherit;
+    row-gap: 0;
+
+    input[type=tel],
+    input[type=text],
+    input[type=email],
+    textarea {
+      min-block-size: var(--min-touch-target-size);
+      padding: var(--spacer) 1ch;
+      background-color: var(--trn);
+      border-color: var(--foreground);
+      border-style: solid;
+      border-width: 1px;
+      border-radius: var(--radius-1);
+      transition-timing-function: var(--easing);
+      transition-duration: var(--duration);
+      transition-property:
+        background-color,
+        border-radius,
+        border-color,
+        color;
+
+      &:placeholder-shown {
+        border-color: var(--accent);
+      }
+
+      &::placeholder {
+        color: var(--foreground-a80);
+        opacity: 1; // 0.8;
+      }
+    }
+
+    input[type=tel]:focus,
+    input[type=text]:focus,
+    input[type=email]:focus,
+    textarea:focus {
+      // background: hsl(var(--white));
+      border-color: var(--accent);
+      outline: 0;
+    }
+
+    textarea {
+      min-block-size: 6rem;
+      max-block-size: 12rem;
+      color: var(--foreground);
+      border-width: 1px;
+      border-radius: var(--radius-1) var(--radius-1) 0;
+    }
+
+    /* stylelint-disable selector-max-specificity */
+    // Валидация
+    // Если плейсхолдер не активен и указаны корректные данные
+    // input:not(:placeholder-shown):valid {
+    //   border-color: var(--alert-50); // Ок
+    // }
+
+    // Если на поле нет индикатора фокуса, плейсхолдер не активен и указаны корректные данные
+    input:not(:focus):not(:placeholder-shown):valid {
+      border-color: var(--alert-ok);
+    }
+
+    // Если вводятся не корректные данные
+    // input:not(:placeholder-shown):invalid {
+    //   border-color: var(--alert-40); // Предупреждение
+    //   outline: 0;
+    //   box-shadow: none;
+    // }
+
+    // Если на поле нет индикатора фокуса и указаны не корректные данные
+    // input:not(:focus):invalid {
+    //   border-color: var(--alert-60); // Ошибка
+    // }
+
+    // Если на поле нет индикатора фокуса, плейсхолдер не активен и указаны не корректные данные
+    input:not(:focus):not(:placeholder-shown):invalid {
+      border-color: var(--alert-no);
+    }
+
+    // Cообщение появляется, если на поле нет индикатора фокуса и указаны не корректные данные
+    // input:not(:focus):invalid ~ small {
+    //   visibility: visible;
+    //   opacity: 1;
+    // }
+
+    // Cообщение появляется, если на поле нет индикатора фокуса, плейсхолдер не активен и указаны не корректные данные
+    input:not(:focus):not(:placeholder-shown):invalid ~ small {
+      visibility: visible;
+      opacity: 1;
+    }
+    /* stylelint-enable selector-max-specificity */
+
+    // Сообщение об ошибке
+    small {
+      place-self: start;
+      font-family: inherit;
+      font-style: italic;
+      color: var(--foreground-a80);
+      opacity: 0;
+      transition: opacity 200ms var(--ease-out-cubic);
+    }
+
+    // Автозаполнение
+    input:-webkit-autofill,
+    textarea:-webkit-autofill {
+      transition: background-color 5000s ease-in-out 0s;
+
+      /* autoprefixer: ignore next */
+      -webkit-text-fill-color: var(--foreground);
+    }
+  }
+
+  &__control {
+    position: relative;
+    color: var(--foreground);
+    box-shadow: none;
+  }
+
+  &__label-text {
+    font-family: inherit;
+    font-weight: 500;
+
+    // asterisk (*)
+    span {
+      display: inline-block;
+      margin-inline-start: var(--denser);
+      color: var(--alert-no);
+    }
+  }
+
+  &__group {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20px minmax(min-content, 1fr);
+    align-items: center;
+    font-size: 0.875rem;
+    line-height: 1.25;
+    text-align: left;
+    grid-column: span 2;
+    column-gap: var(--spacer-2x);
+  }
+
+  &__checkbox-label {
+    grid-column: 2;
+  }
+
+  @include config.respond('tablet') {
+    grid-template-columns: max-content 1fr;
+    column-gap: var(--gutter);
+    border-radius: 2ch;
+
+    &__field {
+      // grid-template-columns: 10rem 1fr;
+      grid-template-columns: 200px 1fr;
+      grid-template-columns: subgrid;
+      grid-column: span 2;
+    }
+  }
+}

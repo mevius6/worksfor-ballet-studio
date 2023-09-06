@@ -1,0 +1,296 @@
+@use '../config';
+@use 'sass:map';
+
+.calendar {
+  --numDays: 6;
+  // --numHours: 12;
+  --numHours: 24;
+  --timeHeight: 64px;
+
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacer);
+  margin-inline: var(--spacer-2x);
+  color-scheme: dark light;
+
+  [data-theme-style=dark] & {
+    // --calBgColor: var(--accent-shade);
+    --calBgColor: #C6B5A7;
+    --eventBorderColor: var(--foreground-a25);
+
+    --eventColor1: #A8857A; // 3–5
+    --eventColor2: #AE8E7E; // 5–8
+    --eventColor3: #B3A491; // 6–8
+    --eventColor4: #658375; // 6–9
+    --eventColor5: #436585; // 7–10
+    --eventColor6: #5C5666; // 8–10
+    --eventColor7: #B85B57; // 9–14
+    --eventColor8: #D16F65; // 14+
+    --eventColor9: #A4A571; // актёрское
+    --eventColor10: #60757A; // a11y
+
+    color-scheme: dark;
+  }
+
+  [data-theme-style=light] & {
+    --calBgColor: var(--accent-extra);
+    --eventBorderColor: var(--accent);
+
+    --eventColor1: #DBC7BD; // 3–5
+    --eventColor2: #DECABD; // 5–8
+    --eventColor3: #C8BCAB; // 6–8
+    --eventColor4: #BDCBBB; // 6–9
+    --eventColor5: #ADB8C0; // 7–10
+    --eventColor6: #A8AAB3; // 8–10
+    --eventColor7: #EECACD; // 9–14
+    --eventColor8: #F0DFCD; // 14+
+    --eventColor9: #E3DEB3; // актёрское
+    --eventColor10: #B6C3C4; // a11y
+
+    color-scheme: light;
+  }
+
+
+  @include config.respond('mobile') {
+    gap: unset;
+  }
+
+  @include config.respond('tablet') {
+    gap: var(--spacer-2x);
+  }
+}
+
+.timeline {
+  display: grid;
+  grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+}
+
+.time-marker {
+  color: var(--foreground-a25);
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-feature-settings: 'tnum' 1;
+}
+
+.days {
+  --col-minw: calc(50% - var(--spacer));
+
+  @include config.scroll-snap('x', 'mandatory', '.day');
+
+  display: grid;
+  grid-column: 2;
+  gap: var(--spacer);
+  // grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns:
+    repeat(
+      var(--numDays), minmax(var(--col-minw), 1fr)
+    );
+
+  @include config.respond('tablet') {
+    --col-minw: calc(33.333% - var(--spacer));
+  }
+}
+
+.events {
+  display: grid;
+  grid-template-rows: repeat(var(--numHours), var(--timeHeight));
+  border-radius: var(--denser);
+  background: var(--calBgColor);
+
+  column-gap: var(--denser);
+  padding-inline: var(--denser);
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  > * { flex: 1; }
+  > * + * { margin-inline-start: var(--denser); }
+}
+
+// Place on Timeline
+
+$timeline: (
+  1000: 1,
+  1030: 2,
+  1100: 3,
+  1130: 4,
+  1200: 5,
+  1230: 6,
+  1300: 7,
+  1330: 8,
+  1400: 9,
+  1430: 10,
+  1500: 11,
+  1530: 12,
+  1600: 13,
+  1630: 14,
+  1700: 15,
+  1730: 16,
+  1800: 17,
+  1830: 18,
+  1900: 19,
+  1930: 20,
+  2000: 21,
+  2030: 22,
+  2100: 23,
+  2130: 24,
+);
+
+@each $time, $line in $timeline {
+  :where(
+    .start-#{$time}
+  ) {
+    grid-row-start: $line;
+  }
+  :where(
+    .end-#{$time}
+  ) {
+    grid-row-end: $line;
+  }
+}
+
+// Event
+
+.title {
+  font-weight: 500;
+  margin-bottom: calc(var(--denser) * .5);
+  min-inline-size: 100%;
+}
+
+.event {
+  font-weight: 400;
+  font-size: .75rem;
+  border: 1px solid var(--eventBorderColor);
+  border-radius: var(--denser);
+  padding: var(--spacer);
+  background-color: var(--background-a75);
+  // max-inline-size: 100%;
+  margin-block: calc(var(--denser) * 0.5);
+}
+
+.space,
+.date { block-size: 64px; }
+
+// Global / Etc
+
+@for $i from 1 through 11 {
+  .--type#{$i} {
+    background: var(--eventColor#{$i});
+  }
+}
+
+.date {
+  display: flex;
+  gap: 1em;
+  color: var(--foreground-a25);
+
+  &-num,
+  &-day {
+    display: inline;
+    font-size: 2rem;
+    font-family: var(--font-primary);
+  }
+
+  &-num {
+    font-weight: 600;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  &-day {
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+}
+
+// Container Queries!
+
+.day { container-type: inline-size; }
+
+// Less horizontal space == more compact
+@container (max-width: 250px) {
+  .event {
+    font-size: 1rem;
+  }
+}
+
+@container (max-width: 200px) {
+  .event {
+    font-size: .75rem;
+  }
+
+  .date {
+    display: block;
+  }
+
+  .date-num {
+    font-size: 1.25rem; // 2.5rem;
+    display: block;
+  }
+
+  .date-day {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .time {
+    font-size: 90%
+  }
+}
+
+// Even smaller space
+@container (max-width: 150px) {
+  .event {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+// Now MQ for Macro Layout
+@media (max-width: 660px) {
+  .calendar {
+    margin: var(--spacer);
+  }
+
+  .timeline {
+    display: none;
+  }
+
+  .events {
+    --col-minw: 50%;
+
+    display: flex;
+    flex-direction: column;
+    min-block-size: calc(100% - var(--timeHeight));
+  }
+
+  .date {
+    block-size: unset;
+  }
+
+  .days {
+    --timeHeight: 48px;
+    grid-template-columns: 1fr;
+    // grid-template-rows: repeat(5, 580px);
+    grid-template-rows: repeat(5, minmax(auto, 1fr));
+  }
+}
+
+.warning {
+  max-width: 460px;
+  margin: 2rem auto;
+  background: #ffcebf;
+  border: 1px solid tomato;
+  padding: 1rem;
+  color: hsl(var(--black));
+
+  @supports (container-type: inline-size) {
+    display: none;
+  }
+}
+
+strong { font-weight: 600; }
+
+i { font-style: italic; }

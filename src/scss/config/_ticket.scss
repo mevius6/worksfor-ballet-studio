@@ -1,0 +1,116 @@
+// Ref → https://a.singlediv.com/#raffle-red
+
+@mixin ticket($ratio: '1/1') {
+  // & { position: relative; }
+
+  position: absolute;
+  width: calc(220px + 2.375vmax);
+  height: 110px;
+  z-index: 1;
+  background-repeat: no-repeat;
+  transform: translate(-50%, -50%);
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  filter: drop-shadow(var(--shadow-elevation-md));
+
+  &::before,
+  &::after {
+    --center: translate(var(--tx, -50%), var(--ty, -50%));
+
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: var(--transform);
+    display: flex;
+
+    line-height: var(--lh, inherit);
+    font-size: var(--rem2px);
+    font-family: var(--typeface, var(--font-stack-sans));
+    color: var(--text-color, #333);
+    content: var(--content, '');
+  }
+
+  &::before {
+    --fs: 1.25rem;
+    --px: 20;
+    --lh: 1.5;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  &::after {
+    --fs: .875rem;
+    --px: 14;
+    --lh: 1;
+
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  & {
+    // --bg-color: #d8bfd8;
+    --fill: var(--accent);
+    --circle-radii: 17px;
+    --bg-radgrad-color-stops:
+      var(--trn) var(--circle-radii),
+      var(--fill) var(--circle-radii);
+    background-image:
+      radial-gradient(circle at top left, var(--bg-radgrad-color-stops)),
+      radial-gradient(circle at top right, var(--bg-radgrad-color-stops)),
+      radial-gradient(circle at bottom left, var(--bg-radgrad-color-stops)),
+      radial-gradient(circle at bottom right, var(--bg-radgrad-color-stops));
+    background-size: 50% 50%;
+    background-position: top left, top right, bottom left, bottom right;
+    box-shadow: 0 38px 14px -35px rgba(0,0,0,0.3);
+
+    &::before {
+      --transform: var(--center);
+      --content: 'место'; // 'ticket'
+      --bg-lingrad-color-1: var(--trn);
+      --bg-lingrad-color-2: var(--fill);
+      --bg-lingrad-color-stops:
+          var(--bg-lingrad-color-1) 75%,
+          var(--bg-lingrad-color-2) 75%;
+
+      align-items: center;
+      inline-size: calc(100% + 14px);
+      block-size: calc(100% - var(--circle-radii)*2);
+      padding-inline-start: calc(50% - 3ch);
+
+      background-size: 7px 7px;
+      background-repeat: repeat-y;
+      background-position: 0 0, 0 0, 100% 0, 100% 0;
+      background-image:
+        linear-gradient(45deg, var(--bg-lingrad-color-stops)),
+        linear-gradient(135deg, var(--bg-lingrad-color-stops)),
+        linear-gradient(-45deg, var(--bg-lingrad-color-stops)),
+        linear-gradient(-135deg, var(--bg-lingrad-color-stops));
+
+      line-height: 1.9;
+      font-size: 1.75rem;
+      text-align: left;
+    }
+
+    &::after {
+      --content: '01.10.22'; // 'DC143C'
+      --transform: var(--center) rotate(-90deg);
+
+      align-items: flex-end;
+      justify-content: center;
+      inline-size: calc(50% - var(--circle-radii)*2);
+      block-size: calc(200% - var(--circle-radii)*2);
+      padding-block-end: 3px;
+
+      background:
+        linear-gradient(
+          to bottom,
+          transparent 155px,
+          #fa8072 155px,
+          #fa8072 158px,
+          transparent 158px
+        );
+      border: 3px solid #fa8072;
+    }
+  }
+}

@@ -1,0 +1,59 @@
+include ./mixins
+include ./global-vars
+include ./static-data
+
+block vars
+
+doctype html
+html(class="no-js" dir="ltr" lang="ru")
+  head
+    include ./_meta
+
+    block head-start
+
+    link(
+      rel="preload"
+      href="../static/splitting.css" as="style"
+      onload="this.onload=null;this.rel='stylesheet'")
+    link(
+      rel="preload"
+      href="../scss/map.scss" as="style"
+      onload="this.onload=null;this.rel='stylesheet'")
+    noscript: link(rel="stylesheet" href="../static/splitting.css")
+    noscript: link(rel="stylesheet" href="../scss/map.scss")
+
+    include ./_fonts
+
+    link(rel="stylesheet" type="text/css" href="../scss/main.scss")
+
+    block head-end
+    append head-end
+      script(defer type="module" src="../js/modules.js")
+
+  body.page.page--loading(itemscope itemtype="https://schema.org/WebPage")
+    noscript
+      dialog#alert(open)
+        form.flow(method="dialog")
+          h2= alert
+          p= alertDesc
+          button(onclick="window.dialog.close();")= alertAction
+
+    include ./_header
+
+    //- https://schema.org/mainEntity
+    main(
+      data-id= page.id
+      itemprop="mainEntity"
+      itemscope itemtype="https://schema.org/School"
+      itemid= data.meta.domain
+    ): include ./_microdata
+
+      block content
+
+    //- include ./_footer
+    //- include ./_svg-filters
+
+    block scripts
+    append scripts
+      script(type="module" src="../js/index.js")
+      //- script(src="./a2hs.js")

@@ -1,0 +1,125 @@
+@use '../config';
+
+.review {
+  /* Avatar sizes refs:
+    https://primer.style/css/components/avatars#avatar-sizes
+    https://ishadeed.com/article/css-variables-inline-styles/#user-avatars */
+
+  --avatar-size: 2.5rem; // 16–64px
+  --flow-space: var(--spacer-3x);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  block-size: 100%;
+  // padding-inline: var(--spacer-6x);
+
+  // border-radius: var(--spacer);
+  // box-shadow: 0 0 0 1px var(--accent) inset;
+
+  &__header {
+    margin-block-end: var(--spacer-3x);
+  }
+
+  // &__header,
+  // &__content,
+  &__headline {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  &__footer,
+  &__author {
+    display: flex;
+    align-items: center;
+  }
+
+  &__footer {
+    flex-direction: column-reverse;
+    justify-content: center;
+
+    @include config.respond('tablet') {
+      flex-direction: row;
+    }
+  }
+
+  &__author {
+    display: flex;
+    align-items: center;
+
+    &-avatar {
+      flex: 0 0 var(--avatar-size);
+      inline-size: var(--avatar-size);
+      block-size: var(--avatar-size);
+      // box-sizing: content-box;
+      overflow: hidden;
+      // background: var(--trn) no-repeat 50% / cover;
+      // border: 1px solid var(--accent);
+      border-radius: 50%;
+      // box-shadow: 0 3px 10px 0 var(--shadow);
+      box-shadow: var(--shadow-elevation-medium);
+      background-color: var(--avatar-bg, var(--avatar-bg-dark));
+
+      [data-theme-style=dark] & { --avatar-bg: var(--avatar-bg-dark); }
+      // [data-theme-style=light] & { --avatar-bg: var(--avatar-bg-light); }
+
+      picture { aspect-ratio: var(--ratio-square); }
+
+      .monogram {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    &-name {
+      // @include config.line-clamp(1);
+      // max-width: 16ch;
+
+      display: inline-block;
+      margin-inline-start: var(--spacer);
+
+      [itemprop='name'] { color: var(--foreground-a80); }
+    }
+  }
+
+  &__cite {
+    display: inline-block;
+    margin-block-end: var(--spacer-2x);
+    // opacity: 0.75;
+
+    @include config.respond('tablet') {
+      padding-inline-start: var(--spacer);
+      margin-block-end: unset;
+      margin-inline-start: var(--spacer);
+      border-inline-start: 1px solid var(--accent);
+    }
+  }
+
+  // &__lead,
+  &__body {
+    --flow-space: var(--spacer-2x);
+
+    max-height: 150vh;
+    transition: max-height 300ms var(--ease-in-out-cubic);
+
+    span { display: block; }
+
+    &:where(.collapse) { --flow-space: 0; }
+  }
+
+  .collapse {
+    max-height: 0;
+    overflow: hidden;
+  }
+
+  [itemprop='reviewBody'] {
+    --flow-space: var(--spacer-3x);
+    text-align: left;
+  }
+
+  &__content {
+    --flow-space: var(--spacer-3x);
+    // padding-inline: var(--gutter);
+    margin-block-start: 0;
+  }
+}

@@ -1,0 +1,47 @@
+// https://css-tricks.com/scroll-shadows-with-javascript/
+// https://css-scroll-shadows.now.sh
+// https://codepen.io/chriscoyier/pen/YzXBYvL
+
+@mixin scroll-shadows() {
+  --shadow: hsl(0 0% 0% / 0.2);
+
+  max-block-size: 100%;
+  // overflow: auto;
+  // overflow-x: hidden;
+  // overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch;
+
+  background:
+    linear-gradient(
+      var(--background) 30%,
+      hsl(var(--hsl) / 0)
+    ) center top,
+
+    linear-gradient(
+      hsl(var(--hsl) / 0),
+      var(--background) 70%
+    ) center bottom,
+
+    radial-gradient(
+      farthest-side at 50% 0,
+      var(--shadow),
+      hsl(var(--hsl) / 0)
+    ) center top,
+
+    radial-gradient(
+      farthest-side at 50% 100%,
+      var(--shadow),
+      hsl(var(--hsl) / 0)
+    ) center bottom;
+
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+
+  // [data-browser='Safari'] & { background: var(--background); }
+
+  [data-theme-style='dark'] & {
+    --shadow: var(--accent-shade);
+  }
+}

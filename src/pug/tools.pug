@@ -1,0 +1,100 @@
+-
+  const isObject = (obj) => Object.prototype.toString
+    .call(obj) === '[object Object]';
+-
+  const getObjEnums = (obj) => Object.getOwnPropertyNames(obj)
+-
+  const isObjEmpty = (obj) => !isObject(obj) || objectEntries(obj).length == 0
+-
+  // const isArrEmpty = (arr) => Array.isArray(arr) && !arr.length
+  const isArrEmpty = (arr) => !Array.isArray(arr) || arr.length == 0
+-
+  const createArrFromObject = (obj, ...keys) => keys.map(x => obj[x]);
+  const pickItemsFrom = (obj, ...args) => args.map(i => obj[i]);
+-
+  const toObject = (arr, key) => Object.fromEntries(arr.map((it) => [it[key], it]));
+-
+  const clone = (arr) => arr.map((x) => x);
+-
+  // const merge = (a, b) => [...a, ...b];
+  const merge = (a, b) => [...new Set([...a, ...b])];
+-
+  const union = (...arr) => [...new Set(arr.flat())];
+-
+  const count = (arr) => arr.length
+-
+  const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+-
+  const getSequence = (num) => Array.from({ length: num }, (v, i) => i)
+-
+  const toFractions = (num) => (num / 255).toFixed(9);
+  const increment = (num) => num + 1
+-
+  const uniq = Math.random().toString(36).substr(2, 9);
+-
+  const random = (min, max) => Math.random() * (max - min) + min
+  const randomColor = () => {
+    const h = Math.floor(random(0, 360))
+    const s = Math.floor(random(50, 100))
+    const l = Math.floor(random(50, 100))
+
+    return `hsl(${ h }, ${ s }%, ${ l }%)`
+  }
+-
+  const currency = new Intl.NumberFormat('ru', {
+    style: 'currency',
+    currency: 'RUB',
+    currencyDisplay: 'narrowSymbol', // ¤¤¤¤¤ <-- Narrow currency symbol
+    maximumSignificantDigits: 3
+  })
+-
+  const now = new Date()
+  const { y = now.getFullYear() } = now
+-
+  // https://en.wikipedia.org/wiki/ISO_8601
+  // https://www.ibm.com/docs/en/db2/11.1?topic=list-datetime-values
+  // https://learn.javascript.ru/datetime
+  // new Date(year, month, date, hours, minutes, seconds, ms)
+  const formatDate = (d) => {}
+-
+  const formatText = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+  }
+-
+  const trim = (str) => str.trim()
+-
+  const firstLetter = (str) => str.split('')[0] // str.charAt(0)
+-
+  const isRelative = (path) => !/^([a-z]+:)?[\\/]/i.test(path)
+-
+  const encodeUrl = (str) => encodeURIComponent(str)
+-
+  // https://www.ietf.org/rfc/rfc2397.txt
+  const toDataUrl = (mediatype = 'text/plain', encoding = 'utf8', data) => (
+    `url(\"data:${mediatype};${encoding},${data}\")`
+  )
+-
+  // Generative Placeholders API
+  const API = {},
+    {
+      serverURL: host = 'https://generative-placeholders.glitch.me/',
+      endpointPath: endpoint = 'image',
+      queryParams: query = {
+        dims: (xres = 1024, yres) => `?width=${xres}&height=${yres || xres}`,
+        style: (val = 'tiles') => `&style=${val}`,
+        index: (num = 1) => `&img=0${num++}`
+      }
+    } = API
+-
+  const generatePlaceholderImage = (num = 1, params = {}) => host
+      + endpoint
+      + query.dims(params.width, params.height)
+      + query.style(params.style)
+      + query.index(num)

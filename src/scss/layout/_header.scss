@@ -1,0 +1,48 @@
+@use '../config';
+
+.page__header {
+  --zi: 1010;
+  --header-cross-size: 100%;
+  --header-block-size: min-content;
+
+  position: fixed;
+  inset-block-start: var(--spacer);
+  inset-inline-start: 0;
+  z-index: var(--zi);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  inline-size: var(--header-cross-size);
+  block-size: var(--header-block-size);
+
+  & > ul {
+    grid-template-columns: 1fr auto;
+    place-items: center;
+    column-gap: var(--spacer-2x); // ! override
+    margin-inline-end: var(--spacer-2x);
+  }
+
+  @include config.respond('tablet') {
+    --header-cross-flow: unset;
+    --header-cross-size: 100vw;
+  }
+}
+
+.tels {
+  z-index: 1000;
+  // margin-inline-start: var(--spacer-2x);
+  flex-direction: column;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  color: var(--neutral);
+  font-feature-settings: "tnum" 1;
+
+  @include config.respond('tablet') {
+    position: absolute;
+    // inset-block-start: 0;
+    // inset-inline-end: 0;
+    align-self: center;
+    flex-direction: unset;
+  }
+}

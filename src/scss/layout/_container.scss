@@ -1,0 +1,39 @@
+@use '../config';
+
+/* Refs:
+    → https://drafts.csswg.org/css-contain-3/
+    → https://drafts.csswg.org/css-contain-3/#container-rule
+    → https://css.oddbird.net/rwd/query/explainer/
+    → https://css-tricks.com/a-cornucopia-of-container-queries/
+    → https://github.com/dbaron/container-queries-implementability#proposal
+    → https://ishadeed.com/article/container-queries-are-finally-here/
+    → https://web.dev/cq-stable/
+    → https://ishadeed.com/article/css-state-queries/
+    → https://github.com/sturobson/Awesome-Container-Queries
+    → https://developer.chrome.com/blog/cascade-layers/
+    → https://www.w3.org/2021/10/TPAC/demos/css-architecture.html */
+
+// ? https://github.com/GoogleChromeLabs/container-query-polyfill
+// .container { container-type: inline-size; }
+// @container (max-width: 45em) {…}
+
+.container {
+  // contain: size layout style;
+  // container: inline-size;
+  position: relative;
+  display: grid;
+  row-gap: var(--spacer-4x);
+  grid-template-columns: inherit;
+  grid-template-columns: subgrid;
+  grid-column: full;
+  column-gap: inherit;
+
+  :where(.reveal-wrapper) { overflow: hidden; }
+}
+
+.sideways {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-inline: var(--spacer-2x);
+}

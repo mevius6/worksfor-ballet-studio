@@ -1,0 +1,11 @@
+mixin paging(items)
+  ul.paging
+    each i in Array.from(Array(items.length).keys())
+      - let itemId = `pagingDot${i+1}`
+      li.paging__item
+        input(
+          type="radio" id= itemId name="position" data-hidden
+        )&attributes({
+          'checked': i === 0
+        })
+        label(for= itemId)

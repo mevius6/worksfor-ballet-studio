@@ -1,0 +1,49 @@
+extends page
+
+block vars
+  - let page = data.pages.agenda
+  -
+    const msg = 'Your browser does not support CSS container queries. Please open this page in Chrome Canary with the experimental #enable-container-queries flag turned on.'
+
+block content
+  .grid
+    h1.title.grid__content(data-hidden)
+      | Программа обучения
+    //- p.warning.grid__center
+      | #[strong Warning:]
+      = msg
+
+    .container.spaced.--ada-md
+      .grid__content
+        +head({ level: 2, text: 'Студия на Скаковой', reveal: 'chars' })
+      .grid__full
+        +calendar({ schedule: central })
+
+    .container.spaced.--ada-md
+      .grid__content
+        +head({ level: 2, text: 'Студия на Вернадского', reveal: 'chars' })
+      .grid__full
+        +calendar({ schedule: balance })
+
+    .container.spaced.--ada-md
+      .grid__content
+        +head({ level: 2, text: 'Студия в деревне Николо-Хованское', reveal: 'chars' })
+      .grid__full
+        +calendar({ schedule: village })
+
+    .container(data-id="map")
+      .grid__content
+        +head({ level: 2, text: 'Как добраться', reveal: 'chars' })
+      .grid__full
+        +map({})
+
+    .container.spaced.--ada-md#contact(data-id="contact")
+      .grid__center: +head({ level: 2, text: 'Пишите нам', reveal: 'chars' })
+      +form({
+        class: 'grid__center',
+        endpoint: '294b2d20',
+        phone: data.meta.phone,
+        recaptcha: true,
+      })
+
+block scripts

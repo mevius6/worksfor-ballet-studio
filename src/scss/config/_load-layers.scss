@@ -1,0 +1,23 @@
+@use 'sass:meta';
+@use 'sass:list';
+
+// Refs:
+// https://developer.mozilla.org/en-US/docs/Web/CSS/@layer
+// https://css-tricks.com/css-cascade-layers/
+// https://www.bram.us/2021/09/15/the-future-of-css-cascade-layers-css-at-layer/
+// https://www.smashingmagazine.com/2022/01/introduction-css-cascade-layers/
+
+@mixin load-layers($layers) {
+  // $layers: "reset", "theme" !default;
+
+  // Outputs the list of layers
+  @layer #{$layers};
+
+  // Outputs each layer's styles via their include
+  @each $layer in $layers {
+    @layer #{$layer} {
+      @include meta.load-css($layer);
+    }
+  }
+}
+//= @import '../styles/components/post.css' layer(layouts);

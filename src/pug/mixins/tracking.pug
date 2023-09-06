@@ -1,0 +1,35 @@
+-
+  const uri = {
+    decode: (str = '') => decodeURIComponent(str),
+    encode: (str = '') => encodeURIComponent(str),
+  }
+//-
+  List of space characters with a defined-width:
+  U+2003 EM SPACE (= 1 em) <-- equal to the type size in points
+  U+2002 EN SPACE (= 1/2 em) <-- half an em
+  U+2004 THREE-PER-EM SPACE (= 1/3 em) <-- third of an em
+  U+2005 FOUR-PER-EM SPACE(= 1/4 em) <-- quarter of an em
+  U+2009 THIN SPACE (= 1/5 em) <-- fifth of an em
+  U+2006 SIX-PER-EM SPACE (= 1/6 em) <-- sixth of an em wide
+  U+200A HAIR SPACE (= 1/16..1/24 em) <-- the thinnest space
+  ___
+  Unicode block ref -> https://www.unicode.org/charts/PDF/U2000.pdf
+-
+  // Object contains decoded values for unsafe whitespace characters
+  const ws = {
+    mutton: uri.decode('%E2%80%83'),  // EMSP
+    nut: uri.decode('%E2%80%82'),     // ENSP
+    third: uri.decode('%E2%80%84'),   // 3/MSP, emsp13, thick space
+    quarter: uri.decode('%E2%80%85'), // 4/MSP, emsp14, mid space
+    thin: uri.decode('%E2%80%89'),    // THSP
+    sixth: uri.decode('%E2%80%86'),   // 6/MSP
+    hair: uri.decode('%E2%80%8A')     // HSP
+  }
+  //, tracking = (str = '', sep = '&hairsp;') => str.split('').join(`${sep}`)
+
+mixin tracking(chars, interval)
+  //- let { chars: str = '', interval: sep = 'hair' } = props
+  -
+    const tracking = (chars, interval) => chars
+      .split('')
+      .join(`${ws[interval]}`)

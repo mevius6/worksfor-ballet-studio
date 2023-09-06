@@ -1,0 +1,4 @@
+mixin nest(cls, n, i = 0)
+  div(class=cls style=`--i: ${i}`)
+    if ++i < n
+      +nest(cls, n, i)

@@ -1,0 +1,52 @@
+{
+  "name": "worksfor-ballet-studio",
+  "version": "1.0.0",
+  "description": "",
+  "browserslist": "> 0.5%, last 2 versions, not dead, not op_mini all",
+  "config": {
+    "repo": "https://github.com/mevius6/${npm_package_name}",
+    "port": {
+      "http": 8080,
+      "https": 8443
+    }
+  },
+  "scripts": {
+    "parcel:start": "parcel src/pug/index.pug --dist-dir ./public --no-cache --cert $(grep '^CERT_PATH' .env | cut -d '=' -f2) --key $(grep '^KEY_PATH' .env | cut -d '=' -f2) -p $npm_package_config_port_https --open",
+    "parcel:build": "npm run clear && parcel build src/pug/index.pug --dist-dir ./public --no-source-maps --no-cache && npm run copy",
+    "re:start": "npm run clear && npm run parcel:start",
+    "clear": "rm -rf public && rm -rf .parcel-cache",
+    "lint:js": "npx eslint \"./src/js/*.js\" --fix",
+    "lint:css": "npx stylelint \"./src/scss/**/*.{css,scss}\" --fix",
+    "lint": "npm run lint:js && npm run lint:css",
+    "copy": "cp -r src/static/* ./public",
+    "report": "PARCEL_BUNDLE_ANALYZER=1 parcel build src/index.pug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mevius6/worksfor-ballet-studio.git"
+  },
+  "author": "Nicolai Ivanov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mevius6/worksfor-ballet-studio/issues"
+  },
+  "homepage": "https://github.com/mevius6/worksfor-ballet-studio#readme",
+  "devDependencies": {
+    "@parcel/optimizer-esbuild": "^2.9.3",
+    "@parcel/packager-raw-url": "^2.9.3",
+    "@parcel/transformer-jsonld": "^2.9.3",
+    "@parcel/transformer-pug": "^2.9.3",
+    "@parcel/transformer-sass": "^2.9.3",
+    "@parcel/transformer-webmanifest": "^2.9.3",
+    "eslint": "^8.48.0",
+    "parcel": "^2.9.3",
+    "pug": "^3.0.2",
+    "sass": "^1.66.1",
+    "sharp": "^0.31.3",
+    "stylelint": "^15.10.3",
+    "stylelint-order": "^6.0.3"
+  },
+  "dependencies": {
+    "gsap": "^3.12.2"
+  }
+}

@@ -1,0 +1,23 @@
+/**
+ * Скрывает элемент визуально и удаляет его из базового потока,
+ * но позволяет вспомогательным технологиям получить к нему доступ.
+ *
+ * https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html
+ * https://github.com/h5bp/html5-boilerplate/blob/master/dist/css/main.css#L114
+ * https://gist.github.com/hankchizljaw/fae40371ada3ea4301624091bf4379e9
+ * https://css-tricks.com/snippets/css/accessibilityseo-friendly-css-hiding/
+ * https://css-irl.info/a-native-visually-hidden-class/
+ */
+
+@mixin is-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px; // auto
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(100%);
+}

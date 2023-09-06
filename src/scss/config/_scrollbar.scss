@@ -1,0 +1,36 @@
+@mixin scrollbar(
+  $width: 0,
+  $track-color: initial,
+  $thumb-color: transparent,
+  $thumb-br: 0,
+  $track-inner-shadow-color: transparent,
+  $track-inner-shadow: 0 0 6px $track-inner-shadow-color,
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: 0;
+
+    &-thumb {
+      background: $thumb-color;
+      background-clip: padding-box;
+      border: 0;
+      border-radius: $thumb-br;
+
+      // &:hover { background-color: darken($thumb-color, 12%); }
+      // &:active { background-color: darken($thumb-color, 22%); }
+    }
+
+    &-track {
+      background: $track-color;
+      box-shadow: inset $track-inner-shadow;
+    }
+  }
+
+  @supports (scrollbar-width: thin) {
+    & {
+      scrollbar-width: none;
+      scrollbar-color: inherit; // $thumb-color $track-color
+      // -ms-overflow-style: none;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@use 'sass:string';
+
+// https://hankchizljaw.com/wrote/creating-an-aspect-ratio-css-utility/
+// https://css-tricks.com/aspect-ratio-boxes/
+// https://drafts.csswg.org/css-sizing-4/#aspect-ratio
+// https://www.smashingmagazine.com/2020/03/setting-height-width-images-important-again/
+// https://github.com/WICG/intrinsicsize-attribute/issues/16#issuecomment-503245998
+
+@mixin aspect-ratio($ratio: '1/1') {
+  position: relative;
+  display: block;
+  // 16:9 ~ 56.25%
+  padding-block-start: calc(var(--aspect-ratio, #{$ratio}) * 100%);
+  // padding-block-end: calc(100% / (var(--aspect-ratio, #{$ratio})));
+  overflow: hidden;
+
+  @supports (aspect-ratio: 1/1) {
+    $h: string.unquote(string.slice($ratio, 1, -3));
+    $w: string.unquote(string.slice($ratio, 3));
+
+    aspect-ratio: $w / $h;
+    // aspect-ratio: attr(width) / attr(height);
+  }
+
+  & > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+}

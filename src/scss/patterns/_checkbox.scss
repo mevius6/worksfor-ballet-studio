@@ -1,0 +1,86 @@
+@use '../config';
+
+[type='checkbox'] {
+  --cb-size: 20px;
+  --cb-shadow-color: var(--foreground);
+  --cb-shadow-spread: 1px;
+  --cb-background-color: var(--background);
+  --cb-mark-color: var(--accent-extra);
+  --cb-mark-font: var(--font-icons, revert);
+
+  appearance: none;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: var(--cb-size);
+  height: var(--cb-size);
+  margin: 0;
+  cursor: pointer;
+  font-family: var(--cb-mark-font);
+  background-color: var(--cb-background-color);
+  border-radius: 4px;
+  outline: 0;
+  box-shadow: var(--cb-shadow-color) 0 0 0 var(--cb-shadow-spread) inset;
+  transition:
+    background-color 150ms var(--easing) 0s,
+    box-shadow var(--duration) var(--easing);
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--cb-mark-color);
+
+    // '✓'
+    content: '\2713';
+    opacity: var(--cb-mark-alpha, 0);
+    transition-delay: 0ms;
+    transition-timing-function: var(--easing);
+    transition-duration: 300ms;
+    transition-property: opacity, transform;
+    transform: translate(-50%, -50%) scale(0.7) rotateY(45deg);
+  }
+
+  &:hover,
+  &:focus {
+    --cb-shadow-color: var(--accent);
+    --cb-shadow-spread: 2px;
+    // --cb-background-color: var(--foreground);
+  }
+
+  &:checked {
+    --cb-shadow-color: var(--accent-shade);
+    --cb-shadow-spread: calc(var(--cb-size) / 2);
+
+    &::after {
+      --cb-mark-alpha: 1;
+
+      filter: drop-shadow(0 0 4px);
+
+      transition-delay: 150ms;
+      transition-timing-function: var(--easing);
+      transition-duration: 150ms;
+
+      transition-property: opacity, transform;
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+
+  /* @supports (-webkit-appearance: none) or (-moz-appearance: none) {
+    input[type="checkbox"]::after {
+      width: 5px;
+      height: 9px;
+      border: 2px solid var(--accent);
+      border-top: 0;
+      border-left: 0;
+      left: 7px;
+      top: 4px;
+      transform: rotate(var(--r, 20deg));
+    }
+  } */
+}

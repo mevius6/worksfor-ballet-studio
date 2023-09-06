@@ -1,0 +1,38 @@
+mixin text(text)
+  if Array.isArray(text)
+    each line of text
+      //- span= line
+      = line
+      | #[br]
+  else
+    = text
+
+mixin head(props)
+  -
+    let { class: className = '',
+          level: headingLevel = 2,
+          text: content = '',
+          hasId = '',
+          reveal = false,
+        } = props
+    let classList = ['headline']
+
+  if hasId
+    span.overline= hasId
+
+  //- Heading levels:
+      <h1>Main title</h1>
+      <h2>Headline</h2>
+      <h3>Subheading</h3>
+      <h4>Sub-subheading</h4>
+  if headingLevel==2
+    if reveal
+      - classList.push('reveal')
+      .reveal-wrapper
+        h2(class=classList class=[className] data-splitting=reveal)
+          +text(content)
+    else
+      h2(class=classList class=[className]): +text(content)
+
+  if headingLevel==3
+    h3(class=classList class=[className]): +text(content)

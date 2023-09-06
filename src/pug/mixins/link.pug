@@ -1,0 +1,73 @@
+//- Refs:
+  - https://dequeuniversity.com/rules/axe/3.3/link-name
+  - https://support.google.com/docs/answer/3256501?hl=en&ref_topic=9199554
+  - https://github.com/google/libphonenumber/blob/master/FALSEHOODS.md
+-
+  // URL schemes (http:, https:, mailto:, tel:, etc.)
+  const schemes = {
+    protocol: ['http', 'https'],
+    email: 'mailto',
+    phone: 'tel'
+  }
+
+mixin link(props)
+  -
+    const { phone, email, text, icon, classes=[] } = props
+    const hasClasses = !isArrEmpty(classes)
+  -
+    let attrs = {}
+    // attrs = { 'data-icon': icon }
+
+  //- If the phone property is defined
+  if phone
+    - let tel = phone.replace(/[^\d+]/g, '')
+    a(
+      class= classes || ''
+      href=`${schemes['phone']}:${tel}`
+      aria-label=`call to ${phone}`
+    )
+      if icon
+        span&attributes({ 'data-icon': icon })
+      else if text
+        span
+          | #{text} #{phone}
+      else
+        //- [itemprop="telephone"]
+        span&attributes(attributes)
+          | #{phone}
+
+  //- Else if the email property is defined and URL scheme equal 'mailto'
+  else if email
+    -
+      // The query string is composed of a series of field-value pairs
+      let field1 = `?subject=${email.subject}` ?? email.subject,
+          field2 = `&body=${email.body}` ?? email.body
+    a(
+      class= classes || ''
+      href=`mailto:${email.to}${field1}${field1 ? field2 : ''}`
+      aria-label=`email to ${email.to}`
+    )
+      if icon
+        span&attributes({ 'data-icon': icon })
+        meta(itemprop="email" content= email.to)
+      else
+        span(itemprop="email")
+          | #{email.to}
+
+  else
+    a(
+      class= classes || ''
+      href= props.href
+      target="_blank" rel="noopener noreferrer"
+      title= (props.label || text)
+      aria-label= ((props.label || text)
+        ? text
+        : icon)
+    )&attributes({ itemprop: props.prop })
+      if icon
+        span&attributes({ 'data-icon': icon })
+      if text
+        span&attributes(attributes)
+          | #{text}
+      else
+        block

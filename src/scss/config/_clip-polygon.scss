@@ -1,0 +1,106 @@
+/*
+  REFS:
+    → https://drafts.fxtf.org/css-masking-1/
+    → https://drafts.csswg.org/css-shapes-1/#supported-basic-shapes
+    → https://drafts.csswg.org/css-shapes-2/
+    → https://drafts.csswg.org/css-shapes/
+    → https://drafts.csswg.org/css-shapes/#shapes-from-box-values
+    → https://github.com/una/angled-corners
+    → https://augmented-ui.com/docs/
+    → https://ishadeed.com/article/clip-path/
+    → https://jenkov.com/tutorials/svg/mask.html
+    → https://codepen.io/shadeed/pen/mdrvKEz
+    → https://codepen.io/tag/clip-path/
+  GENS:
+    → https://bennettfeely.com/clippy/
+    → https://augmented-ui.com/mixinmixer/
+ */
+@mixin polygonal-clipping($a: 5%) {
+  --edge: #{$a};
+  --initial:
+    polygon(
+      0% 0%, 50% 0%, 100% 0%, 100% 50%,
+      100% 100%, 50% 100%, 0% 100%, 0% 50%); //= 8 vertices
+  // https://drafts.csswg.org/css-shapes-1/#funcdef-basic-shape-polygon
+  --polygon:
+    polygon(
+      var(--poly-tl, 0% 0%), var(--poly-t, 50% 0%),
+      var(--poly-tr, 100% 0%), var(--poly-r, 100% 50%),
+      var(--poly-br, 100% 100%), var(--poly-b, 50% 100%),
+      var(--poly-bl, 0% 100%), var(--poly-l, 0% 50%)
+    );
+  /*
+      O X 5%     50%     95%
+      Y ╔═╧═══════╧═══════╧═╗
+     5%─╢ ↖︎       ↑       ↗︎ ╟─5%
+        ║   TL    T    TR   ║
+        ║                   ║
+    50%─╢ ← L    Box    R → ╟─50%
+        ║                   ║
+        ║   BL    B    BR   ║
+    95%─╢ ↙︎       ↓       ↘ ╟─95%
+        ╚═╤═══════╤═══════╤═╝
+          5%     50%     95%
+  */
+  // --square: 0% 0%, 0% 100%, 100% 100%, 100% 0%;
+  // --vector: url(#source);
+  clip-path: var(--clip-geometry, var(--polygon));
+
+  // Clipping regions
+  &[data-clip-region] {
+    --coords:
+      var(--x, 0%)
+      var(--y, 0%);
+    --polygon: var(--coords); }
+  /*
+  &[data-clip-region~='TL' i] { --poly-tl: var(--tl-x, 0%) var(--tl-y, 0%); }
+  &[data-clip-region~='T' i],
+  &[data-clip-region~='TC' i] { --poly-t: var(--t-x, 0%) var(--t-y, 0%); }
+  &[data-clip-region~='TR' i] { --poly-tr: var(--tr-x, 0%) var(--tr-y, 0%); }
+  &[data-clip-region~='R' i],
+  &[data-clip-region~='RC' i] { --poly-r: var(--r-x, 0%) var(--r-y, 0%); }
+  &[data-clip-region~='BR' i] { --poly-br: var(--br-x, 0%) var(--br-y, 0%); }
+  &[data-clip-region~='B' i],
+  &[data-clip-region~='BC' i] { --poly-b: var(--b-x, 0%) var(--b-y, 0%); }
+  &[data-clip-region~='BL' i] { --poly-bl: var(--bl-x, 0%) var(--bl-y, 0%); }
+  &[data-clip-region~='L' i],
+  &[data-clip-region~='LC' i] { --poly-l: var(--l-x, 0%) var(--l-y, 0%); } */
+
+  // Presets
+  &[class*='angled-corners'] {
+    --edge: 10%;
+    --poly-tl: 0 var(--edge), var(--edge) 0;
+    --poly-br: 100% calc(100% - var(--edge)), calc(100% - var(--edge)) 100%;
+  }
+
+  &[class*='preset-01'] {
+    --edge: 5%;
+    --edge-2x: calc(var(--edge) * 2);
+    --edge-3x: calc(var(--edge) * 3);
+    --poly-tl: 0 10%, 10% 0;
+    --poly-tr:
+      calc(100% - var(--edge-3x)) 0,
+      calc(100% - var(--edge-2x)) var(--edge),
+      calc(100% - var(--edge)) var(--edge),
+      100% var(--edge-2x);
+    --mod: 2;
+    --poly-br: 100% 90%, 90% 100%;
+    --poly-b:
+      calc(50% + var(--edge) * var(--mod)) 100%,
+      calc(50% + var(--edge) * var(--mod)) calc(100% - 1rem),
+      calc(50% - var(--edge) * var(--mod)) calc(100% - 1rem),
+      calc(50% - var(--edge) * var(--mod)) 100%, 0 100%;
+    --poly-l: 0 100%;
+  }
+
+  &[class*='preset-02'] {
+    --edge: 1rem;
+    --polygon:
+      polygon(
+        25% 0%, 100% 0%,
+        calc(100% + 1px) calc(50% - var(--edge)), 100% calc(50% - var(--edge)),
+        calc(100% - var(--edge)) 50%, calc(100% - var(--edge)) 50%,
+        100% calc(50% + var(--edge)), calc(100% + 1px) calc(50% + var(--edge)),
+        100% 100%, 25% 100%, 0% 50%);
+  }
+}

@@ -1,0 +1,104 @@
+//- https://github.com/pugjs/pug/pull/3179
+
+mixin price(cost)
+  if typeof cost !== 'number'
+    | #{currency.format(cost[0])} / #{currency.format(cost[1])}
+  else
+    | #{currency.format(cost)}
+
+mixin items(arr, marker)
+  - let { length: total } = arr
+  each item, i in arr
+    -
+      let {
+        cost, // <-- Price list format
+        link, phone, email, href,
+        icon: ico, //= MARKER ?
+        text,
+        prop, // <-- Microdata
+        ...rest
+      } = item, refAttList = { // <-- Reflect link attributes
+        phone: phone,
+        email: email,
+        href: href,
+        icon: ico,
+        text: text,
+        prop: prop
+      }
+
+    if phone || email || href
+      li: +link({ base: 'list', ...refAttList })
+
+    else if cost
+      li.price
+        | #{text}
+        | #[br]
+        +price(cost)
+
+    else
+      if ico || marker
+        li&attributes({ 'data-icon': ico || marker })
+          if isObject(text)
+            //- each val, key in text
+            each [key, value] of Object.entries(text)
+              p.body
+                strong=`${key}: `
+                |
+                if link
+                  +link({
+                    base: 'list',
+                    href: link,
+                    text: value
+                  })
+                else
+                  = value
+          else
+            | #{text}
+            if link
+              +link({
+                base: 'list',
+                href: link,
+                text: text
+              })
+      else
+        li= text
+          //--> set default options for nested list (recursively)
+          if item.listItems
+            +list({
+              title: item.listTitle,
+              items: item.listItems,
+              ordered: nestedListOrdered ? true : false,
+              date: item.date,
+              icon: MARKER
+            })
+          else
+            if item.date
+              time.date.keyline(datetime= item.date)= item.date
+            if item.title
+              h4.subhead= item.title
+
+mixin list(props)
+  if props.date
+    time.date.keyline(datetime= props.date)= props.date
+  if props.title
+    h4.subhead= props.title
+  if props.ordered
+    ol.list(
+      role="list"
+      reversed= props.reversed
+      start= props.start
+      type= props.type)
+      +items(props.items)
+  else
+    - let classes=[], attrs={}
+    if props.reveal
+      - attrs['data-reveal'] = 'list'
+
+    ul.list(role="list" class=classes class=[props.class]
+    )&attributes(attrs)
+      +items(props.items, props.icon)
+
+mixin unorderedList(heading)
+  strong= heading
+  hr
+  ul: block

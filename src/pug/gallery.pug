@@ -1,0 +1,60 @@
+extends page
+
+//- TODO: https://vercel.com/new/templates/next.js/image-gallery-starter
+
+block vars
+  - let page = data.pages.gallery
+  -
+    const photoSubdir = 'gallery',
+          totalPhotos = 106 // getSequence(106)
+  -
+    const acts = [{
+      name: 'Коппелия',
+      start: 1,
+      end: 6,
+    },{
+      name: 'Маленький принц',
+      start: 6,
+      end: 48,
+    },{
+      name: 'Евгений Онегин глазами детей',
+      start: 48,
+      end: 79,
+    },{
+      name: 'Малыш и Карлсон',
+      start: 79,
+      end: 82,
+    },{
+      name: 'Отчётный концерт',
+      start: 82,
+      end: 88,
+    },{
+      name: 'Русская зимняя сказка',
+      start: 88,
+      end: 106,
+    }]
+
+//- prepend head-start
+  if !isArrEmpty(hosts)
+    each host in hosts
+      link(rel="preconnect" href=`https://${host}` crossorigin)
+      link(rel="dns-prefetch" href=`https://${host}` crossorigin)
+
+block content
+  .grid
+    each act in acts
+      .container.spaced.--ada-md
+        .grid__content: +head({
+          level: 2,
+          text: act.name,
+          reveal: 'chars' })
+        .grid__full.grid--masonry
+          //- - for (let i = 0; i < amount; i++)
+          - let i = act.start;
+          while i < act.end
+            figure.grid__item: +picture({
+              path: photoSubdir,
+              name: i })
+            - i++;
+
+block scripts

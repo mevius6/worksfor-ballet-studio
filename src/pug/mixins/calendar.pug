@@ -1,0 +1,122 @@
+-
+  const daysOfWeek = {
+    abbr: {
+      en: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      ru: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
+    },
+    full: {
+      en: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday" ],
+      ru: [
+        "Воскресенье",
+        "Понедельник",
+        "Вторник",
+        "Среда",
+        "Четверг",
+        "Пятница",
+        "Суббота" ]
+    }
+  }
+  const week = [
+    {
+      'name': ['Понедельник', 'Monday'],
+      'abbr': ['пн', 'mon']
+    }, {
+      'name': ['Вторник', 'Tuesday'],
+      'abbr': ['вт', 'tues']
+    }, {
+      'name': ['Среда', 'Wednesday'],
+      'abbr': ['ср', 'wed']
+    }, {
+      'name': ['Четверг', 'Thursday'],
+      'abbr': ['чт', 'thurs']
+    }, {
+      'name': ['Пятница', 'Friday'],
+      'abbr': ['пт', 'fri']
+    }, {
+      'name': ['Суббота', 'Saturday'],
+      'abbr': ['сб', 'sat']
+    }
+  ]
+-
+  const getMonday = (d) => {
+    d = new Date(d);
+    let day = d.getDay(),
+        diff = d.getDate() - day + (day == 0 ? -6:1); // when day is sunday
+    return new Date(d.setDate(diff));
+  }
+
+mixin calendar(props)
+  - let className = 'calendar'
+  -
+    let attrs = {
+      //- class: className,
+      'aria-labelledby': 'schedule-heading',
+      'aria-roledescription': 'calendar',
+    }
+  -
+    let { schedule } = props
+
+  h2#schedule-heading(data-hidden)
+    | Расписание занятий
+  .calendar&attributes(attrs)
+    .timeline
+      .spacer
+      - let n = 10
+      while n < 22
+        .time-marker= n + ':00'
+        .time-marker= n + ':30'
+          - n++
+    .days
+      each day, i in week
+        .day
+          //- = day.name[0]
+          .date
+            p.date-day= day.abbr[0] + ', '
+            p.date-num= getMonday(now).getDate() + i
+          .events
+            each event in schedule
+              if event.day == i+1
+                each session in event.sessions
+                  - const { name, start, end, type } = session
+                  -
+                    let cell1 = `${start}00`
+                    let cell2 = `${end}00`
+                    let time1 = `${start}:00`
+                    let time2 = `${end}:00`
+
+                  if Array.isArray(start)
+                    -
+                      cell1 = `${start[0]}${start[1]}`
+                      time1 = `${start[0]}:${start[1]}`
+
+                  if Array.isArray(end)
+                    -
+                      cell2 = `${end[0]}${end[1]}`
+                      time2 = `${end[0]}:${end[1]}`
+
+                  - let row = `start-${cell1} end-${cell2}`
+                  - let dur = `${time1}–${time2}`
+
+                  if Array.isArray(name)
+                    .cell(class= row)
+                      each nm, i in name
+                        .event(class=`${type[i]}`)
+                            span.title
+                              = nm
+                            | #[br]
+                            time.time(datetime='')
+                              = dur
+                  else
+                    .event(class=`${row} ${type}`)
+                      span.title
+                        = name
+                      | #[br]
+                      time.time
+                        = dur

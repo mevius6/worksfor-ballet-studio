@@ -1,0 +1,28 @@
+{
+  "dir": "ltr",
+  "lang": "ru",
+  "name": "АкТер",
+  "short_name": "АкТер",
+  "description": "Студия балета",
+  "icons": [{
+    "src": "./static/android-chrome-192x192.png",
+    "sizes": "192x192",
+    "type": "image/png"
+  }, {
+    "src": "./static/android-chrome-512x512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }, {
+    "src": "./static/maskable-icon.png",
+    "sizes": "196x196",
+    "type": "image/png",
+    "purpose": "any maskable"
+  }],
+  "scope": ".",
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#161616",
+  "background_color": "#161616",
+  "prefer_related_applications": false
+}

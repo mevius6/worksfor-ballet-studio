@@ -1,0 +1,35 @@
+mixin card(props)
+  - let className = 'card'
+  - let attrs = {}
+  - let style = ` ${className}--${props.style}` ?? props.style
+  - let view = ` ${className}--${props.view}` ?? props.view
+  - attrs.class = className + style + view
+
+  article(data-date= props.date || '')&attributes(attrs)
+    .card__container
+      if props.media
+        .card__image-wrapper
+          //-
+            picture.card__image
+              source(data-srcset="" type="image/webp")
+              img(data-src="" alt="" title="" loading="lazy")
+      .card__text-wrapper
+        header.card__header
+          if props.view === 'compact'
+            | #[h4.card__headline= props.head]
+          else
+            | #[h2.card__headline= props.head]
+        p.card__body
+          if !props.sink
+            | #{props.body}
+          else
+            block
+        if props.action
+          footer.card__footer
+            time.card__date(datetime="")
+            +cta({
+              base: 'card',
+              type: 'anchor',
+              text: 'Посмотреть',
+              link: props.link
+            })

@@ -1,0 +1,137 @@
+@use '../config';
+
+// Positioning
+.wrapper {
+  position: relative;
+  max-width: var(--container-lg);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.sticky {
+  position: sticky;
+  top: var(--offset, 0);
+  z-index: 1;
+  align-self: start;
+}
+
+// Stack level
+// https://drafts.csswg.org/css2/#stacking-context
+.zi { z-index: var(--zi, 1); }
+
+.scroller { overflow: auto; }
+
+.no-scroll { overflow: hidden; }
+
+.collapse {
+  max-height: 0 !important;
+  overflow: hidden;
+}
+
+.abs-centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.full-width {
+  position: relative;
+  right: 50%;
+  left: 50%;
+  width: 100vw;
+  margin-right: -50vw;
+  margin-left: -50vw;
+}
+
+// Inline and block size utilities, helpful in combination
+// with display-table utilities and images
+.inline-fit   { max-inline-size: 100% !important; }
+.inline-full  { inline-size: 100% !important; }
+.block-fit    { max-block-size: 100% !important; }
+.block-full   { block-size: 100% !important; }
+.inline-auto  { inline-size: auto !important; }
+.block-auto   { block-size: auto !important; }
+
+.d-grid { display: grid; }
+.grid-items-center { place-items: center; }
+.content-center,
+.grid-content-center { place-content: center; }
+
+// https://github.com/primer/css/blob/main/src/utilities/flexbox.scss#L1
+[class*='--items-center'] {
+  align-items: center;
+}
+
+// https://www.joshwcomeau.com/css/full-bleed/
+.full-bleed {
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.flex-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+
+// https://css-tricks.com/equal-columns-with-flexbox-its-more-complicated-than-you-might-think/
+.flex-equal-cols > * { flex: 1; } // flex-basis: 100%;
+
+.grid-auto-cols {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 1em;
+}
+
+.grid-auto-fit {
+  display: grid;
+  // Algo for responsive layout w/o MQs
+  grid-template-columns: repeat(auto-fit, minmax(10em, 25em));
+  gap: 1em;
+}
+
+// https://drafts.csswg.org/css-multicol/
+.xcol {
+  // display: block !important;
+  max-inline-size: 100%;
+  // margin: 0 auto;
+  columns: var(--x, 2) calc(var(--col-w, 20) * 1em); // or 29ch
+  gap:
+    var(--row-gap, var(--gutter))
+    var(--col-gap, var(--gutter));
+}
+
+// https://moderncss.dev/contextual-spacing-for-intrinsic-web-design/#margin
+// https://www.w3.org/TR/CSS22/visuren.html#normal-flow
+// https://www.w3.org/TR/CSS22/box.html#outer-edge
+.flow > * + * {
+  margin-block-start: var(--flow-space, var(--spacer-2x));
+}
+
+.bg-image {
+  overflow: hidden;
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-position: var(--bg-position, center);
+  background-size: cover;
+}
+
+.truncate-overflow {
+  @include config.line-clamp(3);
+  hyphens: manual;
+}
+
+.scroll-shadows {
+  @include config.scroll-shadows();
+}

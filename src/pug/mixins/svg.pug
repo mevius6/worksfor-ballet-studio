@@ -1,0 +1,55 @@
+//- ---------------------------------- SVG --------------------------------- -//
+  - Scalable Vector Graphics (SVG) 2
+    - https://svgwg.org/svg2-draft/
+  - Namespaces in XML 1.0 (Third Edition)
+    - https://www.w3.org/TR/xml-names/#concepts
+    - https://www.w3.org/TR/xml-names/#ns-decl
+    - https://www.w3.org/TR/xml-names/#dt-NSName
+    - https://www.w3.org/TR/xml-names/#dt-qualname
+    - https://www.w3.org/TR/xml-names/#nsc-NSDeclared
+    - https://www.w3.org/XML/1998/namespace
+  - DOM Spec — Interface Element
+    - https://dom.spec.whatwg.org/#concept-element-namespace
+    - https://dom.spec.whatwg.org/#ref-for-dom-document-createelementns%E2%91%A0
+    - https://developer.mozilla.org/en-US/docs/Web/API/Document/createElementNS
+  - https://www.w3.org/TR/SVGParam/
+  - https://www.w3.org/TR/2009/WD-SVGParamPrimer-20090616/
+  - https://svgwg.org/svg2-draft/paths.html#PathData
+
+//- URL-encoded
+  const svgDecl = (content, xmlns=[], vb={}) => {
+    let result = (`
+    ${SVG_STAG}${SP}${SVG_VERSION_INFO}
+    ${SP}${bindNS('svg')}
+    ${bindNS(...xmlns) ?? (xmlns.length >= 1)}
+    ${SP}viewBox${EQ}${DQ}${vb?.minX || 0}${SP}${vb?.minY || 0}${SP}${vb?.w || 100}${SP}${vb?.h || 100}${DQ}${GT}
+    ${content}
+    ${SVG_ETAG}
+    `.replace(/,/g, SP).trim())
+    return result
+  }
+
+mixin svg(props)
+  -
+    let {
+      dataurl = false,
+      version = SVG_VERSION_NUM, // <-- AttValue
+      content,
+      ...rest
+    } = props
+  -
+    let attrList = {} // <-- AttList
+    let cssProps = {
+      // ...inline,
+      'aspect-ratio': '1 / 1'
+    }
+
+  //- picture(style= cssProps)&attributes(attList)
+  //- The 'img' element w/ data URL:
+    img(
+      src=`data:image/svg+xml;utf8,${svgText(props.data)}`
+      width="256px" height="256px"
+    )
+
+  //- Inline:
+  //- include path/to/image.svg

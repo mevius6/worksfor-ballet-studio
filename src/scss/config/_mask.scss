@@ -1,0 +1,19 @@
+@mixin mask($expr) {
+  position: relative;
+
+  @if $expr == 'border-gradient' {
+    &::before {
+      position: absolute;
+      inset: 0;
+      padding: 1px;
+      content: '';
+      background-image: var(--lin-grad-4-hues);
+      border-radius: inherit;
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      mask-composite: add, add;
+      mask-composite: exclude;
+    }
+  }
+}

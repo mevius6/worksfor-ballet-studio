@@ -1,0 +1,189 @@
+@use '../config';
+
+@layer components, states, instances;
+
+$icons: (vk, ig, tg, tel, at);
+$hashLinks: '/#';
+
+// https://css-tricks.com/css-link-hover-effects/
+// https://codepen.io/collection/JGYGwo
+// https://tympanus.net/codrops-playground/huijing/Qqpwg5Iy/editor
+
+@layer components {
+  a {
+    --link-underline-h: 1px;
+
+    position: relative;
+    overflow: hidden;
+    word-break: normal;
+    background: var(--link-background);
+
+    &:any-link { cursor: pointer; }
+  }
+}
+
+@layer states {
+  a {
+    // Start of a link-related pseudo-class sequence,
+    // defined by the LVHA-order.
+    // Spec → https://w3c.github.io/csswg-drafts/selectors/#useraction-pseudos
+
+    // https://w3c.github.io/csswg-drafts/selectors/#link
+    &:is(:link, :visited) {
+      // color: var(--link-text-color, var(--foreground));
+      transition: all 150ms ease-in-out;
+    }
+
+    // &:is(:hover, :focus) {…}
+    // —or—
+    // &:focus:hover {…}
+
+    // Hover effect for single-line links, e.g.
+    // https://w3c.github.io/csswg-drafts/selectors/#the-local-link-pseudo
+    // &:where([href^='/#'], :is(nav) [href^='/']),
+    &:where(.single-line-link) {
+      &::after,
+      &::before {
+        position: absolute;
+        inset-block-start: var(--posy, 100%);
+        inset-inline-start: 0;
+        inline-size: 100%;
+        block-size: var(--link-underline-h);
+        pointer-events: none;
+        content: '';
+        // filter: blur(0.125px);
+        background-image: var(--lin-grad-halfs-hint);
+        transition: transform 300ms, filter 150ms;
+        transform: scale3d(var(--sx, 0), 1, 1);
+        transform-origin: var(--offset-x, 100%) 50%;
+      }
+      // subtract surrounding space
+      &::before { --posy: calc(100% - 1ex); }
+      &::after {
+        --posy: 1ex;
+        --offset-x: 0;
+      }
+      &:hover::before,
+      &:hover::after {
+        --sx: 1;
+      }
+      &:hover::before {
+        --offset-x: 0; // 50%;
+      }
+      &:hover::after {
+        --offset-x: 100%;
+      }
+    }
+
+    // Hover effect for multi-line links with line breaks
+    :is(article, section, form, label) &:where(
+      :not([data-js-anim], [data-icon])
+    ) > span:where(:not([aria-hidden="true"])) {
+      background-image: var(--lin-grad-halfs-hint);
+      background-repeat: no-repeat;
+      background-position: right bottom;
+      background-size: 0 var(--link-underline-h, 0);
+      transition: background-size 350ms;
+      // underline
+      --link-underline-h: 1px;
+      padding-block-end: var(--link-underline-h);
+
+      &:where(:hover, :focus-visible) {
+        // --link-underline-h: 100%;
+        background-size: 100% var(--link-underline-h);
+        background-position-x: left;
+      }
+    }
+
+    // https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html
+    &:focus-visible {
+      outline: var(--accent-extra) dotted thin;
+      outline-offset: 2px;
+    }
+
+    &:is(:active, [aria-current='page']) {
+      // color: var(--link-text-color, var(--accent-extra));
+      &:not([class*='cta']) { filter: brightness(120%); }
+    }
+
+    // &[aria-current='page'] {…}
+
+    &[href]:is(.current, :hover, :focus-visible) {
+      // --link-background: var(--accent);
+      // --link-text-color: var(--accent);
+    }
+
+    &:not([href]) {
+      // --link-background: var(--trn);
+      cursor: not-allowed;
+    }
+  }
+}
+
+// or variants
+@layer instances {
+  a {
+    // &[href^="mailto:"]
+    // &[href^="tel:"]
+    // &[href$=".pdf"]
+
+    &:where([href*='://'])::after {
+      font-family: inherit;
+      font-size: 0.75em;
+      content: var(--arrow, ' ↗');
+    }
+
+    &:where([download])::after { --arrow: ' ↓'; }
+
+    &:where([class*='cta']) {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-around;
+      min-block-size: var(--min-touch-target-size);
+      padding: 1ch 2ex;
+      // overflow: hidden;
+      overflow: visible;
+      cursor: pointer;
+      // background-color: var(--background);
+      border-radius: 2px;
+      // box-shadow: var(--accent) 0 0 0 1px inset;
+      box-shadow: 0 8px 24px var(--shadow);
+      // text-shadow: 1px 1px #000a;
+
+      // &:is(:focus, :active) { transform: translateY(1px); }
+      &:active {
+        box-shadow: var(--turn-off-shadow);
+        transform: translateY(1px) scale3d(.95, .95, 1);
+      }
+    }
+
+    // https://developer.mozilla.org/ru/docs/Web/CSS/:has
+    // &:has(> [data-icon]) {…}
+
+    :is(.list, .social) & { --arrow: ''; }
+
+    & > [data-icon] {
+      --icon-size: 2rem;
+
+      display: block;
+      inline-size: var(--icon-size);
+      block-size: var(--icon-size);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+
+      @include config.respond('tablet') { --icon-size: 1.25rem; }
+    }
+
+    @each $i in $icons {
+      > [data-icon=#{$i}] {
+        background-image: url('../images/#{$i}.svg');
+        // background-image: var(--#{$i});
+      }
+    }
+
+    [role='list'] & {
+      justify-self: start;
+    }
+  }
+}

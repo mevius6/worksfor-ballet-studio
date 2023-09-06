@@ -1,0 +1,100 @@
+//- https://parceljs.org/languages/html/#json-ld
+script(type="application/ld+json").
+  {
+    "@context": [
+      "https://schema.org",
+      { "@language": "ru" }
+    ],
+    "@type": "LocalBusiness",
+    "name": "АкТер",
+    "description": "Балетная студия",
+    "telephone": "+7 985-245-6957",
+    "email": "mailto:info@studio.ru",
+    "openingHours": "Mo,Tu,We,Th,Fr 10:00-22:00",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "../static/android-chrome-512x512.png",
+      "width": 512,
+      "height": 512
+    }
+  }
+
+//- Refs:
+  - https://schema.org/mainEntity
+  - https://schema.org/EducationalOrganization
+  - https://schema.org/LocalBusiness
+  - https://schema.org/LearningResource
+  - https://schema.org/Course
+  - https://schema.org/Ticket
+  - https://schema.org/Schedule
+  - https://schema.org/eventAttendanceMode
+  - https://schema.org/Event
+  - https://schema.org/EducationEvent
+
+//- script(type="application/ld+json").
+  {
+    "@context": "https://schema.org/",
+    "@type": "…",
+  }
+
+//- HTML markup example
+//- append vars
+  -
+    const week = [
+      {
+        'name': ['Понедельник', 'Monday'],
+        'hours': [10, 21]
+      }, {
+        'name': ['Вторник', 'Tuesday'],
+        'hours': [10, 21]
+      }, {
+        'name': ['Среда', 'Wednesday'],
+        'hours': [10, 21]
+      }, {
+        'name': ['Четверг', 'Thursday'],
+        'hours': [10, 21]
+      }, {
+        'name': ['Пятница', 'Friday'],
+        'hours': [10, 21]
+      }, {
+        'name': ['Суббота', 'Saturday'],
+        'hours': [10, 22]
+      }, {
+        'name': ['Воскресенье', 'Sunday'],
+        'hours': [10, 22]
+      }
+    ]
+//- div(data-hidden)
+  //- link(itemprop="url" href= data.meta.domain)
+  img(
+    itemprop="image"
+    src="./images/interior.jpg"
+    alt="Интерьер …"
+    width="900" height="600"
+    loading="lazy"
+  )
+  h1(itemprop="name")= data.meta.brand
+  span(itemprop="description")= page.description
+  span(itemprop="paymentAccepted") Наличные, кредитные карты
+  span(itemprop="priceRange") ₽₽₽
+  //- span(itemprop="priceRange") 60–600 ₽
+  span(itemprop="telephone") data.meta.phone
+  span(itemprop="address") ул., 1
+  span(
+    itemprop="geo"
+    itemscope itemtype="https://schema.org/GeoCoordinates"
+  )
+    meta(itemprop="latitude" content="55.999999")
+    meta(itemprop="longitude" content="37.999999")
+  each day, i in week
+    span(
+      itemprop="openingHoursSpecification"
+      itemscope itemtype="https://schema.org/OpeningHoursSpecification"
+    )
+      link(itemprop="dayOfWeek" href=`https://schema.org/${day.name[1]}`)
+      | #{day.name[0]}:
+      time(itemprop="opens" content=`${day.hours[0]}:00:00`)
+        | #{day.hours[0]}:00 AM
+      | –
+      time(itemprop="closes" content=`${day.hours[1]}:00:00`)
+        | #{day.hours[1]}:00 PM

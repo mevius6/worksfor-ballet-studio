@@ -1,0 +1,45 @@
+// https://drafts.csswg.org/css-scroll-snap-1/
+// https://drafts.csswg.org/css-scroll-snap-2/
+// https://web.dev/state-of-css-2022/#new-apis
+// https://snap-gallery.netlify.app/
+// https://github.com/argyleink/ScrollSnapExplainers/blob/main/css-snap-target/readme.md
+
+@mixin scroll-snap($axis, $type: 'mandatory', $child, $align: 'start', $padding: 0, $stop: 'always') {
+  & {
+    position: relative;
+    inline-size: 100%;
+    block-size: 100%;
+    scroll-snap-type: #{$axis} #{$type};
+    -webkit-overflow-scrolling: touch;
+    overflow-#{$axis}: scroll; // auto
+    overscroll-behavior-#{$axis}: contain;
+
+    @if $padding != 0 {
+      scroll-padding: $padding;
+    }
+
+    @if $axis == 'x' {
+      overflow-y: hidden;
+    }
+    @else if $axis == 'y' {
+      overflow-x: hidden;
+    }
+
+    > #{$child} {
+      scroll-snap-align: #{$align};
+
+      @supports (scroll-snap-stop: normal) {
+        & {
+          scroll-snap-stop: #{$stop};
+        }
+      }
+
+      // if flex
+      // & + & { padding-inline-start: $padding; }
+      // &:last-child { padding-inline-end: $padding; }
+
+      &:first-child { scroll-snap-align: start; }
+      &:last-child { scroll-snap-align: end; }
+    }
+  }
+}

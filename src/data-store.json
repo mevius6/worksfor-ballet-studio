@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "brand": "АкТер",
+    "domain": "https://akterstudio.ru",
+    "email": "oxanat74@mail.ru",
+    "phone": "+7 (903) 585-86-68",
+    "keywords": "",
+    "name": "Балетная студия «АкТер»"
+  },
+  "pages": {
+    "index": {
+      "description": "Балетная студия",
+      "id": "index",
+      "keywords": "",
+      "path": "/",
+      "title": ["", ""]
+    },
+    "agenda": {
+      "description": "",
+      "id": "agenda",
+      "keywords": "",
+      "path": ["./agenda.pug", "/agenda"],
+      "title": ["Расписание занятий", ""]
+    },
+    "feed": {
+      "description": "",
+      "id": "blog",
+      "keywords": "",
+      "path": ["./feed.pug", "/feed"],
+      "title": ["Лента новостей", ""]
+    },
+    "gallery": {
+      "description": "",
+      "id": "gallery",
+      "keywords": "",
+      "path": ["./gallery.pug", "/gallery"],
+      "title": ["Галерея", ""]
+    },
+    "privacy": {
+      "id": "privacy",
+      "path": ["./privacy.pug", "/privacy"],
+      "title": ["Конфиденциальность", ""],
+      "description": "Политика обработки персональных данных",
+      "keywords": ""
+    },
+    "offer": {
+      "id": "offer",
+      "path": ["./offer.pug", "/offer"],
+      "title": ["Оферта", ""],
+      "description": "Договор оферты",
+      "keywords": ""
+    }
+  },
+  "tech": [
+    "HTML","CSS",
+    "Pug","SCSS",
+    "JavaScript",
+    "NodeJS",
+    "Parcel",
+    "Vercel",
+    "VSCode"
+  ]
+}
