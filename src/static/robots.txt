@@ -1,4 +1,4 @@
-Sitemap: https://prosvet.courses/sitemap.xml
+Sitemap: https://akterstudio.ru/sitemap.xml
 
 User-agent: *
 Disallow:
