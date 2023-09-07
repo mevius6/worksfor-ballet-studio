@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'config';
 
+// @layer type;
 /*
  * Refs:
  * https://design.firefox.com/photon/visuals/typography.html
@@ -145,30 +146,33 @@ small { --px-size: 12; }
     'case' var(--case, 0);
 }
 
+// scale: 16, 18, 20, 22, 24, 26, 32, 40, 48, 56, 64, 72, 96
 $type-scale: (
   'mobile': (
-    1: 56,
-    // 1: 48,
-    // 1: 40,
-    2: 40,
-    // 2: 32,
-    3: 26,
-    4: 22,
-    5: 18,
+    1: 64,
+    2: 48,
+    3: 32,
+    4: 24,
+    // 1: 56,
+    // 2: 40,
+    // 3: 26,
+    // 4: 22,
+    // 5: 18,
+    5: 20,
     6: 16
   ),
   'laptop': (
-    // 1: 96,
-    1: 72,
-    // 1: 64,
-    // 1: 48,
+    1: 96,
+    // 1: 72,
     2: 56,
+    // 1: 64,
     // 2: 48,
-    // 2: 40,
-    3: 32,
-    4: 24,
-    5: 20,
-    6: 16
+    // 3: 32,
+    // 4: 24,
+    3: 40,
+    4: 26,
+    5: 22,
+    6: 18
   )
 );
 $scale: map.get($type-scale, 'mobile');
@@ -267,17 +271,12 @@ sub { font-feature-settings: 'subs' 1; }
 [class$='title'] {
   max-inline-size: 12ch;
   inline-size: fit-content;
-  // font-weight: 700;
-  // line-height: 1.15;
-  // text-transform: uppercase;
   letter-spacing: 0.63px; // var(--letter-spacing-3);
-  filter: drop-shadow(0px 0px 0.2vmin hsl(0 0% 0% / 0.3));
+  // filter: drop-shadow(0px 0px 0.2vmin hsl(0 0% 0% / 0.3));
 }
 
 // https://adrianroselli.com/2020/08/be-wary-of-doc-subtitle.html
-[role$='subtitle'] {
-  --flow-space: var(--spacer-2x);
-}
+// [role$='subtitle'] {…}
 
 [class*='headline'] {
   --font-primary: var(--font-extra);
@@ -316,7 +315,7 @@ sub { font-feature-settings: 'subs' 1; }
   color: var(--accent-shade);
   font-size: .75em;
   font-weight: 500;
-  letter-spacing: var(--text-pos-tracking-2);
+  letter-spacing: var(--letter-spacing-3);
   font-feature-settings: 'case' 1;
 }
 
