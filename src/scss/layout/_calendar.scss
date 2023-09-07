@@ -152,8 +152,6 @@ $timeline: (
   font-weight: 500;
   margin-bottom: calc(var(--denser) * .5);
   min-inline-size: 100%;
-
-  filter: none; // override
 }
 
 .event {
@@ -292,7 +290,3 @@ $timeline: (
     display: none;
   }
 }
-
-strong { font-weight: 600; }
-
-i { font-style: italic; }

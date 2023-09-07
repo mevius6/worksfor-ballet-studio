@@ -17,8 +17,8 @@
     justify-content: space-around;
     min-block-size: var(--btn-min-size); //= --tap-size
 
-    padding-block: 0.75ch;
-    padding-inline: 1.75ch;
+    padding-block: 0.25ch;
+    padding-inline: 1.25ch;
     border-radius: 0.5ch;
     overflow: hidden;
 
@@ -39,6 +39,8 @@
     @media (hover: hover) {
       min-inline-size: var(--tap-size);
       min-block-size: var(--tap-size);
+      padding-inline: 1.75ch;
+      padding-block: 0.75ch;
     }
   }
 }
@@ -101,7 +103,7 @@
     --rad-grad-color-1: var(--accent-extra);
     --rad-grad-color-2: var(--accent-shade);
     --btn-background:
-      linear-gradient(var(--background-a95), var(--background)) padding-box,
+      linear-gradient(var(--background-a80), var(--background)) padding-box,
       radial-gradient(
         farthest-corner at var(--x, 0) var(--y, 0),
         var(--rad-grad-color-1),

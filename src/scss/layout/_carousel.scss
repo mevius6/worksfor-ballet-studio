@@ -22,6 +22,7 @@ $slide-width: 100%;
   $instance4: #{&}--4; // <-- reviews/testimonials
 
   --tap-size: 2.75rem; // var(--min-touch-target-size)
+  --dot-size: 1.25rem;
   --carousel-item-size: 80%; // 100%
   --carousel-gutters:
     max(var(--tap-size), calc((100% - var(--carousel-item-size)) / 2));
@@ -29,7 +30,7 @@ $slide-width: 100%;
   --carousel-gutters: var(--tap-size);
   --negative-gutters: calc(-1 * var(--carousel-gutters));
   --carousel-scrollbar-gutter: var(--spacer-3x);
-  --carousel-pagination-size: var(--spacer-2x);
+  --carousel-pagination-size: var(--dot-size);
 
   // container: carousel / inline-size;
   position: relative;
@@ -246,7 +247,7 @@ $slide-width: 100%;
     & > [aria-selected='true'],
     & > a:hover {
       background: var(--accent-extra);
-      filter: drop-shadow(0 3px 6px hsl(var(--accent) / .375));
+      filter: drop-shadow(0 3px 6px hsl(var(--white) / .375));
     }
 
     & > [aria-selected='false'],
@@ -255,15 +256,15 @@ $slide-width: 100%;
     }
 
     a:focus {
-      transform: scale(.8);
+      transform: scale(0.8);
       // outline: none;
     }
 
     & > button,
     & > a {
-      min-block-size: 1rem;
       min-inline-size: 1rem; // override
-      inline-size: 1rem;
+      inline-size: var(--dot-size);
+      aspect-ratio: 1;
       padding: 0;
       border-radius: 50%;
       border: 1px solid transparent;
@@ -331,14 +332,7 @@ $slide-width: 100%;
 
   // @container (max-width: 480px) { <-- not Saf 17
   @media (max-width: 480px) {
-    & { padding-inline: var(--spacer-2x); }
-
-    &__text {
-      #{$instance4} & {
-        margin-inline: calc(-1 * var(--spacer-2x));
-        blockquote { padding-inline: var(--spacer-2x); }
-      }
-    }
+    --carousel-gutters: var(--spacer-2x);
 
     &__control {
       position: absolute;
@@ -353,12 +347,6 @@ $slide-width: 100%;
   // @container (max-width: 320px) { <-- not Saf 17
   @media (max-width: 320px) {
     --carousel-gutters: 0;
-
-    &__text {
-      #{$instance4} & {
-        blockquote { margin-inline: 2ch; }
-      }
-    }
 
     &__controls { display: none; }
   }
