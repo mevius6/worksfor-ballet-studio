@@ -13,7 +13,7 @@ append head-start
       link(rel="preconnect" href=`https://${host}` crossorigin)
       link(rel="dns-prefetch" href=`https://${host}` crossorigin)
 
-append head-end
+//- append head-end
   script(src=`${HOST}?render=${KEY}&onload=initRecaptcha&render=explicit`)
   script(type="text/javascript").
     var initRecaptcha = function() {
@@ -25,23 +25,17 @@ append head-end
     }
 
 block content
-  section(role="region").grid
+  section.grid(role="region")
     .container.bg-overlay#hero(data-id="hero")
       video-player.grid__full(basename="page-hero")
       //- noscript: +video({ fileName: 'hero', dims: [1920, 1080] })
-      //- TODO: add markup https://schema.org/logo
-      .logo.grid__center(itemprop="logo"): include ../images/logo.svg
-      .grid__full: include ../images/loop.svg
 
-      article.flow(data-hidden)
-        h1.title(itemprop="name")
-          if Array.isArray(intro.head)
-            each line in intro.head
-              span= line
-          else
-            = intro.head
-        span(itemprop="description")= page.description
-        p(role="subtitle")= intro.body
+      hgroup(data-hidden)
+        h1(itemprop="name")= brand.name
+        p(itemprop="description" role="subtitle")= brand.desc
+
+      .logo.grid__center: include ../images/logo.svg
+      //- .grid__full: include ../images/loop.svg
 
     .container.spaced.--ada-lg.grid-items-center#intent
       .grid__start-half
@@ -51,12 +45,12 @@ block content
           reveal: 'chars',
         })
       article.flow.grid__end-half.--ada-lg
-        p.reveal(role="subtitle")= intro.body
-        p.reveal= lead
+        p= intent
+        p= lead
         +cta({
           type: 'anchor',
           link: '#contact',
-          text: 'Записаться'
+          text: 'Оставить заявку'
         })(data-js-anim='bg-gradient')
 
     .container.spaced.--ada-md
@@ -76,9 +70,10 @@ block content
           textWrap: 'article',
         })
 
-    .container.spaced.--ada-lg.grid-items-center.popout#about
-      .grid__center: +head({ level: 2, text: about.head, reveal: 'chars' })
-      article.flow.grid__center.--ada-lg
+    .container.spaced.--ada-lg.grid-items-center.popout
+      //- .grid__center: +head({ level: 2, text: about.head, reveal: 'chars' })
+      article.flow.grid__center#about
+        +head({ level: 2, text: about.head, reveal: 'chars' })
         p= about.body
         +cta({
           type: 'anchor',
@@ -102,7 +97,7 @@ block content
           textWrap: 'article',
         })
 
-    .container.spaced.--ada-md.popout
+    .container.spaced.--lg.popout
       .grid__third-lhs.sideways
         +head({ level: 2, text: 'Наши партнёры', reveal: 'chars' })
       .grid__third-rhs.d-grid.grid-items-center
