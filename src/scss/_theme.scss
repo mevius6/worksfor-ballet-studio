@@ -165,8 +165,12 @@
     // https://www.w3.org/TR/css-scoping-1/
     // https://web.dev/state-of-css-2022/#scoping-styles-is-really-hard
     // https://css.oddbird.net/scope/explainer/
+
     // @scope ([data-theme-style=light]) {…}
     &[data-theme-style=light] {
+      color-scheme: light;
+
+      --background-a15: hsl(var(--white) / 0.15);
       --background-a25: hsl(var(--white) / 0.25);
       --background-a50: hsl(var(--white) / 0.5);
       --background-a60: hsl(var(--white) / 0.6);
@@ -174,32 +178,42 @@
       --background-a80: hsl(var(--white) / 0.8);
       --background-a95: hsl(var(--white) / 0.95);
       --background: hsl(var(--white));
+      --foreground-a15: hsl(var(--black) / 0.15);
       --foreground-a25: hsl(var(--black) / 0.25);
+      --foreground-a50: hsl(var(--black) / 0.5);
+      --foreground-a60: hsl(var(--black) / 0.6);
       --foreground-a75: hsl(var(--black) / 0.75);
       --foreground-a80: hsl(var(--black) / 0.8);
+      --foreground-a95: hsl(var(--black) / 0.95);
       --foreground: hsl(var(--black));
       --shadow: hsl(var(--black) / 0.16);
       --selection-foreground: var(--background);
       --selection-background: var(--accent-shade);
-      color-scheme: light;
     }
+
     // @scope ([data-theme-style=dark]) {…}
     &:not([data-theme-style]),
     &[data-theme-style=dark] {
-      --background-a25: hsl(var(--black) / 0.5);
+      color-scheme: dark;
+
+      --background-a15: hsl(var(--black) / 0.15);
+      --background-a25: hsl(var(--black) / 0.25);
       --background-a50: hsl(var(--black) / 0.5);
       --background-a60: hsl(var(--black) / 0.6);
       --background-a75: hsl(var(--black) / 0.75);
       --background-a80: hsl(var(--black) / 0.8);
       --background-a95: hsl(var(--black) / 0.95);
       --background: hsl(var(--black));
+      --foreground-a15: hsl(var(--white) / 0.15);
       --foreground-a25: hsl(var(--white) / 0.25);
+      --foreground-a50: hsl(var(--white) / 0.5);
+      --foreground-a60: hsl(var(--white) / 0.6);
       --foreground-a75: hsl(var(--white) / 0.75);
       --foreground-a80: hsl(var(--white) / 0.8);
+      --foreground-a95: hsl(var(--white) / 0.95);
       --foreground: hsl(var(--white));
       --shadow: hsl(0 0% 0% / 0.25);
       --selection-background: var(--accent-shade);
-      color-scheme: dark;
     }
   }
 }
@@ -355,8 +369,9 @@ html {
 
     // Fine-tune the colour with strength/intensity
     // → https://tobiasahlin.com/blog/layered-smooth-box-shadows/
-    --shadow-hsl: var(--background); --shadow-a: 0.35;
-    --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a, .125));
+    --shadow-hsl: var(--black); --shadow-a: .35;
+    // --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a, .125));
+    --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a));
     --shadow-elevation-low:
       0.3px 0.5px 0.7px var(--shadow-color),
       0.4px 0.8px 1px -1.2px var(--shadow-color),
@@ -689,4 +704,8 @@ footer .copr {
   .headline {
     text-align: center;
   }
+}
+
+@media (max-width: 20em) {
+  article { padding-inline: var(--spacer-2x); }
 }
