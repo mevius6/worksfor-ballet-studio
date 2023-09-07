@@ -79,18 +79,21 @@ mixin review(props)
               path: 'avatars',
               name: avatar,
               hdim: 256,
-              format: 'png'
+              format: 'png',
+              transform: true
             })
         .review__author-name.subhead(
           itemprop="author"
           itemscope itemtype="https://schema.org/Person"
         )
-          //- span(itemprop="name") #{username}
-          +link({
-            base: 'review',
-            href: link,
-            text: username
-          })(itemprop="name")
+          if link
+            +link({
+              base: 'review',
+              href: link,
+              text: username
+            })(itemprop="name")
+          else
+            span(itemprop="name")= username
 
       if collapsible
         cite.review__cite(itemprop="publisher")
