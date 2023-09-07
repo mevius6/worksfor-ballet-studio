@@ -128,6 +128,7 @@ mixin carousel(props)
             'aria-label': `${i+1} / ${total}`,
             'aria-roledescription': 'item',
           }
+        //- https://html.spec.whatwg.org/#the-inert-attribute
         li.carousel__slide(style={ '--columns': num })&attributes(slideAttList)
           if media
             -
