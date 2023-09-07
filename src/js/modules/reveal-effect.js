@@ -1,5 +1,5 @@
 import { revealText } from './reveal-text';
-import { revealList } from './reveal-list';
+// import { revealList } from './reveal-list';
 // import { revealCard } from './reveal-card';
 import { selectAll } from '../utils';
 

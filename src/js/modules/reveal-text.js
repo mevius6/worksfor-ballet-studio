@@ -62,10 +62,7 @@ export const revealText = (elems, vars={}) => {
       defaults: { duration: 1, ease: 'power4.out' },
     });
     tl
-      .to(elem, {
-        '--underline-width': '100%',
-        // '--underline-alpha': 0.75,
-      })
+      .to(elem, { '--underline-width': '100%' })
       .from(chars, {
         y: (isSideways ? 0 : 100),
         x: (isSideways ? 100 : 0),
