@@ -1,6 +1,13 @@
-@use './config';
+@use '../config';
 
 // @layer leaflet, custom;
+
+:root {
+  --_bottom-tip: conic-gradient(from -30deg at bottom, #0000, #000 1deg 60deg, #0000 61deg) bottom / 100% 50% no-repeat;
+  --_top-tip: conic-gradient(from 150deg at top, #0000, #000 1deg 60deg, #0000 61deg) top / 100% 50% no-repeat;
+  --_right-tip: conic-gradient(from -120deg at right, #0000, #000 1deg 60deg, #0000 61deg) right / 50% 100% no-repeat;
+  --_left-tip: conic-gradient(from 60deg at left, #0000, #000 1deg 60deg, #0000 61deg) left / 50% 100% no-repeat;
+}
 
 @layer leaflet {
   .leaflet-container {
@@ -18,12 +25,10 @@
 
     .marker-description img { margin-bottom: 10px; }
 
-    // a { color: var(--foreground); }
-
     .leaflet-marker-pane img,
     .leaflet-overlay-pane svg,
     .leaflet-tile-pane img,
-    .leaflet-image-layer { max-width: none!important; }
+    .leaflet-image-layer { max-width: none !important; }
 
     &.leaflet-touch-zoom {
       touch-action: pan-x pan-y;
@@ -93,6 +98,7 @@
       /* autoprefixer: ignore next */
       -moz-user-select: none;
     }
+
     &-map-pane canvas { z-index: 1; }
     &-map-pane svg { z-index: 2; }
     &-tile-pane { z-index: 2; }
@@ -248,13 +254,6 @@
   }
 }
 
-:root {
-  --_bottom-tip: conic-gradient(from -30deg at bottom, #0000, #000 1deg 60deg, #0000 61deg) bottom / 100% 50% no-repeat;
-  --_top-tip: conic-gradient(from 150deg at top, #0000, #000 1deg 60deg, #0000 61deg) top / 100% 50% no-repeat;
-  --_right-tip: conic-gradient(from -120deg at right, #0000, #000 1deg 60deg, #0000 61deg) right / 50% 100% no-repeat;
-  --_left-tip: conic-gradient(from 60deg at left, #0000, #000 1deg 60deg, #0000 61deg) left / 50% 100% no-repeat;
-}
-
 .lvml {
   position: absolute;
   display: inline-block;
@@ -302,7 +301,7 @@
     position: absolute;
     inset-block-start: 0;
     inset-inline-end: 0;
-    font-size: 2ch;
+    font-size: 1rem;
     font-weight: 500;
     text-align: center;
     // text-indent: -999em;
@@ -477,8 +476,8 @@
 
   // width: calc(50% - 2ch);
   // min-width: 20ch;
-  // max-width: 70ch;
-  inline-size: clamp(20ch, 50% - 2ch, 70ch);
+  // max-width: 40ch;
+  inline-size: clamp(25ch, 50% - 2ch, 39ch);
   margin-block-end: var(--_triangle-size);
 
   .leaflet-popup-content-wrapper {
@@ -504,6 +503,13 @@
 
   .leaflet-popup-content {
     --flow-space: var(--spacer-2x);
+
+    display: flex;
+    flex-direction: column;
+
+    * + * {
+      margin-block-start: var(--flow-space);
+    }
 
     h4 {
       margin: 0;
@@ -540,6 +546,7 @@
       align-items: center;
       gap: var(--spacer)
     }
+
     li > [data-icon] {
       --icon-size: .75rem;
 
@@ -551,15 +558,10 @@
       background-size: contain;
       background-image: url('../images/metro.svg');
     }
-
-    article {
-      display: flex;
-      flex-direction: column;
-    }
   }
 }
 
-.leaflet-attribution-flag {display: none !important}
+.leaflet-attribution-flag { display: none !important }
 
 .extra-controls {
   --list-gap: 0;
@@ -577,10 +579,10 @@
     linear-gradient(
       135deg,
       hsl(var(--grad-hsl)) 0%,
-      hsl(var(--grad-hsl) / 0.4) 100%
+      hsl(var(--grad-hsl) / 0.25) 100%
     );
   border-radius: 3px;
-  backdrop-filter: blur(6px); // 23px
+  backdrop-filter: blur(6px);
 
   [data-theme-style='light'] & {
     --grad-hsl: var(--sw-malted-milk);

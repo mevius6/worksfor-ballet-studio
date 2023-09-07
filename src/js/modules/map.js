@@ -90,21 +90,16 @@ const loopItems = (arr) => {
 }
 
 const addData = (name, desc, adds, metro=[], opens, telephone, direction) => `
-  <article class="flow">
-    <div class="flow">
-      <!-- h4 class="headline">
-        <span itemprop="name">${name}</span>
-      </h4-->
-      <!--span itemprop="description">${desc}</span-->
-      <span>${adds}, Москва</span>
-    </div>
-    <!-- Как добраться -->
-    <div class="flow">
-      <strong>Ближайшие станции<br /></strong>
-      <ul>${loopItems(metro)}</ul>
-    </div>
-    <a class="direction" href="${direction}" target="_blank" rel="noopener noreferrer"><span>Проложить маршрут</span></a>
-  </article>
+  <div class="flow">
+    <!--h4 class="headline" itemprop="name">${name}</h4-->
+    <!--span itemprop="description">${desc}</span-->
+    <span>${adds}, Москва</span>
+  </div>
+  <div class="flow">
+    <strong>Ближайшие станции<br /></strong>
+    <ul>${loopItems(metro)}</ul>
+  </div>
+  <a class="direction" href="${direction}" target="_blank" rel="noopener noreferrer"><span>Проложить маршрут</span></a>
 `;
 
 // city centre studio
@@ -239,7 +234,8 @@ const markerIcon = L.divIcon({
 });
 
 const popupOptions = {
-  maxWidth: 300,
+  // maxWidth: 300,
+  maxWidth: 'unset',
   // keepInView: true,
   closeButton: true,
   className: 'microdata-popup',
