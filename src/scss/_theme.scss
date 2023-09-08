@@ -715,35 +715,34 @@ footer .copr {
   position: relative;
   border-block-end: 4px solid var(--trn); // safe-zone
 
-  &::after {
-    // z-index: -1;
-    content: '';
-    position: absolute;
-    inset-inline-start: 0;
-    inset-block-end: -4px;
-    display: inline-block;
-    inline-size: var(--underline-width, 0);
-    block-size: 1px;
-    background: var(--underline-bg);
-  }
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   inset-inline-start: 0;
+  //   inset-block-end: -4px;
+  //   display: inline-block;
+  //   inline-size: var(--underline-width, 0);
+  //   block-size: 1px;
+  //   background: var(--underline-bg);
+  // }
 
-  [data-theme-style='light'] & {
-    --underline-bg: linear-gradient(
-      45deg,
-      hsl(0deg 0% 100% / 0) 0%,
-      33.333%,
-      var(--accent) 100%
-    );
-  }
+  // [data-theme-style='light'] & {
+  //   --underline-bg: linear-gradient(
+  //     45deg,
+  //     hsl(0deg 0% 100% / 0) 0%,
+  //     33.333%,
+  //     var(--accent) 100%
+  //   );
+  // }
 
-  [data-theme-style='dark'] & {
-    --underline-bg: linear-gradient(
-      45deg,
-      hsl(0deg 0% 0% / 0) 0%,
-      33.333%,
-      var(--accent) 100%
-    );
-  }
+  // [data-theme-style='dark'] & {
+  //   --underline-bg: linear-gradient(
+  //     45deg,
+  //     hsl(0deg 0% 0% / 0) 0%,
+  //     33.333%,
+  //     var(--accent) 100%
+  //   );
+  // }
 }
 
 @media (max-width: 20em) {

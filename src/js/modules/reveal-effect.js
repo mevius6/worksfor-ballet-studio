@@ -11,9 +11,6 @@ revealText(heads, {
   speed: 0.95,
 });
 
-// const paras = selectAll('p.reveal');
-// revealText(paras);
-
 // const revealCards = revealCard(selectAll('.card'));
 
 // const lists = selectAll(':is(div,ul,li) > ul.list');
