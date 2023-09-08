@@ -87,10 +87,7 @@ mixin map(props)
                 ordered: false,
               })
         else
-          li.extra-controls__item(
-            itemprop="department"
-            itemscope itemtype=`https://schema.org/${type}`
-          )
+          li.extra-controls__item
             input(type="radio" id= v name="location" data-hidden)&attributes({
               'checked': i === 0
             })
@@ -101,7 +98,7 @@ mixin map(props)
               if isObject(open)
                 each hours, days in open
                   | График работы:
-                  time(itemprop="openingHours" datetime=`${days} ${hours}`)
+                  time(datetime=`${days} ${hours}`)
                     if i==0
                       | Пн-Сб 11:00–22:00
                     if i==1
@@ -109,4 +106,4 @@ mixin map(props)
                     if i==2
                       | Пн, Ср, Чт 17:00–19:00
               else
-                time(itemprop="openingHours" datetime=`${open}`)= open
+                time(datetime=`${open}`)= open

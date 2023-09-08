@@ -210,7 +210,24 @@ mixin carousel(props)
       //-   slides: fragments,
       //-   action: 'select',
       //- })
+      //- ARIA
+        - https://www.w3.org/TR/wai-aria-1.1/#tablist
+        - https://www.w3.org/TR/wai-aria-1.1/#tab
+        - https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
       nav.carousel__pagination(role="tablist")
         each i in Array.from(Array(total).keys())
+          -
+            let n = i+1,
+                label = `Item ${n}`,
+                title = `Item ${n}: ${label}`
           a.carousel__paging-control(
+            type="button"
+            role="tab"
+            title= label
+            aria-label= label
+            aria-setsize= slides.length
+            aria-posinset= n
+            aria-selected= (i < 1) ? 'true' : 'false'
+            tabindex= (i < 1) ? 0 : '-1'
+            aria-controls=`carousel-item-${n}`
             href=`#${hashLinkBase}-${type + increment(i)}`)

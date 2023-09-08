@@ -44,8 +44,14 @@ mixin review(props)
           if stars
             .rating
               each i in Array.from(Array(5).keys())
-                - let v = `${id}-${i+1}`
-                input(type="radio" name="rating" id= v value= v data-hidden)
+                - let v = `${star}-${i+1}`
+                //- https://dequeuniversity.com/rules/axe/4.7/label
+                input(
+                  aria-labelledby= v
+                  type="radio"
+                  name="rating"
+                  id= v value= v
+                  data-hidden)
                 //- &attributes({'checked': rating.includes(i+1)})
                 label.rating__star(for= v)
 
