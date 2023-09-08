@@ -32,13 +32,12 @@ const doc = document, { documentElement: root } = doc;
     parsedUrl.pathname === '/index.html'
   ) {
     const player = await import('./modules/cloudinary-vp');
-    // const io = await import('./modules/class-toggle');
     const reveal = await import('./modules/reveal-effect');
     const lazyimg = await import('./modules/reveal-image');
     // const carousel = await import('./modules/carousel');
     const disclosure = await import('./modules/disclosure');
     const cursor = await import('./modules/cursor');
-    const map = await import('./modules/map');
+    loadMap();
   }
   if (
     parsedUrl.pathname === '/gallery' ||
@@ -52,7 +51,7 @@ const doc = document, { documentElement: root } = doc;
   ) {
     const reveal = await import('./modules/reveal-effect');
     const cursor = await import('./modules/cursor');
-    const map = await import('./modules/map');
+    loadMap();
   }
 
   loadNav();
@@ -65,38 +64,33 @@ async function loadNav() {
   const disclosure = new DisclosureForNav(doc.querySelector('.nav-button'));
 }
 
-// async function loadCardFeed() {
-//   const { default: CardFeed } = await import('./modules/card-feed');
+async function loadMap() {
+  // eslint-disable-next-line no-undef
+  const elem = map;
+  const loadTrigger = createObserver(elem);
 
-//   // eslint-disable-next-line no-undef
-//   const firstPost = post1;
-//   const loadTrigger = createObserver(firstPost);
+  loadTrigger.then(async () => await import('./modules/map'));
+}
 
-//   loadTrigger.then(() => {
-//     // eslint-disable-next-line no-unused-vars
-//     const feed = new CardFeed(firstPost.parentNode);
-//   });
-// }
+async function createObserver(el, ops={}) {
+  let isIntersecting;
 
-// async function createObserver(el, ops={}) {
-//   let isIntersecting;
+  if (Object.entries(ops).length === 0) {
+    ops.root = el.parentNode;
+    ops.rootMargin = '0px';
+    ops.threshold = 0;
+  }
 
-//   if (Object.entries(ops).length === 0) {
-//     ops.root = el.parentNode;
-//     ops.rootMargin = '0px';
-//     ops.threshold = 0;
-//   }
+  const observer = new IntersectionObserver((entries, observer) => {
+    for (const entry of entries) {
+      // console.log(entries);
+      ({ isIntersecting } = entry);
+      if (isIntersecting) observer.unobserve(entry.target);
+    }
+  });
+  observer.observe(el, ops);
 
-//   const observer = new IntersectionObserver((entries, observer) => {
-//     for (const entry of entries) {
-//       // console.log(entries);
-//       ({ isIntersecting } = entry);
-//       if (isIntersecting) observer.unobserve(entry.target);
-//     }
-//   });
-//   observer.observe(el, ops);
-
-//   return isIntersecting;
-// }
+  return isIntersecting;
+}
 
 /* eslint-enable no-unused-vars */
