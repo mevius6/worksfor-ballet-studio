@@ -1,7 +1,8 @@
 @use 'sass:map';
 @use 'config';
 
-// @layer type;
+// @layer typography;
+
 /*
  * Refs:
  * https://design.firefox.com/photon/visuals/typography.html
@@ -34,14 +35,18 @@ body {
   --rem2px: calc(var(--px, 14) * 1rem / 16);
 
   // Tracking
-  --letter-spacing-0: 0.01em;     // ~ 0.16px
-  --letter-spacing-1: 0.025em;    // ~ 0.4px
-  --letter-spacing-2: 0.03em;     // ~ 0.48px
-  --letter-spacing-3: 0.0394em;   // ~ 0.63px
-  --letter-spacing-4: 0.078125em; // ~ 1.25px
-  --letter-spacing-5: 0.09375em;  // ~ 1.5px
-  --text-pos-tracking-1: 0.01em;
-  --text-pos-tracking-2: 0.03em;
+  --letter-spacing-0: .010em;    // ~ 0.16px
+  --letter-spacing-1: .025em;    // ~ 0.4px
+  --letter-spacing-2: .030em;    // ~ 0.48px
+  --letter-spacing-3: .0394em;   // ~ 0.63px
+  --letter-spacing-4: .050em;
+  --letter-spacing-5: .075em;
+  --letter-spacing-6: .078125em; // ~ 1.25px
+  --letter-spacing-7: .09375em;  // ~ 1.5px
+  --letter-spacing-7: .150em;
+
+  --text-pos-tracking-1: 0.010em;
+  --text-pos-tracking-2: 0.020em;
   --text-neg-tracking-1: -0.01em;
   --text-neg-tracking-2: -0.03em;
 
@@ -307,7 +312,7 @@ sub { font-feature-settings: 'subs' 1; }
   font-size: 0.75rem;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: var(--letter-spacing-4);
+  letter-spacing: var(--letter-spacing-5);
   opacity: 0.75;
 }
 
@@ -315,7 +320,7 @@ sub { font-feature-settings: 'subs' 1; }
   color: var(--accent-shade);
   font-size: .75em;
   font-weight: 500;
-  letter-spacing: var(--letter-spacing-3);
+  letter-spacing: var(--letter-spacing-5);
   font-feature-settings: 'case' 1;
 }
 

@@ -245,19 +245,17 @@ $slide-width: 100%;
     &::-webkit-scrollbar { display: none; }
 
     & > [aria-selected='true'],
-    & > a:hover {
+    & > a:is(:hover, :focus-visible) {
       background: var(--accent-extra);
-      filter: drop-shadow(0 3px 6px hsl(var(--white) / .375));
     }
 
     & > [aria-selected='false'],
-    & > a:where(:not(:hover,:focus)) {
+    & > a:where(:not(:hover, :focus)) {
       transform: scale(.75);
     }
 
-    a:focus {
+    & > a:focus {
       transform: scale(0.8);
-      // outline: none;
     }
 
     & > button,
