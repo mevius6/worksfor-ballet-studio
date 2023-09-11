@@ -29,9 +29,8 @@
     // ----------------------------------
     // https://drafts.csswg.org/css2/#system-colors
     // https://drafts.csswg.org/css-color-3/#css-system
-    //
+
     // HSL helpers
-    //
     --trn: hsl(0 0% 0% / 0);
     --hue: 0;
     --sat: 0%;
@@ -223,7 +222,7 @@
       color-scheme: dark;
 
       --bg-hsl: var(--black);
-      --fg-hsl: var(--white)
+      --fg-hsl: var(--white);
       --shadow: hsl(var(--bg-hsl) / 0.25);
       --selection-background: var(--accent-shade);
     }
