@@ -40,8 +40,8 @@ const API_HOST = 'https://res.cloudinary.com';
 const CLOUD_NAME = 'worksfor';
 const ASSET_TYPE = 'video';
 const VERSION = 'v1692292158';
-const FOLDER_NAME = 'msk-ballet-studio/';
-const PUBLIC_ID = 'page-hero';
+const FOLDER_NAME = 'ballet-studio/';
+const PUBLIC_ID = 'footage-10s-prod';
 const FULL_PATH = FOLDER_NAME + PUBLIC_ID;
 
 // https://github.com/vercel/next.js/blob/canary/examples/with-cloudinary/utils/cloudinary.ts
@@ -56,14 +56,17 @@ const FULL_PATH = FOLDER_NAME + PUBLIC_ID;
  * - [Node.js video transformations](https://cloudinary.com/documentation/node_video_manipulation)
  */
 let sdkOverview;
+// const cloudinary = require('cloudinary');
 // const cl = new cloudinary.Cloudinary({
 //   cloud_name: CLOUD_NAME, secure: true
 // });
 // cloudinary.config({
 //   cloud_name: CLOUD_NAME,
 //   api_key: CLOUDINARY_API_KEY,
-//   api_secret: CLOUDINARY_API_SECRET
+//   api_secret: CLOUDINARY_API_SECRET,
+//   secure: true,
 // });
+
 
 /**
  * **Further Reading**
@@ -146,31 +149,27 @@ const createUrl = (
 // });
 
 // Use the video with public ID…
-// const myVideo = cld.video(PUBLIC_ID);
+// const vd = cld.video(PUBLIC_ID);
 
 // Apply the transformation.
-// myVideo
-// .resize(scale().width(0.2));
+// vd.resize(scale().width(0.2));
 
 // Get the URL of the video.
-// const myURL = myVideo.toURL();
+// const url = vd.toURL();
 
 const VIDEO_SRC_ORIGINAL = `${API_HOST}/${CLOUD_NAME}/video/upload/${VERSION}/${FULL_PATH}.mp4`;
-
-// q_auto,vc_vp9 — WEBM/VP9
-const VIDEO_SRC_WEBM = `${API_HOST}/demo/video/upload/q_auto,vc_vp9/${FULL_PATH}.webm`;
 
 // https://cloudinary.com/documentation/transformation_reference
 // https://cloudinary.com/documentation/media_optimizer_transformations
 // https://cloudinary.com/documentation/video_optimization
 // f_webm/q_auto:best <-- t_optim
-const VIDEO_SRC_WEBM_TRANSORM = `${API_HOST}/${CLOUD_NAME}/video/upload/t_optim/${VERSION}/${FULL_PATH}.webm`;
+const VIDEO_SRC_WEBM_TRANSFORM = `${API_HOST}/${CLOUD_NAME}/video/upload/s--ke_TprHx--/t_optim/${VERSION}/${FULL_PATH}.webm`;
 
 const VIDEO_STAG = '<video autoplay muted loop playsinline crossorigin>';
 const VIDEO_ETAG = '</video>';
 const VIDEO_TEMPLATE =`
 ${VIDEO_STAG}
-  <source src="${VIDEO_SRC_WEBM_TRANSORM}" type="video/webm">
+  <source src="${VIDEO_SRC_WEBM_TRANSFORM}" type="video/webm">
   <source src="${VIDEO_SRC_ORIGINAL}" type="video/mp4">
 ${VIDEO_ETAG}
 `;
@@ -182,8 +181,8 @@ template.innerHTML = `
     all: initial;
     position: relative;
     display: inline-block;
-    inline-size: var(--${NAME}-width, 300px);
-    block-size: var(--${NAME}-height, 150px);
+    inline-size: var(--${NAME}-width, 1080px);
+    block-size: var(--${NAME}-height, 1920px);
     box-sizing: border-box;
   }
   video {
