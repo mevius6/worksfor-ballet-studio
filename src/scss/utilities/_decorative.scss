@@ -125,7 +125,7 @@
     }
 
     [data-theme-style='light'] & {
-      --overlay: var(--foreground-a75);
+      --overlay: hsl(var(--black) / .75);
       mix-blend-mode: hard-light;
     }
 

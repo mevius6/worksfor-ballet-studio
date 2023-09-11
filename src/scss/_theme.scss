@@ -29,8 +29,9 @@
     // ----------------------------------
     // https://drafts.csswg.org/css2/#system-colors
     // https://drafts.csswg.org/css-color-3/#css-system
-
+    //
     // HSL helpers
+    //
     --trn: hsl(0 0% 0% / 0);
     --hue: 0;
     --sat: 0%;
@@ -41,7 +42,6 @@
 
     // https://web.dev/color-spaces-and-functions/
     // https://developer.chrome.com/articles/high-definition-css-color-guide/
-    // https://codepen.io/argyleink/pen/MWymQGj?editors=1100
     // --srgb: color(srgb 1 1 1);
     // --srgb-linear: color(srgb-linear 100% 100% 100% / 50%);
     // --display-p3: color(display-p3 1 1 1);
@@ -49,15 +49,25 @@
     // --a98-rgb: color(a98-rgb 1 1 1 / 25%);
     // --prophoto: color(prophoto-rgb 0% 0% 0%);
     // --xyz: color(xyz 1 1 1);
+    // @supports (background: var(--display-p3)) {…}
 
-    // TODO: Lead colours | Contrasting highlight | Neutral
+    // ----------------------------------
     // SW Color Palette
+    // ----------------------------------
     --black: 240deg 1% 19%;
     --white: 40deg 25% 88%;
     --gray: 270deg 3% 31%;
+    --gray: hsl(60deg 6% 57%);
+    //
+    // Lead colours
+    //
     --gold: 33deg 45% 63%;
     --coral: 13deg 70% 82%;
+    //
     // Red family swatches
+    //
+    // SW Red EDE WildPoppy
+    --sw-ede-wild-poppy: 3deg 41% 53%;
     // SW 9081 Redend Point
     // https://www.sherwin-williams.com/en-us/color-of-the-year-2023
     --sw-redend-point: 20deg 23% 59%;
@@ -66,15 +76,23 @@
     // Purple family swatches
     // SW 7580 Carnelian
     --sw-carnelian: 0deg 17% 29%; // #573E3E
+    //
     // White family swatches
+    //
     // SW 7105 Paperwhite
     --sw-paperwhite: 41deg 61% 92%; // #F7EFDE
+    //
     // Yellow family swatches
+    //
     // SW 7676 Paper Lantern
-    // https://www.sherwin-williams.com/en-us/color/color-family/yellow-paint-colors/SW7676-paper-lantern
     --sw-paper-lantern: 37deg 64% 86%; // #F2E0C4
-
+    //
+    // Neutral
+    //
     --neutral: hsl(var(--sw-redend-point));
+    //
+    // Contrasting highlight
+    //
     --accent: hsl(var(--gold));
     --accent-a25: hsl(var(--gold) / 0.25);
     --accent-a50: hsl(var(--gold) / 0.5);
@@ -82,11 +100,15 @@
     --accent-shade: hsl(var(--sw-redend-point));
     --accent-major: hsl(var(--gold)); // primary
     --accent-extra: hsl(var(--hsl)); // secondary • active
-
+    //
+    // Alert sys
+    //
     // --alert-ok: hsl(180deg 23% 20%);
     --alert-ok: var(--accent-extra);
-    --alert-no: hsl(3deg 41% 53%); // SW Red EDE WildPoppy
-
+    --alert-no: hsl(var(--sw-ede-wild-poppy));
+    //
+    // Theming (@layer theme.colours.author)
+    //
     --avatar-bg-dark: var(--accent-shade);
     --avatar-bg-light: var(--accent-shade);
 
@@ -166,53 +188,43 @@
     // https://web.dev/state-of-css-2022/#scoping-styles-is-really-hard
     // https://css.oddbird.net/scope/explainer/
 
+    &:where([data-theme-style]) {
+      --background-a15: hsl(var(--bg-hsl) / 0.15);
+      --background-a25: hsl(var(--bg-hsl) / 0.25);
+      --background-a50: hsl(var(--bg-hsl) / 0.5);
+      --background-a60: hsl(var(--bg-hsl) / 0.6);
+      --background-a75: hsl(var(--bg-hsl) / 0.75);
+      --background-a80: hsl(var(--bg-hsl) / 0.8);
+      --background-a95: hsl(var(--bg-hsl) / 0.95);
+      --background: hsl(var(--bg-hsl));
+      --foreground-a15: hsl(var(--fg-hsl) / 0.15);
+      --foreground-a25: hsl(var(--fg-hsl) / 0.25);
+      --foreground-a50: hsl(var(--fg-hsl) / 0.5);
+      --foreground-a60: hsl(var(--fg-hsl) / 0.6);
+      --foreground-a75: hsl(var(--fg-hsl) / 0.75);
+      --foreground-a80: hsl(var(--fg-hsl) / 0.8);
+      --foreground-a95: hsl(var(--fg-hsl) / 0.95);
+      --foreground: hsl(var(--fg-hsl));
+    }
+
     // @scope ([data-theme-style=light]) {…}
-    &[data-theme-style=light] {
+    &:where([data-theme-style=light]) {
       color-scheme: light;
 
-      --background-a15: hsl(var(--white) / 0.15);
-      --background-a25: hsl(var(--white) / 0.25);
-      --background-a50: hsl(var(--white) / 0.5);
-      --background-a60: hsl(var(--white) / 0.6);
-      --background-a75: hsl(var(--white) / 0.75);
-      --background-a80: hsl(var(--white) / 0.8);
-      --background-a95: hsl(var(--white) / 0.95);
-      --background: hsl(var(--white));
-      --foreground-a15: hsl(var(--black) / 0.15);
-      --foreground-a25: hsl(var(--black) / 0.25);
-      --foreground-a50: hsl(var(--black) / 0.5);
-      --foreground-a60: hsl(var(--black) / 0.6);
-      --foreground-a75: hsl(var(--black) / 0.75);
-      --foreground-a80: hsl(var(--black) / 0.8);
-      --foreground-a95: hsl(var(--black) / 0.95);
-      --foreground: hsl(var(--black));
-      --shadow: hsl(var(--black) / 0.16);
-      --selection-foreground: var(--background);
+      --bg-hsl: var(--white);
+      --fg-hsl: var(--sw-carnelian);
+      --shadow: hsl(var(--fg-hsl) / 0.16);
+      --selection-foreground: var(--bg-hsl);
       --selection-background: var(--accent-shade);
     }
 
     // @scope ([data-theme-style=dark]) {…}
-    &:not([data-theme-style]),
-    &[data-theme-style=dark] {
+    &:where(:not([data-theme-style]), [data-theme-style=dark]) {
       color-scheme: dark;
 
-      --background-a15: hsl(var(--black) / 0.15);
-      --background-a25: hsl(var(--black) / 0.25);
-      --background-a50: hsl(var(--black) / 0.5);
-      --background-a60: hsl(var(--black) / 0.6);
-      --background-a75: hsl(var(--black) / 0.75);
-      --background-a80: hsl(var(--black) / 0.8);
-      --background-a95: hsl(var(--black) / 0.95);
-      --background: hsl(var(--black));
-      --foreground-a15: hsl(var(--white) / 0.15);
-      --foreground-a25: hsl(var(--white) / 0.25);
-      --foreground-a50: hsl(var(--white) / 0.5);
-      --foreground-a60: hsl(var(--white) / 0.6);
-      --foreground-a75: hsl(var(--white) / 0.75);
-      --foreground-a80: hsl(var(--white) / 0.8);
-      --foreground-a95: hsl(var(--white) / 0.95);
-      --foreground: hsl(var(--white));
-      --shadow: hsl(0 0% 0% / 0.25);
+      --bg-hsl: var(--black);
+      --fg-hsl: var(--white)
+      --shadow: hsl(var(--bg-hsl) / 0.25);
       --selection-background: var(--accent-shade);
     }
   }
