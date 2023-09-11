@@ -10,11 +10,8 @@
   grid-template-columns: auto 1fr;
   gap: var(--spacer);
   margin-inline: var(--spacer-2x);
-  color-scheme: dark light;
 
   [data-theme-style=dark] & {
-    color-scheme: dark;
-
     --cal-bg-color: hsl(21deg 21% 72%);
     --evt-border-color: var(--foreground-a15);
 
@@ -31,8 +28,6 @@
   }
 
   [data-theme-style=light] & {
-    color-scheme: light;
-
     --cal-bg-color: var(--accent-extra);
     --evt-border-color: var(--background-a15);
 
