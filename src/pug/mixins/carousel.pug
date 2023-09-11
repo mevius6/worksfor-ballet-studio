@@ -206,10 +206,11 @@ mixin carousel(props)
       //- +slideControl(fragments)
 
     if pagination
-      //- +slideControl({
-      //-   slides: fragments,
-      //-   action: 'select',
-      //- })
+      //-
+        +slideControl({
+          slides: fragments,
+          action: 'select',
+        })
       //- ARIA
         - https://www.w3.org/TR/wai-aria-1.1/#tablist
         - https://www.w3.org/TR/wai-aria-1.1/#tab
@@ -220,14 +221,18 @@ mixin carousel(props)
             let n = i+1,
                 label = `Item ${n}`,
                 title = `Item ${n}: ${label}`
+          -
+            let attrs = {
+              'type': 'button',
+              'role': 'tab',
+              'title': label,
+              'aria-label': label,
+              'aria-setsize': fragments.length,
+              'aria-posinset': n,
+              //- 'aria-selected': (i < 1) ? 'true' : 'false',
+              'tabindex': (i < 1) ? 0 : '-1',
+              'aria-controls': `carousel-item-${n}`,
+            }
           a.carousel__paging-control(
-            type="button"
-            role="tab"
-            title= label
-            aria-label= label
-            aria-setsize= fragments.length
-            aria-posinset= n
-            aria-selected= (i < 1) ? 'true' : 'false'
-            tabindex= (i < 1) ? 0 : '-1'
-            aria-controls=`carousel-item-${n}`
-            href=`#${hashLinkBase}-${type + increment(i)}`)
+            href=`#${hashLinkBase}-${type + increment(i)}`
+          )&attributes(attrs)

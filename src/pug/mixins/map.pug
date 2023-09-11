@@ -6,8 +6,6 @@ mixin map(props)
     let attrs = {}
 
   #map(class= classes || '')
-  if props.headings
-    h4= name
   if props.controls
     ol.extra-controls
       each dept, i in depts

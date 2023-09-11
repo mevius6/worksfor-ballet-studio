@@ -422,8 +422,10 @@
 
 /* stylelint-disable-next-line selector-max-specificity */
 #map {
-  inline-size: calc(100% - var(--spacer-2x) * 2);
+  inline-size: calc(100% - var(--spacer-4x) * 2);
   block-size: 100%;
+  max-block-size: 100svh;
+  aspect-ratio: 1;
   margin: 0 auto;
   font: inherit;
 
@@ -655,6 +657,6 @@
     column-gap: var(--icon-size);
   }
 
-  // @include config.respond('tablet') { display: flex; }
-  @media (any-hover: hover) { display: flex; }
+  @include config.respond('tablet') { display: flex; }
+  // @media (any-hover: hover) { display: flex; }
 }
