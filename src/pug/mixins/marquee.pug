@@ -34,11 +34,11 @@ mixin loopedPics(n)
         hdim: 256,
         format: 'png',
         transform: true,
-        title: el.name
+        desc: el.name
       })
 
 mixin marquee(props)
-  article.wrapper
+  .wrapper
     .marquee
       .marquee__group: +loopedPics(4)
       .marquee__group(aria-hidden="true"): +loopedPics(4)

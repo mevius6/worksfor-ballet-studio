@@ -110,7 +110,7 @@ mixin picture(props)
         height: (h || w),
         style: 'tiles'
       }) : path
-      alt= desc
+      alt= desc || ''
       width= w height= (h || w)
       crossOrigin= cors
       referrerPolicy= policy
