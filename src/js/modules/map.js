@@ -91,15 +91,15 @@ const loopItems = (arr) => {
 
 const addData = (name, desc, adds, metro=[], opens, telephone, direction) => `
   <div class="flow">
-    <!--h4 class="headline" itemprop="name">${name}</h4-->
-    <!--span itemprop="description">${desc}</span-->
+    <h4 class="headline" itemprop="name" data-hidden>${name}</h4>
+    <span itemprop="description" data-hidden>${desc}</span>
     <span>${adds}, Москва</span>
   </div>
   <div class="flow">
     <strong>Ближайшие станции<br /></strong>
     <ul>${loopItems(metro)}</ul>
   </div>
-  <a class="direction" href="${direction}" target="_blank" rel="noopener noreferrer"><span>Проложить маршрут</span></a>
+  <a itemprop="hasMap" class="direction" href="${direction}" target="_blank" rel="noopener noreferrer"><span>Проложить маршрут</span></a>
 `;
 
 // city centre studio
