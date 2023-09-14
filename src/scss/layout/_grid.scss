@@ -18,6 +18,7 @@
   column-gap: var(--gutter);
   overflow-x: hidden;
   contain: layout;
+  content-visibility: auto;
 
   @for $i from 1 through 10 {
     .container:nth-child(#{$i}) {
@@ -140,6 +141,7 @@ $s: 1rem; // 0.5em;
   justify-content: center;
   gap: $s;
   // padding: $s;
+  content-visibility: auto;
 
   > * { align-self: start; }
 

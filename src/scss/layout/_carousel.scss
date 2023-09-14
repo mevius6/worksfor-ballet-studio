@@ -106,7 +106,7 @@ $slide-width: 100%;
     margin-block: auto;
     grid-row-gap: var(--gutter);
     column-gap: var(--gutter);
-    // content-visibility: auto;
+    content-visibility: auto;
     margin-block-start: 0; // <-- top-alignment
 
     user-select: none;
