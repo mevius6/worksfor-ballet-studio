@@ -39,6 +39,7 @@
     color var(--duration) var(--easing);
     // filter 300ms var(--ease-in-out-cubic);
   row-gap: var(--spacer-2x);
+  padding-inline: var(--spacer-2x);
 
   --drop-shadow: drop-shadow(0 3px 6px var(--foreground-a25));
   // filter: var(--drop-shadow);

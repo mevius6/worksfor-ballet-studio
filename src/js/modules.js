@@ -67,7 +67,6 @@ async function loadNav() {
 async function loadMap() {
   // eslint-disable-next-line no-undef
   const elem = map;
-  // const elem = doc.getElementById('map');
   const loadTrigger = createObserver(elem);
 
   loadTrigger.then(async () => await import('./modules/map'));

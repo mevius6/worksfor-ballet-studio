@@ -1,14 +1,14 @@
 //- https://parceljs.org/languages/html/#json-ld
-script(type="application/ld+json").
+//- script(type="application/ld+json").
   {
     "@context": [
       "https://schema.org",
       { "@language": "ru" }
     ],
     "@type": "LocalBusiness",
-    "name": "АкТер",
-    "description": "Балетная студия",
-    "telephone": "+7 985-245-6957",
+    "name": "Наименование",
+    "description": "Описание",
+    "telephone": "+7 999-999-9999",
     "email": "mailto:info@studio.ru",
     "openingHours": "Mo,Tu,We,Th,Fr 10:00-22:00",
     "logo": {
@@ -16,6 +16,40 @@ script(type="application/ld+json").
       "url": "../static/android-chrome-512x512.png",
       "width": 512,
       "height": 512
+    }
+  }
+
+//- https://hallanalysis.com/json-ld-generator/
+script(type="application/ld+json").
+  {
+    "@context": [
+      "http://www.schema.org",
+      { "@language": "ru" }
+    ],
+    "@type": "EducationalOrganization",
+    "name": "АкТер",
+    "url": "https://akterstudio.ru",
+    "logo": "/src/images/logo.svg",
+    "description": "Балетная студия",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Название, стр. 1",
+      "addressLocality": "Москва",
+      "addressRegion": "Московская область",
+      "postalCode": "000000",
+      "addressCountry": "Россия"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "37",
+      "longitude": "56"
+    },
+    "hasMap": "карта",
+    "openingHours": "Mo, Tu, We 10:00-18:00 Th, Fr 08:00-09:00 Sa 09:00-10:00 Su -",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+7 985-245-6957",
+      "contactType": "general"
     }
   }
 
@@ -30,12 +64,6 @@ script(type="application/ld+json").
   - https://schema.org/eventAttendanceMode
   - https://schema.org/Event
   - https://schema.org/EducationEvent
-
-//- script(type="application/ld+json").
-  {
-    "@context": "https://schema.org/",
-    "@type": "…",
-  }
 
 //- HTML markup example
 //- append vars
@@ -76,9 +104,10 @@ script(type="application/ld+json").
   h1(itemprop="name")= data.meta.brand
   span(itemprop="description")= page.description
   span(itemprop="paymentAccepted") Наличные, кредитные карты
-  span(itemprop="priceRange") ₽₽₽
-  //- span(itemprop="priceRange") 60–600 ₽
-  span(itemprop="telephone") data.meta.phone
+  span(itemprop="priceRange")
+    | ₽₽₽
+    //- 99–999 ₽
+  span(itemprop="telephone")= data.meta.phone
   span(itemprop="address") ул., 1
   span(
     itemprop="geo"

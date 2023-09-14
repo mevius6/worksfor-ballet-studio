@@ -472,6 +472,7 @@ html {
     // what → https://w3c.github.io/wcag/understanding/target-size.html
     // spec → https://w3c.github.io/wcag/21/guidelines/#target-size
     // refs → https://w3c.github.io/wcag/understanding/target-size.html#resources
+    --rem-tap-size: 2.75rem;
     --btn-min-size: var(--min-touch-target-size);
     --btn-min-hdim: 90px;
     --nav-max-vdim: 60px; // 8px + 44px + 8px

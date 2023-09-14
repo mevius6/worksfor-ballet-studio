@@ -18,16 +18,17 @@ $slide-width: 100%;
   $init: &;
   $instance1: #{&}--1; // <-- 1st reel
   $instance2: #{&}--2; // <-- 2nd reel
-  $instance3: #{&}--3; // <-- educators
+  $instance3: #{&}--3; // <-- employees
   $instance4: #{&}--4; // <-- reviews/testimonials
 
-  --tap-size: 2.75rem; // var(--min-touch-target-size)
+  --tap-size: 2.75rem;
   --dot-size: 1.25rem;
   --carousel-item-size: 80%; // 100%
   --carousel-gutters:
     max(var(--tap-size), calc((100% - var(--carousel-item-size)) / 2));
     //= max(2.75rem, 10%)
   --carousel-gutters: var(--tap-size);
+  // sign(var(--carousel-gutters))
   --negative-gutters: calc(-1 * var(--carousel-gutters));
   --carousel-scrollbar-gutter: var(--spacer-3x);
   --carousel-pagination-size: var(--dot-size);
@@ -54,6 +55,12 @@ $slide-width: 100%;
     & > .carousel__pagination { display: none; }
   }
 
+  &[data-controls='none'] {
+    grid-template-columns: 0 1fr 0;
+
+    & > .carousel__controls { display: none; }
+  }
+
   // Scroller
   // https://blog.mayank.co/better-scrolling-through-modern-css
   &__container {
@@ -74,11 +81,14 @@ $slide-width: 100%;
     // Scroll-Snap <-- &:where([class*='--snap']) {…}
     overflow-x: auto;
     overflow-y: hidden;
+    // overflow: auto;
+    // scroll-snap-type: inline mandatory;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scroll-padding-inline: var(--carousel-gutters);
-    // scroll-snap-points-x: repeat(100%);
+    scroll-snap-points-x: repeat(100%);
+    scroll-snap-stop: always;
 
     // will-change: transform;
     // animation: autoRotation 10s infinite;
@@ -90,7 +100,6 @@ $slide-width: 100%;
   & [class*='slide'],
   &__slide {
     position: relative;
-    // align-self: center;
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
@@ -109,10 +118,7 @@ $slide-width: 100%;
     margin-inline: auto;
     position: relative;
 
-    // #{$instance1} li:nth-of-type(even) > & {
-    //   --clip: var(--clip-2);
-    // }
-
+    // li:nth-of-type(even) > & { --clip: var(--clip-2); }
     // picture { clip-path: inherit; }
 
     img {
@@ -128,12 +134,22 @@ $slide-width: 100%;
     margin-inline: auto;
     color: var(--foreground);
     background-color: var(--trn);
-    // padding-inline: var(--spacer);
   }
 
-  // TODO: scrollbar as progress bar
+  // Scrollbar as progress bar
   // https://ishadeed.com/article/custom-scrollbars-css/
   // https://developer.mozilla.org/en-US/blog/scroll-progress-animations-in-css/
+  &:where([data-progress=scrollbar]) {
+    scrollbar-gutter: stable;
+    scrollbar-color: #6969dd #e0e0e0;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar-thumb {
+      background-image: linear-gradient(180deg, #d0368a 0%, #708ad4 99%);
+      box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
+      border-radius: 100px;
+    }
+  }
 
   // Next/Previous Slide Control
   // view -> https://codepen.io/aaroniker/pen/BbPpOj

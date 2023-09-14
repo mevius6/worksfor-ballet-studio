@@ -91,9 +91,15 @@ mixin carousel(props)
         classes = [],
         styles = {}
 
+  if scrollbar
+    - attrs['data-progress'] = 'scrollbar'
+
   if !pagination
     - attrs['data-pagination'] = 'none'
-    - counter = true
+    //- - counter = true
+
+  if !control
+    - attrs['data-controls'] = 'none'
 
   .carousel(
     class= classes class=[`carousel--${instance}`, ...props.class]
@@ -215,7 +221,7 @@ mixin carousel(props)
         - https://www.w3.org/TR/wai-aria-1.1/#tablist
         - https://www.w3.org/TR/wai-aria-1.1/#tab
         - https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
-      nav.carousel__pagination(role="tablist")
+      nav.carousel__pagination(aria-label)
         each i in Array.from(Array(total).keys())
           -
             let n = i+1,
