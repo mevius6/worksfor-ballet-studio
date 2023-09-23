@@ -1,5 +1,12 @@
 @use '../config';
 
+// https://drafts.csswg.org/css-cascade/#all-shorthand
+// initial | inherit | unset | revert
+.all {
+  &-initial { all: initial; }
+  &-unset   { all: unset; }
+}
+
 // Positioning
 .wrapper {
   position: relative;
@@ -23,6 +30,14 @@
 // Stack level
 // https://drafts.csswg.org/css2/#stacking-context
 .zi { z-index: var(--zi, 1); }
+
+// https://web.dev/content-visibility/
+.content-vis {
+  content-visibility: auto;
+  // when E is subject to size containment
+  // https://wicg.github.io/display-locking/sample-code/contain-intrinsic-size-examples.html
+  contain-intrinsic-size: auto var(--size-containment, 1000px);
+}
 
 .scroller { overflow: auto; }
 

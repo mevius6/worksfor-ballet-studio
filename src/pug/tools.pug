@@ -70,6 +70,21 @@
 -
   const trim = (str) => str.trim()
 -
+  const capitalizeWithoutSpaces = (str) =>
+    str
+      .split('')
+      .filter((char) => trim(char))
+      .map((char) => char.toUpperCase())
+      .join('');
+-
+  const generateRandomUUID = (a) =>
+    a
+      ? (a ^ ((Math.random() * 16) >> (a / 4))).toString(16)
+      : ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(
+          /[018]/g,
+          generateRandomUUID
+        );
+-
   const firstLetter = (str) => str.split('')[0] // str.charAt(0)
 -
   const isRelative = (path) => !/^([a-z]+:)?[\\/]/i.test(path)

@@ -56,6 +56,8 @@ $slide-width: 100%;
   }
 
   &[data-controls='none'] {
+    --carousel-gutters: var(--gutter);
+
     grid-template-columns: 0 1fr 0;
 
     & > .carousel__controls { display: none; }
@@ -79,15 +81,15 @@ $slide-width: 100%;
     padding-inline: var(--carousel-gutters);
 
     // Scroll-Snap <-- &:where([class*='--snap']) {…}
-    overflow-x: auto;
-    overflow-y: hidden;
-    // overflow: auto;
+    // overflow-x: auto;
+    // overflow-y: hidden;
+    overflow: auto hidden;
     // scroll-snap-type: inline mandatory;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scroll-padding-inline: var(--carousel-gutters);
-    scroll-snap-points-x: repeat(100%);
+    // scroll-snap-points-x: repeat(100%);
     scroll-snap-stop: always;
 
     // will-change: transform;
@@ -106,8 +108,10 @@ $slide-width: 100%;
     margin-block: auto;
     grid-row-gap: var(--gutter);
     column-gap: var(--gutter);
-    content-visibility: auto;
     margin-block-start: 0; // <-- top-alignment
+
+    content-visibility: auto;
+    min-block-size: 200px;
 
     user-select: none;
     touch-action: manipulation;
@@ -211,7 +215,7 @@ $slide-width: 100%;
 
       &:is(:hover) { --color: var(--on-hover-color); }
 
-      &:is(:focus, :active) { --shadow-size: .25rem; }
+      &:where(:not([disabled])):is(:focus, :active) { --shadow-size: .25rem; }
 
       & > svg { inline-size: 100%; }
       & > svg circle { color: var(--accent-shade); } // <-- stroke 2px

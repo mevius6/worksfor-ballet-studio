@@ -1,140 +1,134 @@
 @use '../config';
 
+@layer components, states, instances;
+
+$list-selector: '.list';
+
 // TODO: Generate sequences of emoji bullets w/ Pug and set via data-attributes
 
-/* REFS
-├─ https://css-tricks.com/everything-you-need-to-know-about-the-gap-after-the-list-marker/
-├─ https://moderncss.dev/totally-custom-list-styles/
-├─ https://www.kirupa.com/html5/emoji.htm
-├─ https://github.com/twitter/twemoji
-├─ https://web.dev/creative-list-styling
-└─ https://codepen.io/collection/zxNagj/
-    ├─ https://codepen.io/collection/zxNagj/
-    ├─ https://codepen.io/ostaladaFab/pen/VwyBYgz
-    ├─ https://codepen.io/cobra_winfrey/pen/zYKGePx?editors=0100
-    └─ https://codepen.io/geoffgraham/pen/gOPYxbg */
-
 // Common styles for (un)ordered list
-.list,
-ol,
-ul {
-  display: grid;
-  gap: var(--list-gap, var(--spacer-2x));
+@layer components {
+  :where(.list, ol, ul) {
+    display: grid;
+    gap: var(--list-gap, var(--spacer-2x));
 
-  // list-style-image: url('data:image/svg+xml, %3Csvg%20xmlns=%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox=%270%200%2040%2038.4%27%20width=%27512%27%20height=%27512%27%3E%3Cpath%20d=%27{…}%27%20%2F%3E%3C%2Fsvg%3E');
-}
-
-ul li:where([data-icon='→']) {
-  &::before {
-    transition-duration: var(--duration-2);
-    transition-timing-function: var(--ease-in-quart);
-    transition-property: color, transform, filter;
-    transform: translateX(var(--tx));
-  }
-  &:hover::before {
-    transition-timing-function: var(--ease-out-quart);
-    --tx: var(--em-spacer-3);
-    color: var(--accent-extra);
-    filter: drop-shadow(0 3px 6px hsl(var(--teal) / .375));
+    // list-style-image: url('data:image/svg+xml, %3Csvg%20xmlns=%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox=%270%200%2040%2038.4%27%20width=%27512%27%20height=%27512%27%3E%3Cpath%20d=%27{…}%27%20%2F%3E%3C%2Fsvg%3E');
   }
 }
 
-// :is(ul, ol) li {…}
-li {
-  display: grid;
-  align-items: var(--align-x, baseline);
-  column-gap: calc(var(--icon-size, 1em) + var(--spacer));
-  row-gap: var(--spacer-2x);
-
-  // https://web.dev/css-marker-pseudo-element/
-  &::marker { color: currentcolor; } // <-- best way?
-  &::before {
-    display: inline-block;
-    font-size: var(--icon-size, 1em);
-    line-height: calc(var(--icon-ratio, 1)); // 0
-    font-family: inherit;
-    font-feature-settings: 'case' 1;
-    content: var(--content);
-  }
-
-  /* NOTE:
-    To controls the alignment of items and an icon along the cross-axis of first line of an item,
-    assign values to the `align-items` property using keywords:
-
-    [start]
-      → If `font-size` == `line-height`
-        This works well for centering emoji characters in webkit-based rendering engines.
-
-    [baseline]
-      → If `font-size` != `line-height` >= 1
-        This not suitable for centring emoji but good for align other typographic characters (e.g. arrows or bullets etc.)
-  */
-  &:where([data-icon]) {
-    --content: attr(data-icon);
-    // --align-x: start;
-
-    // Update related props by
-    --icon-ratio: 5 / 4; //= 1.25
-    --icon-size: calc(var(--icon-ratio) * 1em); //= 1.25em
-
-    grid-template-columns: 0 1fr;
-    padding-inline-start: var(--list-offset, 2ch);
-  }
-
-  & > p + p { grid-column: 2; }
-}
-
-ul {
-  @include config.respond('tablet') {
-    --list-offset: var(--em-spacer-5);
-
-    :where(:not(:is(li))) & { --list-offset: 0; }
-  }
-
-  :where(:is(ol)) & { --list-offset: 0; }
-}
-
-// https://codepen.io/geoffgraham/pen/gOPYxbg?editors=0100
-ol.numbered {
-  border-left: 3px solid #b3b3b3;
-  counter-reset: numbered-list var(--num);
-  margin-left: 10px;
-  position: relative;
-}
-
-ol {
-  --icon-size: 1.25em;
-  counter-reset: orderedlist;
-
-  & > li {
-    --align-x: unset;
-    grid-template-columns: minmax(var(--icon-size), min-content) 1fr;
-
+@layer instances {
+  ul li:where([data-icon='→']) {
     &::before {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      inline-size: var(--icon-size);
-      block-size: var(--icon-size);
-      padding: var(--spacer-2x);
-      font-weight: 500;
-      color: var(--foreground-a80);
-      text-align: center;
+      transition-duration: var(--duration-2);
+      transition-timing-function: var(--ease-in-quart);
+      transition-property: color, transform, filter;
+      transform: translateX(var(--tx));
+    }
+    &:hover::before {
+      transition-timing-function: var(--ease-out-quart);
+      --tx: var(--em-spacer-3);
+      color: var(--accent-extra);
+      filter: drop-shadow(0 3px 6px hsl(var(--teal) / .375));
+    }
+  }
 
-      content: counter(orderedlist);
-      counter-increment: orderedlist;
+  // :is(ul, ol) li {…}
+  li {
+    display: grid;
+    align-items: var(--align-x, baseline);
+    column-gap: calc(var(--icon-size, 1em) + var(--spacer));
+    row-gap: var(--spacer-2x);
 
-      background-color: var(--li-bg, var(--trn));
-      border: 1px solid var(--accent);
-      border-radius: 50%;
-      font-variant-numeric: tabular-nums;
-      font-feature-settings: 'tnum' 1;
+    // https://web.dev/css-marker-pseudo-element/
+    &::marker { color: currentcolor; } // <-- best way?
+    &::before {
+      display: inline-block;
+      font-size: var(--icon-size, 1em);
+      line-height: calc(var(--icon-ratio, 1)); // 0
+      font-family: inherit;
+      font-feature-settings: 'case' 1;
+      content: var(--content);
     }
 
-    [data-theme-style=dark] & { --li-bg: var(--accent-shade); }
+    /* NOTE:
+      To controls the alignment of items and an icon along the cross-axis of first line of an item,
+      assign values to the `align-items` property using keywords:
 
-    // Level 2 nested content
-    & :is(ol,ul,h4,p) { grid-column: 2 / -1; }
+      [start]
+        → If `font-size` == `line-height`
+          This works well for centering emoji characters in webkit-based rendering engines.
+
+      [baseline]
+        → If `font-size` != `line-height` >= 1
+          This not suitable for centring emoji but good for align other typographic characters (e.g. arrows or bullets etc.)
+    */
+    &:where([data-icon]) {
+      --content: attr(data-icon);
+      // --align-x: start;
+
+      // Update related props by
+      --icon-ratio: 5 / 4; //= 1.25
+      --icon-size: calc(var(--icon-ratio) * 1em); //= 1.25em
+
+      grid-template-columns: 0 1fr;
+      padding-inline-start: var(--list-offset, 2ch);
+    }
+
+    & > p + p { grid-column: 2; }
+  }
+
+  ul {
+    @include config.respond('tablet') {
+      --list-offset: var(--em-spacer-5);
+
+      :where(:not(:is(li))) & { --list-offset: 0; }
+    }
+
+    :where(:is(ol)) & { --list-offset: 0; }
+  }
+
+  // https://codepen.io/geoffgraham/pen/gOPYxbg?editors=0100
+  ol.numbered {
+    border-left: 3px solid #b3b3b3;
+    counter-reset: numbered-list var(--num);
+    margin-left: 10px;
+    position: relative;
+  }
+
+  ol {
+    --icon-size: 1.25em;
+    counter-reset: orderedlist;
+
+    & > li {
+      --align-x: unset;
+      grid-template-columns: minmax(var(--icon-size), min-content) 1fr;
+
+      &::before {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        inline-size: var(--icon-size);
+        block-size: var(--icon-size);
+        padding: var(--spacer-2x);
+        font-weight: 500;
+        color: var(--foreground-a80);
+        text-align: center;
+
+        content: counter(orderedlist);
+        counter-increment: orderedlist;
+
+        background-color: var(--li-bg, var(--trn));
+        border: 1px solid var(--accent);
+        border-radius: 50%;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: 'tnum' 1;
+      }
+
+      [data-theme-style=dark] & { --li-bg: var(--accent-shade); }
+
+      // Level 2 nested content
+      & :is(ol,ul,h4,p) { grid-column: 2 / -1; }
+    }
   }
 }
 

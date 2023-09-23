@@ -8,7 +8,7 @@
 
 append vars
   -
-    let familyName1 = 'MaisonNeue' // ['MaisonNeue', 'MaisonNeueMono']
+    let familyName1 = 'MaisonNeue'
     let MaisonNeue = [
       {
         'familyName': `${familyName1}`,
@@ -48,18 +48,9 @@ append vars
         'weight': 500
       }
     ]
-    let MaisonNeueMono = [
-      {
-        'fullName': `MaisonNeueMono-Regular`,
-        'localName': '',
-        'varAxes': false,
-        'style': 'normal',
-        'weight': 400
-      }
-    ]
   -
     let familyName2 = 'GT-Sectra'
-    let GTSectraDisplay = [
+    let SectraDisplay = [
       {
         'familyName': `${familyName2}`,
         'fullName': `${familyName2}-LCGV-Display-Light`,
@@ -81,8 +72,7 @@ append vars
     let typeName = 'font'
     let fontFaces = [
       ...MaisonNeue,
-      // ...MaisonNeueMono,
-      ...GTSectraDisplay,
+      ...SectraDisplay,
     ]
 
 each fontFace in fontFaces

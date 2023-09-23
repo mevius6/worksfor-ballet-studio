@@ -47,6 +47,9 @@ jspm_packages/
 .cache
 .parcel-cache
 
+# parcel distributable directory
+public/
+
 # Next.js build output
 .next
 out

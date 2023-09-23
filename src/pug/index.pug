@@ -26,24 +26,28 @@ append head-start
 
 block content
   section.grid
-    .container.bg-overlay#hero(data-id="hero")
-      video-player.grid__full(basename="footage-10s-prod")
-      //- noscript: +video({ fileName: 'hero', dims: [1920, 1080] })
-
+    section.container.bg-overlay#hero
+      //- video-player.grid__full(basename="footage-10s-prod")
+      noscript.grid__full
+        +video({
+          sourcePath: 'static',
+          sourceName: 'teaser',
+          poster: '',
+          dims: [1920, 1080] })
       hgroup(data-hidden)
         h1(itemprop="name")= brand.name
         p(itemprop="description" role="subtitle")= brand.desc
-
       .logo.grid__center: include ../images/logo.svg
-      //- .grid__full: include ../images/loop.svg
 
-    .container.spaced.--ada-lg#intent
+      dfn(data-hidden)
+        abbr(title= FULL_NAME)= ABBR_NAME
+
+    section.container.spaced.--ada-lg#intent
       .grid__start-half
         +head({
           level: 2,
           text: ['Открыт набор', 'на 2023–2024', 'учебный год'],
-          reveal: 'chars',
-        })
+          reveal: 'chars' })
       article.flow.grid__end-half.--ada-lg
         p= intent
         p= lead
@@ -53,26 +57,24 @@ block content
           text: 'Оставить заявку'
         })(data-js-anim='bg-gradient')
 
-    .container.spaced.--ada-md
+    section.container.spaced.--ada-md#offer-childs
       .grid__third-lhs.sideways
         +head({ level: 2, text: 'Занятия для детей', reveal: 'chars' })
       .grid__third-rhs
         //- H2F: “class” prop will no longer be iterable if this is removed
         +carousel({
-          id: 'child-activities',
+          id: 'child-classes',
           class: [],
-          data: slides1,
+          data: offerChilds,
           imageDims: 1350 / 1080,
-          imagePath: 'slides1',
+          imagePath: 'childs',
           instance: 1,
-          pagination: true,
           slideCols: 2,
           textWrap: 'article',
         })
 
-    .container.spaced.--ada-lg
-      //- .grid__center: +head({ level: 2, text: about.head, reveal: 'chars' })
-      article.flow.grid__center#about
+    section.container.spaced.--ada-lg#about
+      article.flow.grid__center
         +head({ level: 2, text: about.head, reveal: 'chars' })
         p= about.body
         +cta({
@@ -81,46 +83,43 @@ block content
           text: 'Посмотреть студии'
         })(data-js-anim='bg-gradient', target='_blank')
 
-    .container.spaced.--ada-md
+    section.container.spaced.--ada-md#offer-adults
       .grid__third-lhs.sideways
         +head({ level: 2, text: 'Занятия для взрослых', reveal: 'chars' })
       .grid__third-rhs
         +carousel({
-          id: 'adult-activities',
+          id: 'adult-classes',
           class: [],
-          data: slides2,
+          data: offerAdults,
           imageDims: 1350 / 1080,
-          imagePath: 'slides2',
+          imagePath: 'adults',
           instance: 2,
-          pagination: true,
           slideCols: 2,
           textWrap: 'article',
         })
 
-    .container.spaced.--lg
+    section.container.spaced.--lg#partners
       .grid__third-lhs.sideways
         +head({ level: 2, text: 'Наши партнёры', reveal: 'chars' })
       .grid__third-rhs.d-grid.grid-items-center
         +marquee()
 
-    .container.spaced.--ada-md
+    section.container.spaced.--ada-md#teachers
       .grid__third-lhs.sideways
         +head({ level: 2, text: 'Команда педагогов', reveal: 'chars' })
       //- TODO: add markup https://schema.org/Person
       .grid__third-rhs
         +carousel({
-          id: 'teachers',
           class: [],
           data: employees,
           imageDims: 1350 / 1080,
           imagePath: 'portraits',
           instance: 3,
-          pagination: true,
           slideCols: 2,
           textWrap: 'article',
         })
 
-    .container.spaced.--ada-lg
+    section.container.spaced.--ada-lg#reviews
       .grid__center.d-grid.grid-items-center
         +head({ level: 2, text: 'Отзывы', reveal: 'chars' })
       .grid__content
@@ -133,22 +132,19 @@ block content
           | #[span(itemprop="reviewCount")= count(reviews)] отзывов на
           | #[+link({href: 'https://akterstudio.ru', text: 'АкТер'})]
         +carousel({
-          id: 'reviews',
           class: [],
           data: reviews,
           type: 'review',
           instance: 4,
-          pagination: true,
         })
 
-    //- section#feed(aria-label="all blog posts")
+    section.container
+      +map({
+        classes: 'grid__full',
+        controls: true,
+      })
 
-    .container: +map({
-      classes: 'grid__full',
-      controls: true,
-    })
-
-    .container.spaced.--ada-md#contact(data-id="contact")
+    section.container.spaced.--ada-md#contact
       .grid__center: +head({ level: 2, text: 'Пишите нам', reveal: 'chars' })
       +form({
         class: 'grid__center',
@@ -158,21 +154,6 @@ block content
       })
       //- offer: data.pages.offer.path[0]
 
-block scripts
-  //- Yandex.Metrika counter
-    script(type="text/javascript").
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+    //- section#feed(aria-label="all blog posts")
 
-      ym(94858116, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-      });
-    noscript
-      div: img(src="https://mc.yandex.ru/watch/94858116" style="position:absolute; left:-9999px;" alt="")
-    // /Yandex.Metrika counter
+block scripts

@@ -1,0 +1,21 @@
+mixin textLoop()
+  -
+    const spacedBull = `\u2003${BULL}\u2003`,
+          brandName = brand.name || '',
+          brandDescriptor = brand.desc || ''
+
+  svg(width="480" height="320" viewBox="0 0 600 400" version="2"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink")
+    title= brandName
+    defs
+      path#topSemiCircle(d="M 120, 200 a 175, 175 0 1, 1 350,0")
+      path#bottomSemiCircle(d="M 470, 200 a 175, 175 0 1, 1 -350,0")
+    text(dy="1" font-size="40" textLength="531")
+      textPath(
+        textLength="531"
+        href="#topSemiCircle"
+        aria-label= brandName)= `${spacedBull + brandName + spacedBull}`
+    text(dy="1" font-size="40" textLength="531")
+      textPath(textLength="531" href="#bottomSemiCircle" aria-label="")
+        | #{brandDescriptor}

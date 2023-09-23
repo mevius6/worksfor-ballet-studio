@@ -9,21 +9,6 @@
         else if block
           block
 
--
-  const partners = [{
-    name: 'Музыкальный Клондайк',
-    link: 'https://www.muzklondike.ru',
-  },{
-    name: 'BRS Clinic',
-    link: 'https://brsclinic.ru/o-nas/',
-  },{
-    name: 'Балет Касаткиной и Василёва',
-    link: 'https://classicalballet.ru',
-  },{
-    name: 'Арт-центр',
-    link: 'https://www.art-center.ru',
-  }]
-
 mixin loopedPics(n)
   each el, i in partners
     +link({ href: el.link, label: el.name })

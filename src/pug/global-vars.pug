@@ -37,9 +37,7 @@ include ./tools
    */
 -
   // https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_137
-  const DOT = '.',
-        D = DOT,
-        DD = D+D
+  const DOT = '.', D = DOT, DD = D+D
   const SOL = '/'
   const DOTSLASH = `${DOT}${SOL}`
 -
@@ -58,7 +56,7 @@ include ./tools
   const chars = {}, sequences = {},
   {
     block: FULL_BLOCK = '█',
-    thinsp: THSP = ' ',
+    thinsp: THSP = ' ', // https://infra.spec.whatwg.org/#ascii-whitespace
     hairsp: HSP = ' ',
     hardsp: NBSP = ' ',
     narrow_hardsp: NNBSP = ' ', // U+202F

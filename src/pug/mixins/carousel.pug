@@ -1,14 +1,3 @@
-//- Refs:
-  - https://web.dev/carousel-best-practices/
-  - https://css-tricks.com/css-only-carousel/
-  - https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
-  - https://w3c.github.io/i-slide/
-  - https://www.w3.org/TR/uievents-key/#keys-navigation
-  - https://github.com/una/calculating-color#configuration
-  - https://revealjs.com/
-  - https://github.com/cfjedimaster/HTML-Code-Demos/blob/master/slides.js
-  - https://codepen.io/jakob-e/pen/KKvjaBq
-
 mixin slideControl(props)
   -
     let { action = 'switch', slides=[] } = props,
@@ -61,12 +50,12 @@ mixin carousel(props)
     let defaults = {
       counter: false,
       control: true,
-      pagination: true, // <-- picker controls + progress indicators
-      // progress: true, // <-- scrollbar
+      pagination: true, // <-- picker controls and progress indicators
+      progress: false, // <-- scrollbar
     }
   -
     let {
-      id: hashLinkBase,
+      //- id: hashLinkBase,
       ariaLabelledBy: id,
       counter = defaults['counter'],
       control = defaults['control'],
@@ -82,30 +71,30 @@ mixin carousel(props)
     } = props, { length: total } = fragments
   -
     let attrs = {
-      'id': hashLinkBase,
+      //- 'id': hashLinkBase,
       //- 'carousel-pagination': 'dots',
       //- 'carousel-controls': 'auto',
       //- 'carousel-snapstop': 'auto',
+      'role': 'group',
       'aria-roledescription': 'carousel',
+      'aria-label': 'Items Scroller',
+      'aria-live': 'polite',
     },
         classes = [],
         styles = {}
 
-  if scrollbar
-    - attrs['data-progress'] = 'scrollbar'
-
+  //- conditionally defined [data-*] attributes for carousel controls
   if !pagination
     - attrs['data-pagination'] = 'none'
-    //- - counter = true
-
+    - attrs['data-progress'] = 'scrollbar'
   if !control
     - attrs['data-controls'] = 'none'
 
   .carousel(
     class= classes class=[`carousel--${instance}`, ...props.class]
-  )&attributes(attrs)
+  )&attributes({...attrs})
     -
-      // TODO: bools → obj enums
+      // bools → obj enums
       let wrap = {
         article: (textWrap === 'article'),
         caption: (textWrap === 'caption'),
@@ -130,18 +119,17 @@ mixin carousel(props)
           h = 1080
         -
           let slideAttList = {
-            'id': hashLinkBase + '-' + type + increment(i),
+            //- 'id': hashLinkBase + '-' + type + increment(i),
             'aria-label': `${i+1} / ${total}`,
             'aria-roledescription': 'item',
           }
-        //- https://html.spec.whatwg.org/#the-inert-attribute
         li.carousel__slide(style={ '--columns': num })&attributes(slideAttList)
           if media
             -
               let figureAttList = {},
-                  attAspectRatio = { '--aspect-ratio': ratio },
-                  // ↓ is figure contains figcaption
-                  attRoleGroup = { 'role': 'group' }
+                  attAspectRatio = { '--aspect-ratio': ratio }
+            //- if figure contains figcaption
+              - figureAttList['role'] = 'group'
             -
               h = num > 1
                 ? 1350 // <-- vert
@@ -209,19 +197,18 @@ mixin carousel(props)
         span.carousel__counter-max= total
 
     if control
-      //- +slideControl(fragments)
+      +slideControl(fragments)
 
     if pagination
-      //-
-        +slideControl({
-          slides: fragments,
-          action: 'select',
-        })
+      +slideControl({
+        slides: fragments,
+        action: 'select',
+      })
       //- ARIA
         - https://www.w3.org/TR/wai-aria-1.1/#tablist
         - https://www.w3.org/TR/wai-aria-1.1/#tab
         - https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
-      nav.carousel__pagination(aria-label)
+      //- nav.carousel__pagination(aria-label)
         each i in Array.from(Array(total).keys())
           -
             let n = i+1,

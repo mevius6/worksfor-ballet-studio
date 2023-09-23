@@ -34,7 +34,7 @@ const doc = document, { documentElement: root } = doc;
     const player = await import('./modules/cloudinary-vp');
     const reveal = await import('./modules/reveal-effect');
     const lazyimg = await import('./modules/reveal-image');
-    // const carousel = await import('./modules/carousel');
+    const carousel = await import('./modules/carousel');
     const disclosure = await import('./modules/disclosure');
     const cursor = await import('./modules/cursor');
     loadMap();

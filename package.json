@@ -13,7 +13,6 @@
   "scripts": {
     "parcel:start": "parcel src/pug/index.pug --dist-dir ./public --no-cache --cert $(grep '^CERT_PATH' .env | cut -d '=' -f2) --key $(grep '^KEY_PATH' .env | cut -d '=' -f2) -p $npm_package_config_port_https --open",
     "parcel:build": "npm run clear && parcel build src/pug/index.pug --dist-dir ./public --no-source-maps --no-cache && npm run copy",
-    "re:start": "npm run clear && npm run parcel:start",
     "clear": "rm -rf public && rm -rf .parcel-cache",
     "lint:js": "npx eslint \"./src/js/*.js\" --fix",
     "lint:css": "npx stylelint \"./src/scss/**/*.{css,scss}\" --fix",
@@ -42,6 +41,7 @@
     "parcel": "^2.9.3",
     "pug": "^3.0.2",
     "sass": "^1.66.1",
+    "scrollyfills": "^1.0.0",
     "sharp": "^0.31.3",
     "stylelint": "^15.10.3",
     "stylelint-order": "^6.0.3"

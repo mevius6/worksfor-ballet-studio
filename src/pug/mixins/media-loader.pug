@@ -1,0 +1,58 @@
+//-
+  Intent:
+    Defining set of properties for loading images and videos (embedded content).
+    —or—
+    Developing a common algorithm for mark up image and video elements.
+
+  Spec parts:
+    → https://html.spec.whatwg.org/multipage/embedded-content.html
+    → https://html.spec.whatwg.org/multipage/media.html#the-video-element
+
+mixin embedMedia(props)
+  -
+    let {
+      // https://www.iana.org/assignments/media-types/media-types.xhtml
+      type = ('image' || 'video' || 'audio'),
+      assetPrefix = SRC, // <-- same as dirName
+      sourcePath = 'images', // <-- same as baseName or basePath
+      sourceName = 'img',
+      base = sourcePath ?? '',
+      path: sub = '', // <-- sub-directory
+      name = '', // <-- e.g., +picture({ name: i+1 }) => 1.jpg, 2.jpg, etc.
+      desc, title,
+      hdim: w,
+      vdim: h,
+      format: ext = 'jpg', // <-- default filename extension
+      cors = ANON ?? '',
+      policy = STRICTER ?? '',
+      placeholder, //= true ?? !name,
+      thumbnail: thumb,
+      ...rest // <-- e.g. class
+    } = props
+  -
+    // Define path segments
+    let pathInfo = `${base}${SEP}${sub}`
+    let fileName = `${name}${DOT}${ext}`
+  -
+    // Merge path segments to the relative or full path
+    // i.e., location relative to the current or root file's directory
+    let relativePathname = `${CURR}${pathInfo}${SEP}${fileName}`
+    let absolutePathname = `${ROOT}${SRC}${pathInfo}${SEP}${fileName}`
+    // Aliases
+    let relPath = D + relativePathname,
+        absPath = D + absolutePathname
+  -
+    let path = relPath ?? isRelative(relPath)
+  -
+    let srcAsPerFormat = (suffix) => D + CURR
+      + pathInfo
+      + SEP
+      + name
+      + DOT
+      + suffix
+  -
+    let subtypes = ['webp'] // ['avif', 'webp', 'jpeg']
+    let classes = [] // CDATA
+  -
+    let bgImage = { '--bg-image': `url(${absPath ?? name})` }
+    let styles = {} // ...bgImage

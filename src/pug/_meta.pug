@@ -38,8 +38,11 @@ meta(name="keywords" content= keywordsMerge)
 link(rel="canonical" href= canonicalURL)
 
 meta(name="robots" content="index,follow,max-image-preview:standard")
-meta(name="yandex-verification" content="e1d1a358c479edee")
-//- meta(name="google-site-verification" content= GS_KEY)
+
+if YA_KEY
+  meta(name="yandex-verification" content= YA_KEY)
+if GS_KEY
+  meta(name="google-site-verification" content= GS_KEY)
 
 //- https://web.dev/referrer-best-practices/
 //- https://w3c.github.io/webappsec-referrer-policy/

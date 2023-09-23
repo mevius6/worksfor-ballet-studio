@@ -1,5 +1,6 @@
 //- Refs:
   - http://youmightnotneedjs.com/#form_validation
+
 mixin form(props)
   -
     let { email,
@@ -15,7 +16,7 @@ mixin form(props)
         attrs.class = props.class
         //- attrs['data-backdrop'] = 'glassy'
 
-  // ↓ .mask-border-gradient
+  //- ↓ .mask-border-gradient
   form.form#contact-form(style={'--clip': 0}
     accept-charset="UTF-8"
     action=`https://app.form2chat.io/f/${endpoint}`
@@ -28,7 +29,7 @@ mixin form(props)
       span.form__label-text
         | Имя #[span &ast;]
       //- autofocus
-      // ↓ .mask-border-gradient
+      //- ↓ .mask-border-gradient
       input.form__control#name(
         name="Name"
         role="text-box"
@@ -136,3 +137,13 @@ mixin form(props)
       input(type="hidden" name="action" value="validate_captcha")
       //- Приманка
       input(type="hidden" name="_gotyou")
+
+//- https://share.hsforms.com/1xmRVytUKQ1auaFMEUB7RDAq41bn
+//- append scripts
+  script(charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js")
+  script.
+    hbspt.forms.create({
+      region: "na1",
+      portalId: "43858355",
+      formId: "c66455ca-d50a-4356-ae68-5304501ed10c"
+    });

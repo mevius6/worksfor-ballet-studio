@@ -1,24 +1,35 @@
 @use 'config';
 
-* {
-  @include config.scrollbar;
-  box-sizing: inherit;
+@layer theme { @layer any, colours, doc, defaults; }
 
-  &::before,
-  &::after { box-sizing: inherit; }
+@layer theme.any {
+  * {
+    @include config.scrollbar;
+    box-sizing: inherit;
 
-  &::selection {
-    color: var(--selection-foreground, inherit);
-    text-shadow: none;
-    background: var(--selection-background, inherit);
+    &::before,
+    &::after { box-sizing: inherit; }
 
-    /* autoprefixer: ignore next */
-    -webkit-tap-highlight-color: var(--trn);
+    &::selection {
+      color: var(--selection-foreground, inherit);
+      text-shadow: none;
+      background: var(--selection-background, inherit);
+
+      /* autoprefixer: ignore next */
+      -webkit-tap-highlight-color: var(--trn);
+    }
   }
-}
 
-@layer theme {
-  @layer colours, defaults;
+  @media (hover: hover) {
+    * {
+     outline-offset: 3px;
+     outline-color: var(--trn, transparent);
+    }
+
+    *:focus-visible {
+     outline: 1px dotted var(--accent);
+    }
+  }
 }
 
 // Contains colour swatches and theme configuration
@@ -31,7 +42,7 @@
     // https://drafts.csswg.org/css-color-3/#css-system
 
     // HSL helpers
-    --trn: hsl(0 0% 0% / 0);
+    --trn: hsl(0 0% 0% / 0); // #00000000
     --hue: 0;
     --sat: 0%;
     --lum: 98%; // #fafafa
@@ -41,6 +52,7 @@
 
     // https://web.dev/color-spaces-and-functions/
     // https://developer.chrome.com/articles/high-definition-css-color-guide/
+    // https://nerdy.dev/open-props-oklch-palettes-beta
     // --srgb: color(srgb 1 1 1);
     // --srgb-linear: color(srgb-linear 100% 100% 100% / 50%);
     // --display-p3: color(display-p3 1 1 1);
@@ -50,6 +62,7 @@
     // --xyz: color(xyz 1 1 1);
     // @supports (background: var(--display-p3)) {…}
 
+    // beige-mauve monochromatic color scheme
     // ----------------------------------
     // SW Color Palette
     // ----------------------------------
@@ -68,7 +81,7 @@
     // SW Red EDE WildPoppy
     --sw-ede-wild-poppy: 3deg 41% 53%;
     // SW 9081 Redend Point
-    // https://www.sherwin-williams.com/en-us/color-of-the-year-2023
+    // -> https://www.sherwin-williams.com/en-us/color-of-the-year-2023
     --sw-redend-point: 20deg 23% 59%;
     // SW 6057 Malted Milk
     --sw-malted-milk: 24deg 33% 81%;
@@ -117,7 +130,15 @@
     // Gen → https://www.joshwcomeau.com/gradient-generator/
     // Gen → https://larsenwork.com/easing-gradients/
 
-    // ROYGBIV
+    // ROYGBIV (rainbow gradient)
+    // Tip -> https://nerdy.dev/easy-hsl-rainbow
+    --lin-grad-roygbiv:
+      linear-gradient(
+        to right
+        in hsl          /* vibrant gradient HSL colorspace */
+        longer hue,     /* hue-interpolation set to longer */
+        red, red    /* now red to red goes all the way around */
+      );
     --lin-grad-voygb:
       linear-gradient(
         45deg,
@@ -176,6 +197,13 @@
         var(--accent) 0,
         var(--accent) 5px
       );
+
+    // ----------------------------------
+    // Data URLs
+    // ----------------------------------
+    // Inlining a bundle as a data URL, e.g. 'url(data-url:./noise.png);'
+    // https://parceljs.org/features/bundle-inlining/
+
     // Noise variations
     --svg-noise: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 1920 1920' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
 
@@ -187,7 +215,10 @@
     // https://web.dev/state-of-css-2022/#scoping-styles-is-really-hard
     // https://css.oddbird.net/scope/explainer/
 
-    &:where([data-theme-style]) {
+    &:where(
+      :not([data-theme-style]),
+      [data-theme-style]
+    ) {
       --background-a15: hsl(var(--bg-hsl) / 0.15);
       --background-a25: hsl(var(--bg-hsl) / 0.25);
       --background-a50: hsl(var(--bg-hsl) / 0.5);
@@ -218,7 +249,10 @@
     }
 
     // @scope ([data-theme-style=dark]) {…}
-    &:where(:not([data-theme-style]), [data-theme-style=dark]) {
+    &:where(
+      :not([data-theme-style]),
+      [data-theme-style=dark]
+    ) {
       color-scheme: dark;
 
       --bg-hsl: var(--black);
@@ -229,28 +263,31 @@
   }
 }
 
-@media screen and (prefers-reduced-motion: no-preference) {
-  html,
-  body { scroll-behavior: smooth; }
+@layer theme.doc {
+  html {
+    /* autoprefixer: off */
+    inline-size: 100%;
+    inline-size: -webkit-fill-available;
+    // https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit
+    block-size: 100%;
+    block-size: -webkit-fill-available;
+
+    // https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
+    -moz-text-size-adjust: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+  /* autoprefixer: on */
 }
 
-html {
-  /* autoprefixer: off */
+@layer theme.doc.support {
+  html body { min-block-size: 100%; }
 
-  // Ref → https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit/#disqus_thread
-  inline-size: 100%;
-  inline-size: -webkit-fill-available;
-  block-size: 100%;
-  block-size: -webkit-fill-available;
-
-  /* Refs:
-      → https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
-      → https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/AdjustingtheTextSize/AdjustingtheTextSize.html */
-  -moz-text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
+  @media screen and (prefers-reduced-motion: no-preference) {
+    html,
+    body { scroll-behavior: smooth; }
+  }
 }
-/* autoprefixer: on */
 
 // Contains layout, utilities and helper tokens
 @layer theme.defaults {
@@ -260,7 +297,7 @@ html {
     // ----------------------------------
 
     // → https://getbootstrap.com/docs/5.0/layout/breakpoints/
-    // → https://primer.style/css/support/breakpoints
+    // → https://primer.style/design/foundations/layout#breakpoints
 
     // Alternate: [xs: 320, sm: 640, md: 768, lg: 960, xl: 1280, xxl: 1920]
     --width-xs: 20em;
@@ -327,7 +364,7 @@ html {
     --gutter-spacious-xl: var(--spacer-5x);
     --gutter: var(--gutter-md);
 
-    /* ------------------------------ Border Box ------------------------------ */
+    // ------------------------------ Border Box ------------------------------
 
     // ----------------------------------
     // Decorations
@@ -376,7 +413,6 @@ html {
     // Generators for smooth layered shadows
     // → https://shadows.brumm.af/
     // → https://www.joshwcomeau.com/shadow-palette/
-    --custom-shadow-1: 0 2.5rem 2rem -2rem hsl(0 0% 77.6%);
 
     // Fine-tune the colour with strength/intensity
     // → https://tobiasahlin.com/blog/layered-smooth-box-shadows/
@@ -402,7 +438,7 @@ html {
       17px 33.9px 42.7px -2.1px var(--shadow-color),
       25px 50px 62.9px -2.5px var(--shadow-color);
 
-    /* ------------------------------- Animation ------------------------------ */
+    // ------------------------------- Animation ------------------------------
     // https://github.com/primer/css/blob/main/src/utilities/animations.scss
 
     // ----------------------------------
@@ -444,7 +480,7 @@ html {
     --easing: cubic-bezier(0.2, 1, 0.3, 1);
     --ease-spring: cubic-bezier(0.4, 0, 0.7, 1.8);
 
-    /* ------------------------------- Filtering ------------------------------ */
+    // ------------------------------- Filtering ------------------------------
     // https://drafts.fxtf.org/filter-effects-2/#BackdropFilterProperty
 
     // ----------------------------------
@@ -478,7 +514,7 @@ html {
     --nav-max-vdim: 60px; // 8px + 44px + 8px
     --nav-max-vdim: calc(var(--min-touch-target-size) + var(--spacer) * 2);
 
-    /* -------------------------- Clipping & Masking -------------------------- */
+    // -------------------------- Clipping & Masking --------------------------
     // Gens:
     // → https://bennettfeely.com/clippy/
     // → https://codepen.io/stoumann/full/abZxoOM
@@ -566,28 +602,25 @@ html {
   }
 }
 
+//
+// Sectioning content
+//
+
+:where(main, section) {
+  position: relative;
+}
+
 main {
   min-inline-size: 100%;
   block-size: 100%;
   contain: size;
-  position: relative;
-}
-
-section {
-  position: relative;
-  inline-size: 100vw;
-  min-block-size: 100vh;
-
-  // https://web.dev/content-visibility/
-  content-visibility: auto;
-  // contain-intrinsic-size: auto 1000px;
 }
 
 video-player {
   // https://codepen.io/thebabydino/pen/MWYrNaB
   --video-player-width: 100%;
   // https://web.dev/viewport-units/
-  --video-player-height: 100dvh;
+  --video-player-height: 100svh;
 }
 
 theme-switch {
@@ -649,11 +682,20 @@ dialog:where(#alert) { // <-- noscript alert
   }
 }
 
-[data-hidden] {
-  @include config.is-hidden;
+// orphan nodes (i.e. without a parent node)
+:where(.orphan) {
+  padding-inline: var(--spacer-2x);
+
+  @include config.respond('tablet') {
+    padding-inline: var(--spacer-4x);
+  }
 }
 
-.grecaptcha-badge {
+// :empty {…}
+:where(
+  [data-hidden],
+  .grecaptcha-badge
+) {
   @include config.is-hidden;
 }
 
@@ -702,8 +744,9 @@ footer .copr {
 }
 
 @supports(scroll-margin: 4rem) {
+  // :target:where([id^=#]) {…} -> #specific-part:target
   :target {
-    scroll-margin-block-start: var(--spacer-7x);
+    scroll-margin-block-start: var(--spacer-2x);
   }
 }
 
@@ -712,7 +755,11 @@ footer .copr {
   letter-spacing: normal;
 }
 
-:where([data-id="agenda"], [data-id="gallery"]) {
+// page relative styling
+:where(
+  [data-id="agenda"],
+  [data-id="gallery"]
+) {
   .headline {
     text-align: center;
   }
@@ -725,36 +772,7 @@ footer .copr {
 
 .headline:where(.reveal) {
   position: relative;
-  border-block-end: 4px solid var(--trn); // safe-zone
-
-  // &::after {
-  //   content: '';
-  //   position: absolute;
-  //   inset-inline-start: 0;
-  //   inset-block-end: -4px;
-  //   display: inline-block;
-  //   inline-size: var(--underline-width, 0);
-  //   block-size: 1px;
-  //   background: var(--underline-bg);
-  // }
-
-  // [data-theme-style='light'] & {
-  //   --underline-bg: linear-gradient(
-  //     45deg,
-  //     hsl(0deg 0% 100% / 0) 0%,
-  //     33.333%,
-  //     var(--accent) 100%
-  //   );
-  // }
-
-  // [data-theme-style='dark'] & {
-  //   --underline-bg: linear-gradient(
-  //     45deg,
-  //     hsl(0deg 0% 0% / 0) 0%,
-  //     33.333%,
-  //     var(--accent) 100%
-  //   );
-  // }
+  border-block-end: 4px solid var(--trn); // hidden overflow safe-zone
 }
 
 @media (max-width: 48em) {

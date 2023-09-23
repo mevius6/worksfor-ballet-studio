@@ -44,7 +44,7 @@ mixin review(props)
           if stars
             .rating
               each i in Array.from(Array(5).keys())
-                - let v = `${star}-${i+1}`
+                - let v = `ratingStar-${i+1}`
                 //- https://dequeuniversity.com/rules/axe/4.7/label
                 input(
                   aria-labelledby= v

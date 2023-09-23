@@ -29,7 +29,7 @@ mixin picture(props)
     } = props
   -
     // Define path segments
-    let pathInfo = `${base}${SEP}${sub}`
+    let pathInfo = `${base}${SEP}${sub}` // TODO: deep nested directory path
     let fileName = `${name}${DOT}${ext}`
   -
     // Merge path segments to the relative or full path

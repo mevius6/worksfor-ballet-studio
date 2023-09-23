@@ -5,10 +5,6 @@
 $icons: (vk, ig, tg, tel, at);
 $hashLinks: '/#';
 
-// https://css-tricks.com/css-link-hover-effects/
-// https://codepen.io/collection/JGYGwo
-// https://tympanus.net/codrops-playground/huijing/Qqpwg5Iy/editor
-
 @layer components {
   a {
     --link-underline-h: 1px;
@@ -41,7 +37,7 @@ $hashLinks: '/#';
     // Hover effect for single-line links, e.g.
     // https://w3c.github.io/csswg-drafts/selectors/#the-local-link-pseudo
     // &:where([href^='/#'], :is(nav) [href^='/']),
-    &:where(.single-line-link) {
+    &:where(.one-liner) {
       &::after,
       &::before {
         position: absolute;

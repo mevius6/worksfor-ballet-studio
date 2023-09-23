@@ -1,9 +1,9 @@
 header.page__header(itemscope itemtype="https://schema.org/WPHeader")
-  a.logo(href="./")
-    //- +placeholder({
-    //-   type: 'gradient',
-    //-   text: data.meta.brand
-    //- })
+  .logo
+    +placeholder({
+      type: 'gradient',
+      text: data.meta.brand
+    })
   ul
     li: theme-switch
     li: include ./_nav

@@ -1,38 +1,60 @@
 mixin text(text)
   if Array.isArray(text)
-    each line of text
-      //- span= line
-      = line
+    each part of text
+      //- span= part
+      = part
       | #[br]
   else
     = text
 
+mixin switch(level, attrs)
+  case level
+    when 0
+      - break
+    when 1
+      h1&attributes(attrs): block
+    when 2
+      h2&attributes(attrs): block
+    when 3
+      h3&attributes(attrs): block
+    when 4
+      h4&attributes(attrs): block
+    when 5
+      h5&attributes(attrs): block
+    when 6
+      h6&attributes(attrs): block
+    default
+      h2&attributes(attrs): block
+
 mixin head(props)
   -
-    let { class: className = '',
-          level: headingLevel = 2,
-          text: content = '',
-          hasId = '',
-          reveal = false,
-        } = props
+    let {
+      class: className = '',
+      level: headingLevel,
+      text: content = '',
+      reveal = false, // chars, words or lines
+      ...rest
+    } = props
+  -
     let classList = ['headline']
+    classList[className]
+  -
+    let attrsList = {
+      class: classList,
+    }
 
-  if hasId
-    span.overline= hasId
+  if props.overline
+    span.overline= props.overline
 
-  //- Heading levels:
-      <h1>Main title</h1>
-      <h2>Headline</h2>
-      <h3>Subheading</h3>
-      <h4>Sub-subheading</h4>
-  if headingLevel==2
-    if reveal
-      - classList.push('reveal')
-      .reveal-wrapper
-        h2(class=classList class=[className] data-splitting=reveal)
-          +text(content)
-    else
-      h2(class=classList class=[className]): +text(content)
-
-  if headingLevel==3
-    h3(class=classList class=[className]): +text(content)
+  if reveal
+    - classList.push('reveal')
+    - attrsList['data-splitting'] = reveal
+    .reveal-wrapper
+      +switch(headingLevel, attrsList)
+        +text(content)
+  else
+    +switch(headingLevel, attrsList)
+      +text(content)
+  //-
+    h2(class=classList class=[className] data-splitting=reveal)
+      +text(content)
