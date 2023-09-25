@@ -33,6 +33,7 @@
   "devDependencies": {
     "@parcel/optimizer-esbuild": "^2.9.3",
     "@parcel/packager-raw-url": "^2.9.3",
+    "@parcel/transformer-css-experimental": "^2.3.2",
     "@parcel/transformer-jsonld": "^2.9.3",
     "@parcel/transformer-pug": "^2.9.3",
     "@parcel/transformer-sass": "^2.9.3",
@@ -48,5 +49,12 @@
   },
   "dependencies": {
     "gsap": "^3.12.2"
+  },
+  "@parcel/transformer-css-experimental": {
+    "cssModules": true,
+    "drafts": {
+      "nested": true,
+      "customMedia": true
+    }
   }
 }

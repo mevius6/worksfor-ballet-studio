@@ -280,8 +280,9 @@ $slide-width: 100%;
 
     & > button,
     & > a {
-      min-inline-size: 1rem; // override
-      inline-size: var(--dot-size);
+      // override button defaults
+      min-inline-size: var(--dot-size);
+      min-block-size: var(--dot-size);
       aspect-ratio: 1;
       padding: 0;
       border-radius: 50%;

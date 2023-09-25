@@ -73,10 +73,18 @@
 .inline-auto  { inline-size: auto !important; }
 .block-auto   { block-size: auto !important; }
 
+.d-flex { display: flex; }
 .d-grid { display: grid; }
-.grid-items-center { place-items: center; }
-.content-center,
-.grid-content-center { place-content: center; }
+
+:where(
+  .items-center,
+  .grid-items-center
+) { place-items: center; }
+
+:where(
+  .content-center,
+  .grid-content-center
+ ) { place-content: center; }
 
 // https://github.com/primer/css/blob/main/src/utilities/flexbox.scss#L1
 [class*='--items-center'] {
@@ -97,7 +105,7 @@
 }
 
 .items-center { align-items: center; }
-.items-start { align-items: flex-start; }
+.items-start  { align-items: flex-start; }
 
 // https://css-tricks.com/equal-columns-with-flexbox-its-more-complicated-than-you-might-think/
 .flex-equal-cols > * { flex: 1; } // flex-basis: 100%;

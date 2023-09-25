@@ -2,7 +2,7 @@ import {
   // checkBrowser,
   // checkSystem,
   checkWebpFeature,
-  // isMobileDevice,
+  isMobileDevice,
 } from './utils';
 
 const doc = document, { documentElement: root, body } = doc;
@@ -10,16 +10,16 @@ const doc = document, { documentElement: root, body } = doc;
 // const os = checkSystem();
 // const browser = checkBrowser();
 
-// let device = '';
-// isMobileDevice()
-//   .then(() => {
-//     device = 'mobile';
-//     root.dataset.device = device;
-//   })
-//   .catch(() => {
-//     device = 'desktop';
-//     root.dataset.device = device;
-//   });
+let device = '';
+isMobileDevice()
+  .then(() => {
+    device = 'mobile';
+    root.dataset.device = device;
+  })
+  .catch(() => {
+    device = 'desktop';
+    root.dataset.device = device;
+  });
 
 let imageFormat = '';
 checkWebpFeature('lossy')

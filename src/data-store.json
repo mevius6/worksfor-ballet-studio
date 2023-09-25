@@ -16,11 +16,11 @@
       "path": "/",
       "title": ["", ""]
     },
-    "agenda": {
+    "syllabus": {
       "description": "",
-      "id": "agenda",
+      "id": "syllabus",
       "keywords": "",
-      "path": ["./agenda.pug", "/agenda"],
+      "path": ["./syllabus.pug", "/syllabus"],
       "title": ["Расписание занятий", ""]
     },
     "feed": {

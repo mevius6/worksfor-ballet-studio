@@ -16,11 +16,17 @@
   inline-size: var(--header-cross-size);
   block-size: var(--header-block-size);
 
+  pointer-events: none;
+
+  // & > .logo {…}
+
   & > ul {
     grid-template-columns: 1fr auto;
     place-items: center;
     column-gap: var(--spacer-2x); // ! override
     margin-inline-end: var(--spacer-2x);
+
+    :is([aria-control], form, button, a) { pointer-events: all;}
   }
 
   @include config.respond('tablet') {
@@ -31,17 +37,14 @@
 
 .tels {
   z-index: 1000;
-  // margin-inline-start: var(--spacer-2x);
   flex-direction: column;
   font-family: var(--font-primary);
   font-weight: 500;
   color: var(--neutral);
-  font-feature-settings: "tnum" 1;
+  font-feature-settings: 'tnum' 1;
 
   @include config.respond('tablet') {
     position: absolute;
-    // inset-block-start: 0;
-    // inset-inline-end: 0;
     align-self: center;
     flex-direction: unset;
   }

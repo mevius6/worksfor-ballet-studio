@@ -18,6 +18,7 @@ $hashLinks: '/#';
   }
 }
 
+// order: link, visited, hover, active, focus, focus-visible, focus-within
 @layer states {
   a {
     // Start of a link-related pseudo-class sequence,

@@ -15,6 +15,9 @@ const doc = document, { documentElement: root } = doc;
 
 /* eslint-disable no-unused-vars */
 
+// let modulePath = prompt("Какой модуль загружать?");
+// let module = await import(modulePath);
+
 (async () => {
   const toggle = await import('./modules/theme-switcher.js').then(() => {
     const themeSwitch = doc.querySelector('theme-switch');
@@ -26,50 +29,56 @@ const doc = document, { documentElement: root } = doc;
       root.dataset.themeStyle = themeSwitch.mode;
     });
   });
+  const reveal = await import('./modules/reveal-effect');
+  const lazyimg = await import('./modules/reveal-image');
+  const cursor = await import('./modules/cursor');
 
   if (
     parsedUrl.pathname === '/' ||
     parsedUrl.pathname === '/index.html'
   ) {
     const player = await import('./modules/cloudinary-vp');
-    const reveal = await import('./modules/reveal-effect');
-    const lazyimg = await import('./modules/reveal-image');
     const carousel = await import('./modules/carousel');
     const disclosure = await import('./modules/disclosure');
-    const cursor = await import('./modules/cursor');
-    loadMap();
-  }
-  if (
-    parsedUrl.pathname === '/gallery' ||
-    parsedUrl.pathname === '/gallery.html'
-  ) {
-    const reveal = await import('./modules/reveal-effect');
-  }
+    // const map = await loadTrigger('map');
+
+    loadTrigger('map')
+    .then(async () => {
+        const map = await import('./modules/map');
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
+    }
   if (
     parsedUrl.pathname === '/agenda' ||
     parsedUrl.pathname === '/agenda.html'
   ) {
-    const reveal = await import('./modules/reveal-effect');
-    const cursor = await import('./modules/cursor');
     loadMap();
   }
 
-  loadNav();
+  // const nav = await loadNav('.nav-button');
+  // await loadNav('.nav-button');
+  loadNav('.nav-button');
 })();
 
-async function loadNav() {
+async function loadNav(control) {
   const { default: DisclosureForNav } = await import('./modules/nav');
-
   // eslint-disable-next-line no-unused-vars
-  const disclosure = new DisclosureForNav(doc.querySelector('.nav-button'));
+  const disclosure = new DisclosureForNav(doc.querySelector(control));
 }
 
 async function loadMap() {
   // eslint-disable-next-line no-undef
-  const elem = map;
-  const loadTrigger = createObserver(elem);
+  const node = map;
+  const loadTrigger = createObserver(node)
+    .then(async () => await import('./modules/map'));
+}
 
-  loadTrigger.then(async () => await import('./modules/map'));
+async function loadTrigger(elementId) {
+  let el = doc.getElementById(elementId);
+  let io = await createObserver(el);
+  return io;
 }
 
 async function createObserver(el, ops={}) {
@@ -83,7 +92,7 @@ async function createObserver(el, ops={}) {
 
   const observer = new IntersectionObserver((entries, observer) => {
     for (const entry of entries) {
-      // console.log(entries);
+      console.log(entries);
       ({ isIntersecting } = entry);
       if (isIntersecting) observer.unobserve(entry.target);
     }

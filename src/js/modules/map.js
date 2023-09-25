@@ -1,9 +1,11 @@
 import L from './leaflet';
+// import * as classes from '../../scss/leaflet-map.module.scss';
+
 import {
   selectAll,
-  createNode,
-  createNodeWithClass,
-  appendNode
+  // createNode,
+  // createNodeWithClass,
+  // appendNode
 } from '../utils';
 
 // TODO: Использовать Mapbox Directions API и Geolocation API,
@@ -47,6 +49,9 @@ const ICON_ZOOM_OUT = `<svg aria-hidden="true" focusable="false" role="img" xmln
   <path fill="url(#Grad)" d="M307.8 223.8h-200c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h200c6.6 0 12 5.4 12 12v8c0 6.6-5.4 12-12 12zM508.3 497L497 508.3c-4.7 4.7-12.3 4.7-17 0l-129-129c-2.3-2.3-3.5-5.3-3.5-8.5v-8.5C310.6 395.7 261.7 416 208 416 93.8 416 1.5 324.9 0 210.7-1.5 93.7 93.7-1.5 210.7 0 324.9 1.5 416 93.8 416 208c0 53.7-20.3 102.6-53.7 139.5h8.5c3.2 0 6.2 1.3 8.5 3.5l129 129c4.7 4.7 4.7 12.3 0 17zM384 208c0-97.3-78.7-176-176-176S32 110.7 32 208s78.7 176 176 176 176-78.7 176-176z"></path>
 </svg>`;
 
+// Add icon for metro/underground stations
+const ICON_METRO = `<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 11.8L4.5 2 8 7.5 11.5 2l3.5 9.8h1V13h-5v-1.2h.5l-1-2.27L8 13 5.5 9.53l-1 2.27H5V13H0v-1.2h1z" fill="#FF4D4D"></path></svg>`
+
 const ATTR = 'Данные карты &copy; <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener noreferrer">Участники OpenStreetMap</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener noreferrer">CC-BY-SA</a>, Векторные данные &copy; <a href="https://www.mapbox.com/" target="_blank" rel="noopener noreferrer">Mapbox</a>';
 
 const NAMES = [
@@ -54,6 +59,8 @@ const NAMES = [
   'Загородная студия',
   'Cтудия в школе танцев',
 ];
+
+const { dataset: { device, themeStyle } } = root;
 
 // https://schema.org/OpeningHoursSpecification
 const addOpens = (days='Mo-Su', time) => `
@@ -73,10 +80,6 @@ const addContact = (telephone) => `
     </span>
   </span>
 `;
-
-const metroIcon = `<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1 11.8L4.5 2 8 7.5 11.5 2l3.5 9.8h1V13h-5v-1.2h.5l-1-2.27L8 13 5.5 9.53l-1 2.27H5V13H0v-1.2h1z" fill="#FF4D4D"></path></svg>`
-
-// Add icon for metro/underground stations.
 
 // https://learn.javascript.ru/template-element
 // https://gomakethings.com/html-templates-with-vanilla-javascript/
@@ -157,7 +160,7 @@ const locations = [
 // const mapboxUrl = 'https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}';
 
 let mapboxUrl;
-if (root.dataset.device === 'mobile') {
+if (device === 'mobile') {
   mapboxUrl = 'https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
 } else {
   mapboxUrl = 'https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}';
@@ -186,7 +189,7 @@ const light = L.tileLayer(mapboxUrl, {
   style_id: LIGHT_STYLE_ID
 });
 
-const style = root.dataset.themeStyle;
+const style = themeStyle;
 const toggle = document.querySelector('theme-switch');
 
 toggle.addEventListener('colorschemechange', () => {

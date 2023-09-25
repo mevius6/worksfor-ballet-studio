@@ -1,4 +1,3 @@
-import { gsap } from 'gsap';
 import { selectAll } from '../utils';
 
 const lazyImages = selectAll('[loading=lazy]');
@@ -10,9 +9,7 @@ lazyImages.forEach(async img => {
 
   // https://caniuse.com/loading-lazy-attr
   if ('loading' in HTMLImageElement.prototype) {
-    img.onload = () => revealImage(picture, img);
-  } else {
-    // ? LQIP
+    // TODO: LQIP
     // wrapper.style.backgroundImage = `url('${base64}')`;
     img.onload = () => {
       wrapper.animate({ opacity: [0, 1] }, {
@@ -21,10 +18,14 @@ lazyImages.forEach(async img => {
         easing: 'ease-out',
       });
     }
+  } else {
+    img.onload = async () => await revealImage(picture, img);
   }
 });
 
-function revealImage(wrapper, image) {
+async function revealImage(wrapper, image) {
+  const { gsap } = await import('gsap');
+
   let tl = gsap.timeline({ defaults: {ease: 'power2.out'} });
   tl
     .from(wrapper, {

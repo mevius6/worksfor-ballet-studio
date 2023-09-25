@@ -1,6 +1,6 @@
 @use 'config';
 
-@layer theme { @layer any, colours, doc, defaults; }
+@layer theme { @layer any, colors, doc, defaults; }
 
 @layer theme.any {
   * {
@@ -22,24 +22,26 @@
 
   @media (hover: hover) {
     * {
-     outline-offset: 3px;
-     outline-color: var(--trn, transparent);
+      outline-offset: 3px;
+      outline-color: var(--trn, transparent);
     }
 
     *:focus-visible {
-     outline: 1px dotted var(--accent);
+      outline: 1px dotted var(--accent);
     }
   }
 }
 
-// Contains colour swatches and theme configuration
-@layer theme.colours {
+// Contains color swatches and theme configuration
+@layer theme.colors {
   :root {
     // ----------------------------------
     // Color Palettes
     // ----------------------------------
     // https://drafts.csswg.org/css2/#system-colors
     // https://drafts.csswg.org/css-color-3/#css-system
+    // https://drafts.csswg.org/css-color/
+    // https://www.w3.org/TR/css-color-4/
 
     // HSL helpers
     --trn: hsl(0 0% 0% / 0); // #00000000
@@ -48,87 +50,138 @@
     --lum: 98%; // #fafafa
     --lum: 96%; // #f4f4f4
     --hsl: var(--hue) var(--sat) var(--lum);
-    --white: var(--hsl);
+    // --white: var(--hsl);
 
-    // https://web.dev/color-spaces-and-functions/
-    // https://developer.chrome.com/articles/high-definition-css-color-guide/
+    // Color spaces and functions
     // https://nerdy.dev/open-props-oklch-palettes-beta
-    // --srgb: color(srgb 1 1 1);
-    // --srgb-linear: color(srgb-linear 100% 100% 100% / 50%);
-    // --display-p3: color(display-p3 1 1 1);
-    // --rec2020: color(rec2020 0 0 0);
-    // --a98-rgb: color(a98-rgb 1 1 1 / 25%);
-    // --prophoto: color(prophoto-rgb 0% 0% 0%);
-    // --xyz: color(xyz 1 1 1);
+    --display-p3: color(display-p3 1 1 1);
     // @supports (background: var(--display-p3)) {…}
 
-    // beige-mauve monochromatic color scheme
     // ----------------------------------
-    // SW Color Palette
+    // SW Color Swatches + EDE Data
     // ----------------------------------
-    --black: 240deg 1% 19%;
-    --white: 40deg 25% 88%;
-    --gray: 270deg 3% 31%;
-    --gray: hsl(60deg 6% 57%);
-    //
-    // Lead colours
-    //
-    --gold: 33deg 45% 63%;
-    --coral: 13deg 70% 82%;
-    //
-    // Red family swatches
-    //
-    // SW Red EDE WildPoppy
-    --sw-ede-wild-poppy: 3deg 41% 53%;
-    // SW 9081 Redend Point
-    // -> https://www.sherwin-williams.com/en-us/color-of-the-year-2023
-    --sw-redend-point: 20deg 23% 59%;
-    // SW 6057 Malted Milk
-    --sw-malted-milk: 24deg 33% 81%;
-    // Purple family swatches
-    // SW 7580 Carnelian
-    --sw-carnelian: 0deg 17% 29%; // #573E3E
-    //
-    // White family swatches
-    //
-    // SW 7105 Paperwhite
-    --sw-paperwhite: 41deg 61% 92%; // #F7EFDE
-    //
-    // Yellow family swatches
-    //
-    // SW 7676 Paper Lantern
-    --sw-paper-lantern: 37deg 64% 86%; // #F2E0C4
-    //
+    // coty: https://www.sherwin-williams.com/en-us/color-of-the-year-2023
+    // desc: beige-mauve monochromatic color scheme w/ pastel accents
+    // data: <Hex Value | Color ID | Color Name>
+
+    // Set of hues ordered by families
+
+    // Red
+    --sw-toile-red: 5deg 28% 43%;        // 8B534E SW0006 Toile Red (H)
+    --sw-abalone-shell: 20deg 29% 80%;   // DBC7BD SW6050 Abalone Shell
+    --sw-quaint-peche: 18deg 49% 84%;    // EACDC1 SW6330 Quaint Peche
+    --sw-red-theatre: 359deg 34% 32%;    // 6E3637 SW7584 Red Theatre (Timeless)
+    --sw-coral-clay: 8deg 39% 59%;       // BF796E SW9005 Coral Clay
+    --sw-rojo-dust: 11deg 35% 55%;       // B57466 SW9006 Rojo Dust
+    --sw-hushed-auburn: 14deg 21% 57%;   // A8857A SW9080 Hushed Auburn
+    --sw-redend-point: 20deg 23% 59%;    // AE8E7E SW9081 Redend Point
+                                         // Soft Shades + Statement Hues
+    --sw-ede-rose-pink: 355deg 51% 86%;  // EECACD SW9693 Rose Pink
+    --sw-ede-wild-poppy: 3deg 41% 53%;   // B85B57 SW9694 Wild Poppy
+    --sw-ede-pale-pink: 30deg 32% 90%;   // EEE6DE SW9696 Pale Pink
+    // Orange
+    --sw-malted-milk: 24deg 33% 81%;     // DECABD SW6057 Malted Milk
+    --sw-cool-beige: 27deg 21% 72%;      // C6B5A7 SW9086 Cool Beige
+    // Yellow
+    --sw-nugget: 42deg 67% 57%;          // DBB04A SW6697 Nugget
+    --sw-paper-lantern: 37deg 64% 86%;   // F2E0C4 SW7676 Paper Lantern
+    --sw-vintage-gold: 33deg 45% 63%;    // CBA576 SW9024 Vintage Gold
+    // Green
+    --sw-chartreuse: 50deg 60% 70%;      // E1D286 SW0073 Chartreuse
+    --sw-sea-salt: 97deg 8% 81%;         // CDD2CA SW6204 Sea Salt
+    --sw-glimmer: 137deg 13% 89%;        // E0E7E2 SW6476 Glimmer
+    --sw-mint-condition: 123deg 24% 85%; // D1E3D2 SW6743 Mint Condition
+    // Blue
+    --sw-window-pane: 127deg 11% 86%;    // D7DFD8 SW6210 Window Pane
+    --sw-green-trance: 138deg 19% 87%;   // D7E4DB SW6462 Green Trance
+    --sw-drizzle: 175deg 17% 62%;        // 8CAEAB SW6479 Drizzle
+    --sw-in-the-navy: 211deg 29% 22%;    // 283849 SW9178 In the Navy
+    --sw-naval: 211deg 24% 24%;          // 2F3D4C SW6244 Naval
+    // Purple
+    --sw-fashionable-gray: 0deg 4% 73%;  // BDB8B8 SW6275 Fashionable Gray
+    --sw-mystical-shade: 348deg 3% 67%;  // AEA9AA SW6276 Mystical Shade
+    --sw-rhapsody-lilac: 269deg 24% 83%; // D2C8DD SW6828 Rhapsody Lilac
+    --sw-carnelian: 0deg 17% 29%;        // 573E3E SW7580 Carnelian
+    --sw-perle-noir: 270deg 3% 31%;      // 4F4D51 SW9154 Perle Noir
     // Neutral
-    //
-    --neutral: hsl(var(--sw-redend-point));
-    //
+    --sw-skyline-steel: 38deg 14% 74%;   // C6BFB3 SW1015 Skyline Steel
+    --sw-westchester-gray: 60deg 0% 47%; // 797978 SW2849 Westchester Gray (H)
+    --sw-chelsea-gray: 69deg 5% 70%;     // B6B7B0 SW2850 Chelsea Gray (H)
+    --sw-tricorn-black: 240deg 1% 19%;   // 2F2F30 SW6258 Tricorn Black
+    --sw-black-magic: 300deg 1% 19%;     // 323132 SW6991 Black Magic
+    --sw-urbane-bronze: 36deg 6% 31%;    // 54504A SW7048 Urbane Bronze
+    --sw-silver-strand: 86deg 6% 78%;    // C8CBC4 SW7057 Silver Strand
+    --sw-loggia: 35deg 21% 71%;          // C4B7A5 SW7506 Loggia
+    --sw-stone-lion: 34deg 18% 64%;      // B3A491 SW7507 Stone Lion
+    --sw-foothills: 30deg 12% 45%;       // 827466 SW7514 Foothills
+    // White & Pastel
+    --sw-pure-white: 51deg 16% 92%;      // EDECE6 SW7005 Pure White
+    --sw-extra-white: 72deg 14% 93%;     // EEEFEA SW7006 Extra White
+    --sw-alabaster: 46deg 27% 90%;       // EDEAE0 SW7008 Alabaster
+    --sw-shoji-white: 38deg 28% 86%;     // E6DFD3 SW7042 Shoji White
+    --sw-worldly-gray: 35deg 16% 77%;    // CEC6BB SW7043 Worldly Gray
+    --sw-paperwhite: 41deg 61% 92%;      // F7EFDE SW7105 Paperwhite
+    --sw-greek-villa: 43deg 32% 91%;     // F0ECE2 SW7551 Greek Villa
+    --sw-westhighland: 41deg 40% 92%;    // F3EEE3 SW7566 Westhighland White
+    --sw-fleur-de-sel: 72deg 7% 86%;     // DCDDD8 SW7666 Fleur de Sel
+
+    // TODO: Coordinated color palettes
+    // ref → https://www.sherwin-williams.com/en-us/color/color-collections/
+    // $palettes: (
+    //   0: (9081, 7514, 9086, 7580, 9080, 6057, 7005, 7048, 0006),
+    //   1: (6275, 7005, 7042, 9154),
+    //   2: (6057, 7005, 9081, 9154),
+    //   3: (2849, 6330, 9005, 7008, 7566, 7580, 9006),
+    //   4: (6276, 7507, 7514, 6050, 9080),
+    //   5: (7042, 7048, …),
+    //   6: (9086, 7551, 9154, 7042, 7005, 6275),
+    //   7: (7506, 7514, 0006),
+    //   8: (7005, 1015, …),
+    //   9: (7005, 6743, 6479, 7666)
+    // );
+
+    // Arrangement by lead, neutral and accent hues
+
+    // Lead
+    --redend: hsl(var(--sw-redend-point));
+    --redend: hsl(var(--sw-redend-point));
+
+    // Neutral
+    // --black: var(--sw-tricorn-black);
+    --black: var(--sw-perle-noir);
+    --white: var(--sw-pure-white);
+    // --gray: var(--sw-chelsea-gray);
+    // --gray: var(--sw-fashionable-gray);
+    --gray: var(--sw-mystical-shade);
+
     // Contrasting highlight
-    //
-    --accent: hsl(var(--gold));
-    --accent-a25: hsl(var(--gold) / 0.25);
-    --accent-a50: hsl(var(--gold) / 0.5);
-    --accent-a80: hsl(var(--gold) / 0.8);
+    --accent-a25: hsl(var(--sw-vintage-gold) / 0.25);
+    --accent-a50: hsl(var(--sw-vintage-gold) / 0.5);
+    --accent-a80: hsl(var(--sw-vintage-gold) / 0.8);
+    --accent: hsl(var(--sw-vintage-gold));
+
     --accent-shade: hsl(var(--sw-redend-point));
-    --accent-major: hsl(var(--gold)); // primary
-    --accent-extra: hsl(var(--hsl)); // secondary • active
-    //
-    // Alert sys
-    //
-    // --alert-ok: hsl(180deg 23% 20%);
+    --accent-major: hsl(var(--sw-vintage-gold)); // primary
+    --accent-extra: hsl(var(--sw-extra-white)); // secondary
+
+    // Pairing color swatches to specific ui-tokens
+
+    // States
+    --active: unset;
+
+    // Alert system
     --alert-ok: var(--accent-extra);
     --alert-no: hsl(var(--sw-ede-wild-poppy));
-    //
-    // Theming (@layer theme.colours.author)
-    //
+
     --avatar-bg-dark: var(--accent-shade);
     --avatar-bg-light: var(--accent-shade);
 
     // ----------------------------------
     // Gradients ∇
     // ----------------------------------
-    // Gen → https://www.joshwcomeau.com/gradient-generator/
-    // Gen → https://larsenwork.com/easing-gradients/
+    // Gens:
+    // → https://www.joshwcomeau.com/gradient-generator/
+    // → https://larsenwork.com/easing-gradients/
 
     // ROYGBIV (rainbow gradient)
     // Tip -> https://nerdy.dev/easy-hsl-rainbow
@@ -201,8 +254,10 @@
     // ----------------------------------
     // Data URLs
     // ----------------------------------
-    // Inlining a bundle as a data URL, e.g. 'url(data-url:./noise.png);'
-    // https://parceljs.org/features/bundle-inlining/
+
+    // Inlining a bundle as a data URL w/ “data-url:” scheme
+    // → https://parceljs.org/features/bundle-inlining/
+    --brand-logo: url(data-url:./logo.svg);
 
     // Noise variations
     --svg-noise: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 1920 1920' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
@@ -219,21 +274,21 @@
       :not([data-theme-style]),
       [data-theme-style]
     ) {
-      --background-a15: hsl(var(--bg-hsl) / 0.15);
-      --background-a25: hsl(var(--bg-hsl) / 0.25);
-      --background-a50: hsl(var(--bg-hsl) / 0.5);
-      --background-a60: hsl(var(--bg-hsl) / 0.6);
-      --background-a75: hsl(var(--bg-hsl) / 0.75);
-      --background-a80: hsl(var(--bg-hsl) / 0.8);
-      --background-a95: hsl(var(--bg-hsl) / 0.95);
+      --background-a15: hsl(var(--bg-hsl) / .15);
+      --background-a25: hsl(var(--bg-hsl) / .25);
+      --background-a50: hsl(var(--bg-hsl) / .50);
+      --background-a60: hsl(var(--bg-hsl) / .60);
+      --background-a75: hsl(var(--bg-hsl) / .75);
+      --background-a80: hsl(var(--bg-hsl) / .80);
+      --background-a95: hsl(var(--bg-hsl) / .95);
       --background: hsl(var(--bg-hsl));
-      --foreground-a15: hsl(var(--fg-hsl) / 0.15);
-      --foreground-a25: hsl(var(--fg-hsl) / 0.25);
-      --foreground-a50: hsl(var(--fg-hsl) / 0.5);
-      --foreground-a60: hsl(var(--fg-hsl) / 0.6);
-      --foreground-a75: hsl(var(--fg-hsl) / 0.75);
-      --foreground-a80: hsl(var(--fg-hsl) / 0.8);
-      --foreground-a95: hsl(var(--fg-hsl) / 0.95);
+      --foreground-a15: hsl(var(--fg-hsl) / .15);
+      --foreground-a25: hsl(var(--fg-hsl) / .25);
+      --foreground-a50: hsl(var(--fg-hsl) / .50);
+      --foreground-a60: hsl(var(--fg-hsl) / .60);
+      --foreground-a75: hsl(var(--fg-hsl) / .75);
+      --foreground-a80: hsl(var(--fg-hsl) / .80);
+      --foreground-a95: hsl(var(--fg-hsl) / .95);
       --foreground: hsl(var(--fg-hsl));
     }
 
@@ -243,7 +298,7 @@
 
       --bg-hsl: var(--white);
       --fg-hsl: var(--sw-carnelian);
-      --shadow: hsl(var(--fg-hsl) / 0.16);
+      --shadow: hsl(var(--fg-hsl) / .16);
       --selection-foreground: var(--bg-hsl);
       --selection-background: var(--accent-shade);
     }
@@ -257,7 +312,7 @@
 
       --bg-hsl: var(--black);
       --fg-hsl: var(--white);
-      --shadow: hsl(var(--bg-hsl) / 0.25);
+      --shadow: hsl(var(--bg-hsl) / .25);
       --selection-background: var(--accent-shade);
     }
   }
@@ -278,16 +333,17 @@
     text-size-adjust: none;
   }
   /* autoprefixer: on */
-}
 
-@layer theme.doc.support {
-  html body { min-block-size: 100%; }
+  @layer support {
+    html body { min-block-size: 100%; }
 
-  @media screen and (prefers-reduced-motion: no-preference) {
-    html,
-    body { scroll-behavior: smooth; }
+    @media screen and (prefers-reduced-motion: no-preference) {
+      html,
+      body { scroll-behavior: smooth; }
+    }
   }
 }
+
 
 // Contains layout, utilities and helper tokens
 @layer theme.defaults {

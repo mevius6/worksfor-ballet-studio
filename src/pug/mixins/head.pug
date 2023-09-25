@@ -32,7 +32,7 @@ mixin head(props)
       class: className = '',
       level: headingLevel,
       text: content = '',
-      reveal = false, // chars, words or lines
+      split = false, // chars, words or lines
       ...rest
     } = props
   -
@@ -46,9 +46,9 @@ mixin head(props)
   if props.overline
     span.overline= props.overline
 
-  if reveal
+  if split
     - classList.push('reveal')
-    - attrsList['data-splitting'] = reveal
+    - attrsList['data-splitting'] = split
     .reveal-wrapper
       +switch(headingLevel, attrsList)
         +text(content)
@@ -56,5 +56,5 @@ mixin head(props)
     +switch(headingLevel, attrsList)
       +text(content)
   //-
-    h2(class=classList class=[className] data-splitting=reveal)
+    h2(class=classList class=[className] data-splitting=split)
       +text(content)
