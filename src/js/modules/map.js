@@ -1,12 +1,5 @@
 import L from './leaflet';
-// import * as classes from '../../scss/leaflet-map.module.scss';
-
-import {
-  selectAll,
-  // createNode,
-  // createNodeWithClass,
-  // appendNode
-} from '../utils';
+import { selectAll } from '../utils';
 
 // TODO: Использовать Mapbox Directions API и Geolocation API,
 // для построения маршрута (альтернатива Google Maps).
@@ -15,6 +8,8 @@ import {
 // https://docs.mapbox.com/help/tutorials/getting-started-directions-api/
 
 const root = document.documentElement;
+
+/* eslint-disable no-unused-vars */
 
 const ICON_GRADIENT = `<linearGradient id="Grad" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%" gradientTransform="rotate(45)">
   <stop offset="0%" stop-color="#cba576" />
@@ -59,8 +54,6 @@ const NAMES = [
   'Загородная студия',
   'Cтудия в школе танцев',
 ];
-
-const { dataset: { device, themeStyle } } = root;
 
 // https://schema.org/OpeningHoursSpecification
 const addOpens = (days='Mo-Su', time) => `
@@ -160,7 +153,7 @@ const locations = [
 // const mapboxUrl = 'https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}';
 
 let mapboxUrl;
-if (device === 'mobile') {
+if (root.dataset.device === 'mobile') {
   mapboxUrl = 'https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{z}/{x}/{y}?access_token={accessToken}';
 } else {
   mapboxUrl = 'https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/{z}/{x}/{y}@2x?access_token={accessToken}';
@@ -189,7 +182,7 @@ const light = L.tileLayer(mapboxUrl, {
   style_id: LIGHT_STYLE_ID
 });
 
-const style = themeStyle;
+const style = root.dataset.themeStyle;
 const toggle = document.querySelector('theme-switch');
 
 toggle.addEventListener('colorschemechange', () => {
@@ -282,3 +275,5 @@ selectAll('.extra-controls__item').forEach((control, i) => {
     map.setView(coords);
   }, false);
 });
+
+/* eslint-enable no-unused-vars */

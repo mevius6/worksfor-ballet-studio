@@ -3,23 +3,48 @@
    and interactive content are all types of flow content.”
 
   Intent:
-    Filters flow content by the component content models
-    defined in the '../mixins/' directory.
+    Filters flow content by the content models
+    defined as ‘props’ for each component in the
+    '../mixins/' directory.
 
   Spec parts:
     → https://html.spec.whatwg.org/multipage/dom.html#content-models
     → https://html.spec.whatwg.org/multipage/dom.html#kinds-of-content
     → https://html.spec.whatwg.org/multipage/text-level-semantics.html
 
-//- TODO: make more useful as it is currently only used
-          for articles in carousel slides.
-//- NAME:
+  OOP TL;DR
+    Data contextualization for common field descriptions (or properties)
+    contained within classes (i.e. mixins).
+    Data that belongs to individual objects defined in the
+    file '../static-data.pug'.
+
+  Wiki pages:
+    → https://en.wikipedia.org/wiki/Type_system
+    → https://en.wikipedia.org/wiki/Data_type
+    → https://en.wikipedia.org/wiki/Data_structure
+    → https://en.wikipedia.org/wiki/Persistent_data_structure
+    → https://en.wikipedia.org/wiki/Object-oriented_programming
+      → https://en.wikipedia.org/wiki/Record_(computer_science)
+        A record is a collection of fields, possibly of different data types
+      → https://en.wikipedia.org/wiki/Field_(computer_science)
+        (often known as attributes or properties)
+      → https://en.wikipedia.org/wiki/Variable_(computer_science)
+      → https://en.wikipedia.org/wiki/Class_(computer_science)
+      → https://en.wikipedia.org/wiki/Object_(computer_science)
+      → https://en.wikipedia.org/wiki/Property_(programming)
+      → https://en.wikipedia.org/wiki/Instance_variable
+
+//- Naming:
+  - data(flow)
+  - conEntity(data)
+  - conData(entity)
   - flowFilter(elem)
   - contentProxy(type)
+
 mixin dataFilter(entry)
   -
-    // reflects common component properties for data
-    // defined in the file '../static-data.pug'
+    // TODO: make more useful as currently only used
+    //       for articles in carousel slides.
     let {
       title='',
       field='',

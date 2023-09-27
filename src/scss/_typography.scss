@@ -272,6 +272,7 @@
     [class*='headline'],
     [class$='subhead']
   ) {
+    // https://www.w3.org/TR/css-text-4/#text-wrap
     text-wrap: balance;
   }
 

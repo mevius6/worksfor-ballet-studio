@@ -15,30 +15,30 @@ block content
 
     .container.spaced.--ada-md
       .grid__content
-        +head({ level: 2, text: 'Студия на Скаковой', reveal: 'chars' })
+        +head({ level: 2, text: 'Студия на Скаковой', split: 'chars' })
       .grid__full
         +calendar({ schedule: central })
 
     .container.spaced.--ada-md
       .grid__content
-        +head({ level: 2, text: 'Студия на Вернадского', reveal: 'chars' })
+        +head({ level: 2, text: 'Студия на Вернадского', split: 'chars' })
       .grid__full
         +calendar({ schedule: balance })
 
     .container.spaced.--ada-md
       .grid__content
-        +head({ level: 2, text: 'Студия в деревне Николо-Хованское', reveal: 'chars' })
+        +head({ level: 2, text: 'Студия в деревне Николо-Хованское', split: 'chars' })
       .grid__full
         +calendar({ schedule: village })
 
-    .container(data-id="map")
+    .container#locate
       .grid__content
-        +head({ level: 2, text: 'Как добраться', reveal: 'chars' })
+        +head({ level: 2, text: 'Как добраться', split: 'chars' })
       .grid__full
         +map({})
 
-    .container.spaced.--ada-md#contact(data-id="contact")
-      .grid__center: +head({ level: 2, text: 'Пишите нам', reveal: 'chars' })
+    .container.spaced.--ada-md#contact
+      .grid__center: +head({ level: 2, text: 'Пишите нам', split: 'chars' })
       +form({
         class: 'grid__center',
         endpoint: '294b2d20',

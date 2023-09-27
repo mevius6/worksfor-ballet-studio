@@ -47,7 +47,7 @@ block content
         +head({
           level: 2,
           text: ['Открыт набор', 'на 2023–2024', 'учебный год'],
-          reveal: 'chars' })
+          split: 'chars' })
       article.flow.grid__end-half.--ada-lg
         p= intent
         p= lead
@@ -59,7 +59,7 @@ block content
 
     section.container.spaced.--ada-md#offer-childs
       .grid__third-lhs.sideways
-        +head({ level: 2, text: 'Занятия для детей', reveal: 'chars' })
+        +head({ level: 2, text: 'Занятия для детей', split: 'chars' })
       .grid__third-rhs
         //- H2F: “class” prop will no longer be iterable if this is removed
         +carousel({
@@ -75,7 +75,7 @@ block content
 
     section.container.spaced.--ada-lg#about
       article.flow.grid__center
-        +head({ level: 2, text: about.head, reveal: 'chars' })
+        +head({ level: 2, text: about.head, split: 'chars' })
         p= about.body
         +cta({
           type: 'anchor',
@@ -85,7 +85,7 @@ block content
 
     section.container.spaced.--ada-md#offer-adults
       .grid__third-lhs.sideways
-        +head({ level: 2, text: 'Занятия для взрослых', reveal: 'chars' })
+        +head({ level: 2, text: 'Занятия для взрослых', split: 'chars' })
       .grid__third-rhs
         +carousel({
           id: 'adult-classes',
@@ -100,13 +100,13 @@ block content
 
     section.container.spaced.--lg#partners
       .grid__third-lhs.sideways
-        +head({ level: 2, text: 'Наши партнёры', reveal: 'chars' })
+        +head({ level: 2, text: 'Наши партнёры', split: 'chars' })
       .grid__third-rhs.d-grid.grid-items-center
         +marquee()
 
     section.container.spaced.--ada-md#teachers
       .grid__third-lhs.sideways
-        +head({ level: 2, text: 'Команда педагогов', reveal: 'chars' })
+        +head({ level: 2, text: 'Команда педагогов', split: 'chars' })
       //- TODO: add markup https://schema.org/Person
       .grid__third-rhs
         +carousel({
@@ -121,7 +121,7 @@ block content
 
     section.container.spaced.--ada-lg#reviews
       .grid__center.d-grid.grid-items-center
-        +head({ level: 2, text: 'Отзывы', reveal: 'chars' })
+        +head({ level: 2, text: 'Отзывы', split: 'chars' })
       .grid__content
         p.overline(
           itemprop="aggregateRating"
@@ -138,14 +138,12 @@ block content
           instance: 4,
         })
 
-    section.container
-      +map({
-        classes: 'grid__full',
-        controls: true,
-      })
+    section.container#locate
+      .grid__center: +head({ level: 2, text: 'Как добраться', split: 'chars' })
+      +map({ classes: 'grid__full', controls: true })
 
     section.container.spaced.--ada-md#contact
-      .grid__center: +head({ level: 2, text: 'Пишите нам', reveal: 'chars' })
+      .grid__center: +head({ level: 2, text: 'Пишите нам', split: 'chars' })
       +form({
         class: 'grid__center',
         endpoint: '294b2d20',

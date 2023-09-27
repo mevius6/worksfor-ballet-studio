@@ -6,7 +6,7 @@
   --header-block-size: min-content;
 
   position: fixed;
-  inset-block-start: var(--spacer);
+  inset-block-start: 0;
   inset-inline-start: 0;
   z-index: var(--zi);
   margin-inline: auto;
@@ -16,9 +16,64 @@
   inline-size: var(--header-cross-size);
   block-size: var(--header-block-size);
 
-  pointer-events: none;
+  & {
+    pointer-events: none;
+    & > * {
+      pointer-events: all;
+    }
+  }
 
-  // & > .logo {…}
+  & > a > picture {
+    --grad-color-stop1: hsl(323deg 98% 75%);
+    --grad-color-stop2: hsl(45deg 56% 58%);
+    // aspect-ratio: 16/9;
+    // background-image: linear-gradient(
+    //   var(--grad-color-stop1),
+    //   var(--grad-color-stop2));
+    // filter: url(#noise);
+    overflow: auto;
+    /* mask tldr;
+       as the visible percentage increases,
+       the masked percentage decreased
+       visible starts at 1%
+       masked starts at 7%
+       for a recreding 7 hard lines mask effect
+       (a loop and some calc could generate this)
+       ref → https://codepen.io/argyleink/pen/XWPjzgR
+    */
+    mask: linear-gradient(
+      to top,
+      #000 1%,     /* 1% visible */
+      0%,            /* hard line */
+      #0000 8%,    /* 7% masked */
+      0%,
+      #000 10%,    /* 2% visible */
+      0%,
+      #0000 16%,   /* 6% masked */
+      0%,
+      #000 19%,    /* 3% visible */
+      0%,
+      #0000 24%,   /* 5% masked */
+      0%,
+      #000 28%,    /* 4% visible */
+      0%,
+      #0000 32%,   /* 4% masked */
+      0%,
+      #000 37%,    /* 5% visible */
+      0%,
+      #0000 40%,   /* 3% masked */
+      0%,
+      #000 46%,    /* 6% visible */
+      0%,
+      #0000 48%,   /* 2% masked */
+      0%,
+      #000 55%,    /* 7% visible */
+      0%,
+      #0000 56%,   /* 1% invisible */
+      0%,
+      #000 57%     /* visible til end */
+    );
+  }
 
   & > ul {
     grid-template-columns: 1fr auto;

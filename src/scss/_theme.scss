@@ -38,10 +38,10 @@
     // ----------------------------------
     // Color Palettes
     // ----------------------------------
-    // https://drafts.csswg.org/css2/#system-colors
-    // https://drafts.csswg.org/css-color-3/#css-system
-    // https://drafts.csswg.org/css-color/
-    // https://www.w3.org/TR/css-color-4/
+
+    // → https://drafts.csswg.org/css2/#system-colors
+    // → https://drafts.csswg.org/css-color/#css-system-colors
+    // → https://www.w3.org/TR/css-color-4/
 
     // HSL helpers
     --trn: hsl(0 0% 0% / 0); // #00000000
@@ -53,77 +53,82 @@
     // --white: var(--hsl);
 
     // Color spaces and functions
-    // https://nerdy.dev/open-props-oklch-palettes-beta
+    // → https://developer.chrome.com/articles/high-definition-css-color-guide/
+    // → https://web.dev/color-spaces-and-functions
+    // → https://nerdy.dev/open-props-oklch-palettes-beta
+    // → https://color-mix.style/
+
     --display-p3: color(display-p3 1 1 1);
     // @supports (background: var(--display-p3)) {…}
 
     // ----------------------------------
-    // SW Color Swatches + EDE Data
+    // SW Color Swatches
     // ----------------------------------
+
     // coty: https://www.sherwin-williams.com/en-us/color-of-the-year-2023
     // desc: beige-mauve monochromatic color scheme w/ pastel accents
     // data: <Hex Value | Color ID | Color Name>
 
-    // Set of hues ordered by families
+    // Set of swatches ordered by color families.
 
     // Red
-    --sw-toile-red: 5deg 28% 43%;        // 8B534E SW0006 Toile Red (H)
-    --sw-abalone-shell: 20deg 29% 80%;   // DBC7BD SW6050 Abalone Shell
-    --sw-quaint-peche: 18deg 49% 84%;    // EACDC1 SW6330 Quaint Peche
-    --sw-red-theatre: 359deg 34% 32%;    // 6E3637 SW7584 Red Theatre (Timeless)
-    --sw-coral-clay: 8deg 39% 59%;       // BF796E SW9005 Coral Clay
-    --sw-rojo-dust: 11deg 35% 55%;       // B57466 SW9006 Rojo Dust
-    --sw-hushed-auburn: 14deg 21% 57%;   // A8857A SW9080 Hushed Auburn
-    --sw-redend-point: 20deg 23% 59%;    // AE8E7E SW9081 Redend Point
-                                         // Soft Shades + Statement Hues
-    --sw-ede-rose-pink: 355deg 51% 86%;  // EECACD SW9693 Rose Pink
-    --sw-ede-wild-poppy: 3deg 41% 53%;   // B85B57 SW9694 Wild Poppy
-    --sw-ede-pale-pink: 30deg 32% 90%;   // EEE6DE SW9696 Pale Pink
+    --sw-toile-red: 5deg 28% 43%;         // 8B534E SW0006 Toile Red (H)
+    --sw-abalone-shell: 20deg 29% 80%;    // DBC7BD SW6050 Abalone Shell
+    --sw-quaint-peche: 18deg 49% 84%;     // EACDC1 SW6330 Quaint Peche
+    --sw-red-theatre: 359deg 34% 32%;     // 6E3637 SW7584 Red Theatre
+    --sw-coral-clay: 8deg 39% 59%;        // BF796E SW9005 Coral Clay
+    --sw-rojo-dust: 11deg 35% 55%;        // B57466 SW9006 Rojo Dust
+    --sw-hushed-auburn: 14deg 21% 57%;    // A8857A SW9080 Hushed Auburn
+    --sw-redend-point: 20deg 23% 59%;     // AE8E7E SW9081 Redend Point
+                                          // Soft Shades + Statement Hues
+    --sw-ede-rose-pink: 355deg 51% 86%;   // EECACD SW9693 Rose Pink
+    --sw-ede-wild-poppy: 3deg 41% 53%;    // B85B57 SW9694 Wild Poppy
+    --sw-ede-pale-pink: 30deg 32% 90%;    // EEE6DE SW9696 Pale Pink
     // Orange
-    --sw-malted-milk: 24deg 33% 81%;     // DECABD SW6057 Malted Milk
-    --sw-cool-beige: 27deg 21% 72%;      // C6B5A7 SW9086 Cool Beige
+    --sw-malted-milk: 24deg 33% 81%;      // DECABD SW6057 Malted Milk
+    --sw-cool-beige: 27deg 21% 72%;       // C6B5A7 SW9086 Cool Beige
     // Yellow
-    --sw-nugget: 42deg 67% 57%;          // DBB04A SW6697 Nugget
-    --sw-paper-lantern: 37deg 64% 86%;   // F2E0C4 SW7676 Paper Lantern
-    --sw-vintage-gold: 33deg 45% 63%;    // CBA576 SW9024 Vintage Gold
+    --sw-nugget: 42deg 67% 57%;           // DBB04A SW6697 Nuggets
+    --sw-paper-lantern: 37deg 64% 86%;    // F2E0C4 SW7676 Paper Lantern
+    --sw-vintage-gold: 33deg 45% 63%;     // CBA576 SW9024 Vintage Gold
     // Green
-    --sw-chartreuse: 50deg 60% 70%;      // E1D286 SW0073 Chartreuse
-    --sw-sea-salt: 97deg 8% 81%;         // CDD2CA SW6204 Sea Salt
-    --sw-glimmer: 137deg 13% 89%;        // E0E7E2 SW6476 Glimmer
-    --sw-mint-condition: 123deg 24% 85%; // D1E3D2 SW6743 Mint Condition
+    --sw-chartreuse: 50deg 60% 70%;       // E1D286 SW0073 Chartreuse
+    --sw-sea-salt: 97deg 8% 81%;          // CDD2CA SW6204 Sea Salt
+    --sw-glimmer: 137deg 13% 89%;         // E0E7E2 SW6476 Glimmer
+    --sw-mint-condition: 123deg 24% 85%;  // D1E3D2 SW6743 Mint Condition
     // Blue
-    --sw-window-pane: 127deg 11% 86%;    // D7DFD8 SW6210 Window Pane
-    --sw-green-trance: 138deg 19% 87%;   // D7E4DB SW6462 Green Trance
-    --sw-drizzle: 175deg 17% 62%;        // 8CAEAB SW6479 Drizzle
-    --sw-in-the-navy: 211deg 29% 22%;    // 283849 SW9178 In the Navy
-    --sw-naval: 211deg 24% 24%;          // 2F3D4C SW6244 Naval
+    --sw-window-pane: 127deg 11% 86%;     // D7DFD8 SW6210 Window Pane
+    --sw-green-trance: 138deg 19% 87%;    // D7E4DB SW6462 Green Trance
+    --sw-drizzle: 175deg 17% 62%;         // 8CAEAB SW6479 Drizzle
+    --sw-in-the-navy: 211deg 29% 22%;     // 283849 SW9178 In the Navy
+    --sw-naval: 211deg 24% 24%;           // 2F3D4C SW6244 Naval
     // Purple
-    --sw-fashionable-gray: 0deg 4% 73%;  // BDB8B8 SW6275 Fashionable Gray
-    --sw-mystical-shade: 348deg 3% 67%;  // AEA9AA SW6276 Mystical Shade
-    --sw-rhapsody-lilac: 269deg 24% 83%; // D2C8DD SW6828 Rhapsody Lilac
-    --sw-carnelian: 0deg 17% 29%;        // 573E3E SW7580 Carnelian
-    --sw-perle-noir: 270deg 3% 31%;      // 4F4D51 SW9154 Perle Noir
+    --sw-fashionable-gray: 0deg 4% 73%;   // BDB8B8 SW6275 Fashionable Gray
+    --sw-mystical-shade: 348deg 3% 67%;   // AEA9AA SW6276 Mystical Shade
+    --sw-rhapsody-lilac: 269deg 24% 83%;  // D2C8DD SW6828 Rhapsody Lilac
+    --sw-carnelian: 0deg 17% 29%;         // 573E3E SW7580 Carnelian
+    --sw-perle-noir: 270deg 3% 31%;       // 4F4D51 SW9154 Perle Noir
     // Neutral
-    --sw-skyline-steel: 38deg 14% 74%;   // C6BFB3 SW1015 Skyline Steel
-    --sw-westchester-gray: 60deg 0% 47%; // 797978 SW2849 Westchester Gray (H)
-    --sw-chelsea-gray: 69deg 5% 70%;     // B6B7B0 SW2850 Chelsea Gray (H)
-    --sw-tricorn-black: 240deg 1% 19%;   // 2F2F30 SW6258 Tricorn Black
-    --sw-black-magic: 300deg 1% 19%;     // 323132 SW6991 Black Magic
-    --sw-urbane-bronze: 36deg 6% 31%;    // 54504A SW7048 Urbane Bronze
-    --sw-silver-strand: 86deg 6% 78%;    // C8CBC4 SW7057 Silver Strand
-    --sw-loggia: 35deg 21% 71%;          // C4B7A5 SW7506 Loggia
-    --sw-stone-lion: 34deg 18% 64%;      // B3A491 SW7507 Stone Lion
-    --sw-foothills: 30deg 12% 45%;       // 827466 SW7514 Foothills
+    --sw-skyline-steel: 38deg 14% 74%;    // C6BFB3 SW1015 Skyline Steel
+    --sw-westchester-gray: 60deg 0% 47%;  // 797978 SW2849 Westchester Gray (H)
+    --sw-chelsea-gray: 69deg 5% 70%;      // B6B7B0 SW2850 Chelsea Gray (H)
+    --sw-tricorn-black: 240deg 1% 19%;    // 2F2F30 SW6258 Tricorn Black
+    --sw-black-magic: 300deg 1% 19%;      // 323132 SW6991 Black Magic
+    --sw-urbane-bronze: 36deg 6% 31%;     // 54504A SW7048 Urbane Bronze
+    --sw-silver-strand: 86deg 6% 78%;     // C8CBC4 SW7057 Silver Strand
+    --sw-loggia: 35deg 21% 71%;           // C4B7A5 SW7506 Loggia
+    --sw-stone-lion: 34deg 18% 64%;       // B3A491 SW7507 Stone Lion
+    --sw-foothills: 30deg 12% 45%;        // 827466 SW7514 Foothills
     // White & Pastel
-    --sw-pure-white: 51deg 16% 92%;      // EDECE6 SW7005 Pure White
-    --sw-extra-white: 72deg 14% 93%;     // EEEFEA SW7006 Extra White
-    --sw-alabaster: 46deg 27% 90%;       // EDEAE0 SW7008 Alabaster
-    --sw-shoji-white: 38deg 28% 86%;     // E6DFD3 SW7042 Shoji White
-    --sw-worldly-gray: 35deg 16% 77%;    // CEC6BB SW7043 Worldly Gray
-    --sw-paperwhite: 41deg 61% 92%;      // F7EFDE SW7105 Paperwhite
-    --sw-greek-villa: 43deg 32% 91%;     // F0ECE2 SW7551 Greek Villa
-    --sw-westhighland: 41deg 40% 92%;    // F3EEE3 SW7566 Westhighland White
-    --sw-fleur-de-sel: 72deg 7% 86%;     // DCDDD8 SW7666 Fleur de Sel
+    --sw-pure-white: 51deg 16% 92%;       // EDECE6 SW7005 Pure White
+    --sw-extra-white: 72deg 14% 93%;      // EEEFEA SW7006 Extra White
+    --sw-alabaster: 46deg 27% 90%;        // EDEAE0 SW7008 Alabaster
+    --sw-shoji-white: 38deg 28% 86%;      // E6DFD3 SW7042 Shoji White
+    --sw-worldly-gray: 35deg 16% 77%;     // CEC6BB SW7043 Worldly Gray
+    --sw-paperwhite: 41deg 61% 92%;       // F7EFDE SW7105 Paperwhite
+    --sw-greek-villa: 43deg 32% 91%;      // F0ECE2 SW7551 Greek Villa
+    --sw-westhighland: 41deg 40% 92%;     // F3EEE3 SW7566 Westhighland White
+    --sw-fleur-de-sel: 72deg 7% 86%;      // DCDDD8 SW7666 Fleur de Sel
 
     // TODO: Coordinated color palettes
     // ref → https://www.sherwin-williams.com/en-us/color/color-collections/
@@ -140,21 +145,41 @@
     //   9: (7005, 6743, 6479, 7666)
     // );
 
-    // Arrangement by lead, neutral and accent hues
+    // TODO: Distributing primary, neutral and accent roles among hues.
 
-    // Lead
+    // Primary (or lead)
+
     --redend: hsl(var(--sw-redend-point));
-    --redend: hsl(var(--sw-redend-point));
+    --red-01: hsl(var(--sw-abalone-shell));
+    --red-02: hsl(var(--sw-quaint-peche));
+    --red-09: hsl(var(--sw-redend-point));
+    --lead-01: var(--redend);
 
     // Neutral
-    // --black: var(--sw-tricorn-black);
-    --black: var(--sw-perle-noir);
-    --white: var(--sw-pure-white);
-    // --gray: var(--sw-chelsea-gray);
-    // --gray: var(--sw-fashionable-gray);
-    --gray: var(--sw-mystical-shade);
+
+    // Cool Whites (undertones of blue, green or violet)
+    --cool-white-01: var(--sw-extra-white);
+    --cool-white-02: var(--sw-fleur-de-sel);
+    // Warm Whites (undertones of yellow and red)
+    --warm-white-01: var(--sw-pure-white);
+    --warm-white-02: var(--sw-shoji-white);
+    --warm-white-03: var(--sw-paperwhite);
+    // Cool (lush) Neutrals (undertones of blue, violet or silver)
+    --cool-gray-01: var(--sw-fashionable-gray);
+    --cool-gray-02: var(--sw-mystical-shade);
+    --cool-gray-03: var(--sw-perle-noir);
+    // Warm Neutrals
+    --warm-gray-01: var(--sw-westchester-gray);
+    --warm-gray-02: var(--sw-chelsea-gray);
+    --warm-gray-03: var(--sw-tricorn-black);
+    --warm-gray-04: var(--sw-black-magic);
+
+    // Defining the darkest and lightest hues
+    --black: var(--warm-gray-03);
+    --white: var(--warm-white-01);
 
     // Contrasting highlight
+
     --accent-a25: hsl(var(--sw-vintage-gold) / 0.25);
     --accent-a50: hsl(var(--sw-vintage-gold) / 0.5);
     --accent-a80: hsl(var(--sw-vintage-gold) / 0.8);
@@ -164,15 +189,16 @@
     --accent-major: hsl(var(--sw-vintage-gold)); // primary
     --accent-extra: hsl(var(--sw-extra-white)); // secondary
 
-    // Pairing color swatches to specific ui-tokens
+    // TODO: Pairing color swatches to specific ui-tokens.
 
     // States
-    --active: unset;
+    --active: var(--accent);
 
     // Alert system
     --alert-ok: var(--accent-extra);
     --alert-no: hsl(var(--sw-ede-wild-poppy));
 
+    // Fine-tune GUI patterns
     --avatar-bg-dark: var(--accent-shade);
     --avatar-bg-light: var(--accent-shade);
 
@@ -182,9 +208,10 @@
     // Gens:
     // → https://www.joshwcomeau.com/gradient-generator/
     // → https://larsenwork.com/easing-gradients/
+    // → https://gradient.style
 
     // ROYGBIV (rainbow gradient)
-    // Tip -> https://nerdy.dev/easy-hsl-rainbow
+    // go → https://nerdy.dev/easy-hsl-rainbow
     --lin-grad-roygbiv:
       linear-gradient(
         to right
@@ -257,7 +284,11 @@
 
     // Inlining a bundle as a data URL w/ “data-url:” scheme
     // → https://parceljs.org/features/bundle-inlining/
-    // --brand-logo: url(data-url:./logo.png);
+    --brand-logo: url(data-url:../images/logo.svg);
+
+    // Icons
+    // https://icones.js.org/
+    --icon-tel: url(data-url:../images/tel.svg);
 
     // Noise variations
     --svg-noise: url("data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 1920 1920' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
@@ -305,7 +336,7 @@
 
     // @scope ([data-theme-style=dark]) {…}
     &:where(
-      :not([data-theme-style]),
+      :not([data-theme-style]), /* default */
       [data-theme-style=dark]
     ) {
       color-scheme: dark;
@@ -321,8 +352,6 @@
 @layer theme.doc {
   html {
     /* autoprefixer: off */
-    inline-size: 100%;
-    inline-size: -webkit-fill-available;
     // https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit
     block-size: 100%;
     block-size: -webkit-fill-available;
@@ -344,6 +373,31 @@
   }
 }
 
+// https://www.w3.org/TR/css-nesting-1/
+// https://developer.chrome.com/articles/css-nesting/
+@supports (selector(&)) {
+  // nesting parsing available
+  :root {
+    --supports-nesting: initial;
+    --not-supports-nesting: ;
+  }
+}
+@supports (not selector(&)) {
+  // nesting parsing not available
+  :root {
+    --supports-nesting: ;
+    --not-supports-nesting: initial;
+  }
+}
+// color: var(--supports-nesting, darkgreen) var(--not-supports-nesting, darkred);
+
+// https://drafts.csswg.org/css-anchor-position-1/
+// https://github.com/oddbird/css-anchor-positioning
+@supports(anchor-name: --foo) {
+  .anchor {
+    anchor-name: --my-anchor;
+  }
+}
 
 // Contains layout, utilities and helper tokens
 @layer theme.defaults {
@@ -470,11 +524,11 @@
     // → https://shadows.brumm.af/
     // → https://www.joshwcomeau.com/shadow-palette/
 
-    // Fine-tune the colour with strength/intensity
+    // Fine-tune the color with strength/intensity
     // → https://tobiasahlin.com/blog/layered-smooth-box-shadows/
-    --shadow-hsl: var(--black); --shadow-a: .35;
-    // --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a, .125));
-    --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a));
+    --shadow-hsl: var(--black);
+    // --shadow-a: .35;
+    --shadow-color: hsl(var(--shadow-hsl) / var(--shadow-a, .125));
     --shadow-elevation-low:
       0.3px 0.5px 0.7px var(--shadow-color),
       0.4px 0.8px 1px -1.2px var(--shadow-color),
@@ -496,6 +550,8 @@
 
     // ------------------------------- Animation ------------------------------
     // https://github.com/primer/css/blob/main/src/utilities/animations.scss
+    // https://github.com/argyleink/transition.css
+    // https://www.transition.style/
 
     // ----------------------------------
     // Speed
@@ -628,7 +684,6 @@
 
     min-inline-size: 100%;
     min-inline-size: -webkit-fill-available;
-    min-block-size: 100vh;
     // https://ishadeed.com/article/new-viewport-units/
     min-block-size: 100svh;
     min-block-size: -webkit-fill-available;
@@ -658,15 +713,11 @@
   }
 }
 
-//
 // Sectioning content
-//
-
 :where(main, section) {
   position: relative;
 }
-
-main {
+:where(main) {
   min-inline-size: 100%;
   block-size: 100%;
   contain: size;
@@ -680,8 +731,8 @@ video-player {
 }
 
 theme-switch {
-  --theme-switch-border-color: transparent;
-  --theme-switch-icon-size: 1.75em; // var(--tap-size);
+  --theme-switch-border-color: var(--trn);
+  --theme-switch-icon-size: 1.75em;
   --theme-switch-icon-filter: drop-shadow(0 3px 6px var(--accent-a50));
   --theme-switch-icon-fill: var(--accent);
   --theme-switch-icon-fill-hover: var(--accent);
@@ -699,9 +750,11 @@ theme-switch {
   background-color: var(--background);
   box-shadow: 0 8px 24px var(--shadow);
 
-  :is([data-theme-style='light'], [data-theme-style='dark']) & {
+  :is(
+    [data-theme-style='light'],
+    [data-theme-style='dark']
+  ) & {
     // --theme-switch-icon: var(--_sym-day-night);
-    // --theme-switch-icon: var(--color-toggle);
   }
 }
 
@@ -730,11 +783,25 @@ dialog:where(#alert) { // <-- noscript alert
   }
 
   h2 { --wght: 525; }
-  p { --wght: 400; }
+  p  { --wght: 400; }
+
   button {
     --wght: 500;
     background-color: var(--accent);
     &:hover { background-color: var(--accent-shade); }
+  }
+}
+
+:where(
+  [data-hidden],
+  .grecaptcha-badge
+) {
+  @include config.is-hidden;
+}
+
+@supports(scroll-margin: 1rem) {
+  :where(:target[id^='#']) { // #specific-part:target
+    scroll-margin-block-start: var(--spacer-2x);
   }
 }
 
@@ -747,16 +814,25 @@ dialog:where(#alert) { // <-- noscript alert
   }
 }
 
-// :empty {…}
-:where(
-  [data-hidden],
-  .grecaptcha-badge
-) {
-  @include config.is-hidden;
+.reveal-wrapper {
+  margin-inline: auto;
+  inline-size: fit-content;
+}
+
+.headline:where(.reveal) {
+  position: relative;
+  border-block-end: 4px solid var(--trn); // hidden overflow safe-zone
 }
 
 // rounded-pill
 [class*=cta] { border-radius: calc(var(--big-int) * 1px) !important; }
+
+// case-, context- or page-specific customization
+// @layer theme.custom {…}
+
+@media (max-width: 48em) {
+  article { padding-inline: var(--spacer-2x); }
+}
 
 .popout {
   // color: var(--background);
@@ -789,9 +865,7 @@ dialog:where(#alert) { // <-- noscript alert
 }
 
 @keyframes move {
-  to {
-    transform:scaleX(1.1)
-  }
+  to { transform: scaleX(1.1) }
 }
 
 header .tels,
@@ -799,21 +873,13 @@ footer .copr {
   margin-block: var(--spacer-2x);
 }
 
-@supports(scroll-margin: 4rem) {
-  // :target:where([id^=#]) {…} -> #specific-part:target
-  :target {
-    scroll-margin-block-start: var(--spacer-2x);
-  }
-}
-
 :where(.carousel--1, .carousel--3) .headline {
   --flow-space: var(--denser);
   letter-spacing: normal;
 }
 
-// page relative styling
 :where(
-  [data-id="agenda"],
+  [data-id="syllabus"],
   [data-id="gallery"]
 ) {
   .headline {
@@ -821,16 +887,5 @@ footer .copr {
   }
 }
 
-.reveal-wrapper {
-  margin-inline: auto;
-  inline-size: fit-content;
-}
-
-.headline:where(.reveal) {
-  position: relative;
-  border-block-end: 4px solid var(--trn); // hidden overflow safe-zone
-}
-
-@media (max-width: 48em) {
-  article { padding-inline: var(--spacer-2x); }
-}
+// :where(#locate) {…}
+// :where(#contact) {…}

@@ -15,9 +15,6 @@ const doc = document, { documentElement: root } = doc;
 
 /* eslint-disable no-unused-vars */
 
-// let modulePath = prompt("Какой модуль загружать?");
-// let module = await import(modulePath);
-
 (async () => {
   const toggle = await import('./modules/theme-switcher.js').then(() => {
     const themeSwitch = doc.querySelector('theme-switch');
@@ -37,22 +34,14 @@ const doc = document, { documentElement: root } = doc;
     parsedUrl.pathname === '/' ||
     parsedUrl.pathname === '/index.html'
   ) {
-    const player = await import('./modules/cloudinary-vp');
+    // const player = await import('./modules/cloudinary-vp');
     const carousel = await import('./modules/carousel');
     const disclosure = await import('./modules/disclosure');
-    // const map = await loadTrigger('map');
-
-    loadTrigger('map')
-    .then(async () => {
-        const map = await import('./modules/map');
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
-    }
+    const map = await import('./modules/map');
+  }
   if (
-    parsedUrl.pathname === '/agenda' ||
-    parsedUrl.pathname === '/agenda.html'
+    parsedUrl.pathname === '/syllabus' ||
+    parsedUrl.pathname === '/syllabus.html'
   ) {
     loadMap();
   }

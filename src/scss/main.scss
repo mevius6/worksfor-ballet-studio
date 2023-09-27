@@ -1,11 +1,11 @@
 // https://www.w3.org/TR/css-syntax-3/#determine-the-fallback-encoding
 @charset 'utf-8';
 
+// @include config.load-layers("reset");
+
 @use 'reset';
 @use 'theme';
 @use 'utilities';
 @use 'typography';
 @use 'layout';
 @use 'patterns';
-
-// @include config.load-layers("reset");

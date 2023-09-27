@@ -99,6 +99,9 @@ mixin picture(props)
 
       each subtype of subtypes
         - let query = `?as=${subtype}&quality=${q}`
+        if w
+          - query += `&width=${w}`
+
         - let transform = `${relPath}${query}`
         source(
           type=`image/${subtype}`

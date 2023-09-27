@@ -70,93 +70,93 @@ $lib: 'leaflet';
         inset-block-start: 0;
         inset-inline-start: 0;
       }
+    }
 
-      @layer stacking {
-        &-tile,
-        &-marker-icon,
-        &-marker-shadow {
-          user-select: none;
+    @layer stacking {
+      &-tile,
+      &-marker-icon,
+      &-marker-shadow {
+        user-select: none;
 
-          /* autoprefixer: ignore next */
-          -webkit-user-drag: none;
-        }
-
-        &-marker-icon,
-        &-marker-shadow { display: block; }
-
-        &-tile {
-          visibility: var(--tile-vis, hidden);
-          filter: inherit;
-
-          &-loaded { --tile-vis: inherit; }
-
-          .leaflet-zoom-box {
-            z-index: var(--zi, 800);
-            inline-size: 0;
-            block-size: 0;
-          }
-        }
-
-        &-safari &-tile {
-          /* autoprefixer: ignore next */
-          image-rendering: -webkit-optimize-contrast;
-        }
-
-        &-safari &-tile-container {
-          --map-tile-size: 1600px;
-
-          inline-size: var(--map-tile-size);
-          block-size: var(--map-tile-size);
-          aspect-ratio: 1;
-
-          /* autoprefixer: ignore next */
-          -webkit-transform-origin: 0 0;
-        }
-
-        &-overlay-pane svg {
-          /* autoprefixer: ignore next */
-          -moz-user-select: none;
-        }
-
-        &-map-pane canvas { z-index: var(--zi, 1); }
-        &-map-pane svg    { z-index: var(--zi, 2); }
-        &-tile-pane       { z-index: var(--zi, 2); }
-        &-overlay-pane    { z-index: var(--zi, 4); }
-        &-shadow-pane     { z-index: var(--zi, 5); }
-        &-marker-pane     { z-index: var(--zi, 6); }
-        &-tooltip-pane    { z-index: var(--zi, 7); }
-        &-popup-pane      { z-index: var(--zi, 8); }
-
-        &-vml-shape {
-          inline-size: 1px;
-          block-size: 1px;
-          aspect-ratio: 1;
-        }
-
-        &-control {
-          position: relative;
-          z-index: var(--zi, 800);
-          pointer-events: visiblePainted;
-          pointer-events: auto;
-
-          .leaflet-top    & { margin-block-start: 0; }
-          .leaflet-right  & { margin-inline-end: var(--map-bleed, 0); }
-          .leaflet-bottom & { margin-block-end: var(--map-bleed, 0); }
-          .leaflet-left   & { margin-inline-start: var(--map-bleed, 0); }
-        }
-
-        &-bottom,
-        &-top {
-          position: absolute;
-          z-index: var(--zi, 1000);
-          pointer-events: none;
-        }
-
-        &-top    { inset-block-start: 0; }
-        &-right  { inset-inline-end: 0; }
-        &-bottom { inset-block-end: 0; }
-        &-left   { inset-inline-start: 0; }
+        /* autoprefixer: ignore next */
+        -webkit-user-drag: none;
       }
+
+      &-marker-icon,
+      &-marker-shadow { display: block; }
+
+      &-tile {
+        visibility: hidden;
+        filter: inherit;
+
+        &-loaded { visibility: inherit; }
+
+        .leaflet-zoom-box {
+          z-index: var(--zi, 800);
+          inline-size: 0;
+          block-size: 0;
+        }
+      }
+
+      &-safari &-tile {
+        /* autoprefixer: ignore next */
+        image-rendering: -webkit-optimize-contrast;
+      }
+
+      &-safari &-tile-container {
+        --map-tile-size: 1600px;
+
+        inline-size: var(--map-tile-size);
+        block-size: var(--map-tile-size);
+        aspect-ratio: 1;
+
+        /* autoprefixer: ignore next */
+        -webkit-transform-origin: 0 0;
+      }
+
+      &-overlay-pane svg {
+        /* autoprefixer: ignore next */
+        -moz-user-select: none;
+      }
+
+      &-map-pane canvas { z-index: var(--zi, 1); }
+      &-map-pane svg    { z-index: var(--zi, 2); }
+      &-tile-pane       { z-index: var(--zi, 2); }
+      &-overlay-pane    { z-index: var(--zi, 4); }
+      &-shadow-pane     { z-index: var(--zi, 5); }
+      &-marker-pane     { z-index: var(--zi, 6); }
+      &-tooltip-pane    { z-index: var(--zi, 7); }
+      &-popup-pane      { z-index: var(--zi, 8); }
+
+      &-vml-shape {
+        inline-size: 1px;
+        block-size: 1px;
+        aspect-ratio: 1;
+      }
+
+      &-control {
+        position: relative;
+        z-index: var(--zi, 800);
+        pointer-events: visiblePainted;
+        pointer-events: auto;
+
+        .leaflet-top    & { margin-block-start: 0; }
+        .leaflet-right  & { margin-inline-end: var(--map-bleed, 0); }
+        .leaflet-bottom & { margin-block-end: var(--map-bleed, 0); }
+        .leaflet-left   & { margin-inline-start: var(--map-bleed, 0); }
+      }
+
+      &-bottom,
+      &-top {
+        position: absolute;
+        z-index: var(--zi, 1000);
+        pointer-events: none;
+      }
+
+      &-top    { inset-block-start: 0; }
+      &-right  { inset-inline-end: 0; }
+      &-bottom { inset-block-end: 0; }
+      &-left   { inset-inline-start: 0; }
     }
 
     // zoom and fade animations
