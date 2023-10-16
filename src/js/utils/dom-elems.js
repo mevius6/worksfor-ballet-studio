@@ -1,3 +1,7 @@
+/* -------------------------------------------------------------------------- */
+/*                          Manipulating DOM elements                         */
+/* -------------------------------------------------------------------------- */
+
 // const { innerWidth: ww, innerHeight: wh } = window;
 const { innerWidth, innerHeight } = window;
 const { documentElement: root, body } = document;

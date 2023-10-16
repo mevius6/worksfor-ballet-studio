@@ -73,6 +73,7 @@
 
     // Red
     --sw-toile-red: 5deg 28% 43%;         // 8B534E SW0006 Toile Red (H)
+    --sw-pink-shadow: 16deg 36% 80%;      // DEC3B9 SW0070 Pink Shadow (H)
     --sw-abalone-shell: 20deg 29% 80%;    // DBC7BD SW6050 Abalone Shell
     --sw-quaint-peche: 18deg 49% 84%;     // EACDC1 SW6330 Quaint Peche
     --sw-red-theatre: 359deg 34% 32%;     // 6E3637 SW7584 Red Theatre
@@ -119,6 +120,7 @@
     --sw-loggia: 35deg 21% 71%;           // C4B7A5 SW7506 Loggia
     --sw-stone-lion: 34deg 18% 64%;       // B3A491 SW7507 Stone Lion
     --sw-foothills: 30deg 12% 45%;        // 827466 SW7514 Foothills
+    --sw-drift-of-mist: 40deg 15% 84%;    // DCD8D0 SW9166 Drift of Mist
     // White & Pastel
     --sw-pure-white: 51deg 16% 92%;       // EDECE6 SW7005 Pure White
     --sw-extra-white: 72deg 14% 93%;      // EEEFEA SW7006 Extra White
@@ -131,17 +133,20 @@
     --sw-fleur-de-sel: 72deg 7% 86%;      // DCDDD8 SW7666 Fleur de Sel
 
     // TODO: Coordinated color palettes
-    // ref → https://www.sherwin-williams.com/en-us/color/color-collections/
+    // Refs:
+    // → https://images.sherwin-williams.com/content_images/sw-pdf-sherwin-williams-colorc.pdf
+    // → https://www.sherwin-williams.com/en-us/color/color-collections/
+    // → https://blog.sherwin-williams.com/color/color-guidance/your-go-to-guide-on-color-theory/
     // $palettes: (
     //   0: (9081, 7514, 9086, 7580, 9080, 6057, 7005, 7048, 0006),
-    //   1: (6275, 7005, 7042, 9154),
+    //   1: (6275, 7005, 7042, 9154, 9166),
     //   2: (6057, 7005, 9081, 9154),
     //   3: (2849, 6330, 9005, 7008, 7566, 7580, 9006),
     //   4: (6276, 7507, 7514, 6050, 9080),
     //   5: (7042, 7048, …),
     //   6: (9086, 7551, 9154, 7042, 7005, 6275),
     //   7: (7506, 7514, 0006),
-    //   8: (7005, 1015, …),
+    //   8: (6057, 9086, 9081, 7514),
     //   9: (7005, 6743, 6479, 7666)
     // );
 
@@ -149,13 +154,14 @@
 
     // Primary (or lead)
 
+    // Warm shades of red, orange and yellow are associated with the literal warmth that the sun and fire radiate.
     --redend: hsl(var(--sw-redend-point));
     --red-01: hsl(var(--sw-abalone-shell));
     --red-02: hsl(var(--sw-quaint-peche));
     --red-09: hsl(var(--sw-redend-point));
     --lead-01: var(--redend);
 
-    // Neutral
+    // Neutral (black, white, gray and beige)
 
     // Cool Whites (undertones of blue, green or violet)
     --cool-white-01: var(--sw-extra-white);
@@ -171,11 +177,14 @@
     // Warm Neutrals
     --warm-gray-01: var(--sw-westchester-gray);
     --warm-gray-02: var(--sw-chelsea-gray);
-    --warm-gray-03: var(--sw-tricorn-black);
-    --warm-gray-04: var(--sw-black-magic);
+    // Black (dark shades)
+    --black-01: var(--sw-tricorn-black);
+    --black-02: var(--sw-black-magic);
+    // Beige
+    // --beige-01:;
 
     // Defining the darkest and lightest hues
-    --black: var(--warm-gray-03);
+    --black: var(--black-01);
     --white: var(--warm-white-01);
 
     // Contrasting highlight
@@ -373,32 +382,6 @@
   }
 }
 
-// https://www.w3.org/TR/css-nesting-1/
-// https://developer.chrome.com/articles/css-nesting/
-@supports (selector(&)) {
-  // nesting parsing available
-  :root {
-    --supports-nesting: initial;
-    --not-supports-nesting: ;
-  }
-}
-@supports (not selector(&)) {
-  // nesting parsing not available
-  :root {
-    --supports-nesting: ;
-    --not-supports-nesting: initial;
-  }
-}
-// color: var(--supports-nesting, darkgreen) var(--not-supports-nesting, darkred);
-
-// https://drafts.csswg.org/css-anchor-position-1/
-// https://github.com/oddbird/css-anchor-positioning
-@supports(anchor-name: --foo) {
-  .anchor {
-    anchor-name: --my-anchor;
-  }
-}
-
 // Contains layout, utilities and helper tokens
 @layer theme.defaults {
   body {
@@ -408,6 +391,7 @@
 
     // → https://getbootstrap.com/docs/5.0/layout/breakpoints/
     // → https://primer.style/design/foundations/layout#breakpoints
+    // → https://open-props.style/#media-queries
 
     // Alternate: [xs: 320, sm: 640, md: 768, lg: 960, xl: 1280, xxl: 1920]
     --width-xs: 20em;
@@ -660,8 +644,8 @@
         0% 40%,100% 40%,100% 60%,0% 60%,
         0% 75%,100% 75%,100% 95%,0% 95%
       );
+    // Spec → https://drafts.csswg.org/css-shapes-1/#basic-shape-interpolation
     // Polygonal (pointing) shapes that may be morphing between:
-    // https://drafts.csswg.org/css-shapes-1/#basic-shape-interpolation
     // 5-angled
     --shape-pentagon:
       polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
@@ -684,7 +668,6 @@
 
     min-inline-size: 100%;
     min-inline-size: -webkit-fill-available;
-    // https://ishadeed.com/article/new-viewport-units/
     min-block-size: 100svh;
     min-block-size: -webkit-fill-available;
 
@@ -714,19 +697,22 @@
 }
 
 // Sectioning content
+
 :where(main, section) {
   position: relative;
 }
+
 :where(main) {
   min-inline-size: 100%;
   block-size: 100%;
   contain: size;
 }
 
+// Custom elements
+
 video-player {
   // https://codepen.io/thebabydino/pen/MWYrNaB
   --video-player-width: 100%;
-  // https://web.dev/viewport-units/
   --video-player-height: 100svh;
 }
 
@@ -801,7 +787,7 @@ dialog:where(#alert) { // <-- noscript alert
 
 @supports(scroll-margin: 1rem) {
   :where(:target[id^='#']) { // #specific-part:target
-    scroll-margin-block-start: var(--spacer-2x);
+    scroll-margin-block-start: var(--spacer);
   }
 }
 
@@ -814,7 +800,7 @@ dialog:where(#alert) { // <-- noscript alert
   }
 }
 
-.reveal-wrapper {
+:where(.reveal-wrapper) {
   margin-inline: auto;
   inline-size: fit-content;
 }
@@ -834,40 +820,6 @@ dialog:where(#alert) { // <-- noscript alert
   article { padding-inline: var(--spacer-2x); }
 }
 
-.popout {
-  // color: var(--background);
-  overflow: hidden;
-
-  :is([data-theme-style='light']) & {
-    // SW 6050 Abalone Shell
-    background-color: hsl(20deg 29% 80%); // #DBC7BD
-  }
-  :is([data-theme-style='dark']) & {
-    // SW 9080 Hushed Auburn
-    background-color: hsl(14deg 21% 57%); // #A8857A
-  }
-
-  &::after {
-    position: absolute;
-    inset: 0;
-    z-index: 1000;
-    content: "";
-    pointer-events: none;
-    inline-size: 100%;
-    block-size: 100%;
-    transform-origin: 100% 0;
-    background: url(../images/shadow.png) 100% 0/cover no-repeat fixed;
-    // background-attachment: fixed;
-    animation: move 7s 2s infinite alternate;
-    mix-blend-mode: overlay;
-    opacity: 0.7;
-  }
-}
-
-@keyframes move {
-  to { transform: scaleX(1.1) }
-}
-
 header .tels,
 footer .copr {
   margin-block: var(--spacer-2x);
@@ -877,6 +829,10 @@ footer .copr {
   --flow-space: var(--denser);
   letter-spacing: normal;
 }
+
+// :where(
+//   [data-page-id=index]
+// ) {…}
 
 :where(
   [data-id="syllabus"],
@@ -889,3 +845,67 @@ footer .copr {
 
 // :where(#locate) {…}
 // :where(#contact) {…}
+
+:where(#locate) {
+  &:nth-child(2) { grid-row: 2 }
+}
+
+.popout {
+  // color: var(--background);
+  overflow: hidden;
+
+  :is([data-theme-style='light']) & {
+    background-color: hsl(var(--sw-abalone-shell));
+  }
+  :is([data-theme-style='dark']) & {
+    background-color: hsl(var(--sw-hushed-auburn));
+  }
+
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1000;
+    content: "";
+    pointer-events: none;
+    inline-size: 100%;
+    block-size: 100%;
+    transform-origin: 100% 0;
+    background: url(../images/shadow.png) 100% 0/cover no-repeat fixed;
+    animation: move 7s 2s infinite alternate;
+    mix-blend-mode: overlay;
+    opacity: 0.7;
+  }
+}
+
+@keyframes move {
+  to { transform: scaleX(1.1) }
+}
+
+// https://www.w3.org/TR/css-nesting-1/
+// https://developer.chrome.com/articles/css-nesting/
+@supports (selector(&)) {
+  // nesting parsing available
+  :root {
+    --supports-nesting: initial;
+    --not-supports-nesting: ;
+  }
+}
+@supports (not selector(&)) {
+  // nesting parsing not available
+  :root {
+    --supports-nesting: ;
+    --not-supports-nesting: initial;
+  }
+}
+// color: var(--supports-nesting, darkgreen) var(--not-supports-nesting, darkred);
+
+// https://drafts.csswg.org/css-anchor-position-1/
+// https://github.com/oddbird/css-anchor-positioning
+@supports(anchor-name: --foo) {
+  .anchor {
+    anchor-name: --my-anchor;
+  }
+}
+
+// https://github.com/w3c/csswg-drafts/issues/4559
+// --delay: calc(var(--i, 1) * 400ms);

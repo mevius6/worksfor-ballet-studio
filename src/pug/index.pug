@@ -27,7 +27,7 @@ append head-start
 block content
   section.grid
     section.container.bg-overlay#hero
-      //- video-player.grid__full(basename="footage-10s-prod")
+      video-player.grid__full(basename="footage-10s-prod")
       noscript.grid__full
         +video({
           sourcePath: 'static',
@@ -42,7 +42,7 @@ block content
       dfn(data-hidden)
         abbr(title= FULL_NAME)= ABBR_NAME
 
-    section.container.spaced.--ada-lg#intent
+    section.container.spaced.--ada-lg#intent(data-sec="intent")
       .grid__start-half
         +head({
           level: 2,
@@ -140,7 +140,9 @@ block content
 
     section.container#locate
       .grid__center: +head({ level: 2, text: 'Как добраться', split: 'chars' })
-      +map({ classes: 'grid__full', controls: true })
+      +map({
+        classes: 'grid__full',
+        controls: true })
 
     section.container.spaced.--ada-md#contact
       .grid__center: +head({ level: 2, text: 'Пишите нам', split: 'chars' })
@@ -148,10 +150,9 @@ block content
         class: 'grid__center',
         endpoint: '294b2d20',
         phone: data.meta.phone,
-        recaptcha: true,
-      })
+        recaptcha: true })
       //- offer: data.pages.offer.path[0]
 
-    //- section#feed(aria-label="all blog posts")
+    //- section#feed(aria-label="all blog posts") // News Feed (NF)
 
 block scripts

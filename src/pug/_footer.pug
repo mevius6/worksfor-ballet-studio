@@ -14,6 +14,7 @@ mixin contactWidget(props)
 
 footer.page__footer.sideways(itemscope itemtype="https://schema.org/WPFooter")
   p.overline.copr
+    //- © ООО «Имя Бренда», 2023
     | #[small(itemprop="name")= data.meta.brand]
     | &COPY;
     | #[time(datetime= y itemprop="copyrightYear")= y]

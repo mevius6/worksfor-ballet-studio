@@ -115,3 +115,22 @@
 
   background-image: linear-gradient(unquote($direction), $stops);
 }
+
+// https://css-tricks.com/while-you-werent-looking-css-gradients-got-better/
+// $c: #5461c8 #c724b1 #e4002b #ff6900 #f6be00 #97d700 #00ab84 #00a3e0;
+
+@function get-stops($c-list) {
+  $s-list: ();
+  $n: length($c-list);
+  $u: 100%/$n;
+
+  @for $i from 1 to $n {
+    $s-list: $s-list,
+             nth($c-list, $i) $i*$u,
+             nth($c-list, $i + 1) 0;
+  }
+
+  @return $s-list;
+}
+
+// .strip { background: linear-gradient(90deg, get-stops($c)) }

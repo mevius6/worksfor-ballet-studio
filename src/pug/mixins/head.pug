@@ -7,6 +7,9 @@ mixin text(text)
   else
     = text
 
+//-
+  TODO: role="heading" aria-level="1..6"
+
 mixin switch(level, attrs)
   case level
     when 0
@@ -54,7 +57,4 @@ mixin head(props)
         +text(content)
   else
     +switch(headingLevel, attrsList)
-      +text(content)
-  //-
-    h2(class=classList class=[className] data-splitting=split)
       +text(content)

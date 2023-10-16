@@ -48,7 +48,7 @@ $hashLinks: '/#';
         block-size: var(--link-underline-h);
         pointer-events: none;
         content: '';
-        // filter: blur(0.125px);
+        // filter: blur(.125px);
         background-image: var(--lin-grad-halfs-hint);
         transition: transform 300ms, filter 150ms;
         transform: scale3d(var(--sx, 0), 1, 1);

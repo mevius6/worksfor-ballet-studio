@@ -1,0 +1,67 @@
+{
+  "folders": [
+    {
+      // CWD, e.g. root directory of (mono)repo
+      "name": "[root]",
+      "path": "."
+    }, {
+      // Source code (i.e. source directory)
+      "name": "Product",
+      "path": "./src"
+    }
+  ],
+  "settings": {
+    // https://github.com/antfu/vscode-file-nesting-config
+    "explorer.fileNesting.enabled": true,
+    "workbench.colorCustomizations": {
+      // "foreground": "#",
+      // "editorBracketHighlight.foreground1": "#",
+      // "editorBracketHighlight.foreground2": "#",
+      // "editorBracketHighlight.foreground3": "#",
+      "bookmarks.lineBackground": "#2F2F30",
+      "bookmarks.lineBorder": "#DBDDBD80", // DCD8D0
+      "bookmarks.overviewRuler": "#DBDDBD", // BFC9D0
+    },
+    // "workbench.colorTheme": "Serendipity Sunset",
+    "workbench.colorTheme": "Vitesse Dark Soft",
+    "workbench.preferredDarkColorTheme": "Vitesse Dark",
+    "workbench.preferredLightColorTheme": "Vitesse Light",
+    "workbench.iconTheme": "file-icons-colourless",
+    "workbench.productIconTheme": "icons-carbon",
+    // https://github.com/sudoaugustin/vslook/blob/main/.github/docs/styling.md
+    // "workbench.colorTheme": "VSLook",
+    "vslook.palette.colors": {
+      "base": {
+        "primary": "#111e6c",
+        "secondary": "#b0dfe5",
+      }
+    },
+    /* "editor.tokenColorCustomizations": {
+      "textMateRules": [
+        {
+          "name": "Comment",
+          "scope": [
+            "comment",
+            "comment.block",
+            "comment.block.documentation",
+            "comment.line",
+            "comment.line.double-slash",
+            "punctuation.definition.comment",
+          ],
+          "settings": {
+            "fontStyle": "",
+          }
+        },
+      ]
+    }, */
+    "markdown.extension.toc.unorderedList.marker": "-",
+    "markdown.extension.toc.orderedList": false,
+    "markdown.extension.toc.omittedFromToc": {
+      "README.md": [
+        "# Introduction",
+        "# Intro",
+      ],
+    },
+    "markdown-preview-github-styles.colorTheme": "dark",
+  }
+}

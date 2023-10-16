@@ -4,11 +4,15 @@
  *
  * * * *
  *
+ * [mods]: https://tc39.es/ecma262/#sec-modules
  * [spec]: https://tc39.es/proposal-dynamic-import/
  * [repo]: https://github.com/tc39/proposal-dynamic-import
+ * [html-sec-8.1.5]: https://html.spec.whatwg.org/multipage/webappapis.html#module-specifier-resolution
+ * [html-sec-8.1.6]: https://html.spec.whatwg.org/multipage/webappapis.html#javascript-specification-host-hooks
  *
  * @see `import()` [Specification][spec] and [Repository][repo]
  */
+let _overview;
 
 const parsedUrl = new URL(window.location.href);
 const doc = document, { documentElement: root } = doc;
@@ -34,7 +38,7 @@ const doc = document, { documentElement: root } = doc;
     parsedUrl.pathname === '/' ||
     parsedUrl.pathname === '/index.html'
   ) {
-    // const player = await import('./modules/cloudinary-vp');
+    const player = await import('./modules/cloudinary-vp');
     const carousel = await import('./modules/carousel');
     const disclosure = await import('./modules/disclosure');
     const map = await import('./modules/map');

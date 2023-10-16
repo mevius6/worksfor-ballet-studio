@@ -2,6 +2,8 @@ import { selectAll } from '../utils';
 
 const lazyImages = selectAll('[loading=lazy]');
 
+// https://css-tricks.com/an-approach-to-lazy-loading-custom-elements/
+
 lazyImages.forEach(async img => {
   let picture = img.parentNode;
   let wrapper = picture.parentNode;

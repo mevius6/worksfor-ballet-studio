@@ -397,7 +397,7 @@ $lib: 'leaflet';
         }
 
         &-close-button {
-          position: absolute;
+          position: absolute !important;
           inset-block-start: 0;
           inset-inline-end: 0;
           font-size: 1rem;
@@ -543,8 +543,8 @@ $lib: 'leaflet';
 #map {
   inline-size: calc(100% - var(--spacer-4x) * 2);
   block-size: 100%;
-  max-block-size: 100svh;
-  aspect-ratio: 1;
+  min-block-size: 100svh; // calc(100svh - var(--spacer-4x))
+  // aspect-ratio: 1;
   margin: 0 auto;
   font: inherit;
 
@@ -655,6 +655,8 @@ $lib: 'leaflet';
 .extra-controls {
   --list-gap: 0;
   --grad-hsl: var(--sw-redend-point);
+
+  grid-row: 2;
 
   position: absolute;
   inset-block-start: 0;

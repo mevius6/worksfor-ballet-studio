@@ -158,3 +158,12 @@
 .scroll-shadows {
   @include config.scroll-shadows();
 }
+
+// https://www.w3.org/TR/css-values-4/#viewport-relative-lengths
+// https://web.dev/viewport-units/
+// https://ishadeed.com/article/new-viewport-units/
+.vw-rel-size {
+  &--s { block-size: 100svh; }
+  &--l { block-size: 100lvh; }
+  &--d { block-size: 100dvh; }
+}

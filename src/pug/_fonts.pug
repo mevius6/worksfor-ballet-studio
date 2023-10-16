@@ -68,7 +68,7 @@ append vars
       }
     ]
   -
-    let pathName = 'fonts'
+    let fontsPath = `${DD}${SOL}fonts${SOL}`
     let typeName = 'font'
     let fontFaces = [
       ...MaisonNeue,
@@ -79,12 +79,12 @@ each fontFace in fontFaces
   -
     let { familyName, fullName, varAxes, style, weight } = fontFace
   -
-    let file = `${DD}/${pathName}/${fontFace.fullName}`,
+    let file = `${fontsPath}${SOL}${fontFace.fullName}`,
         format = !fontFace.varAxes ? 'woff2' : 'woff2-variations'
   link(
     rel="preload"
     href=`${file}.woff2` as=typeName
-    type=`${typeName}/${format}`
+    type=`${typeName}${SOL}${format}`
     crossorigin)
   -
     let cssFontRule = `@font-face {
@@ -95,8 +95,8 @@ each fontFace in fontFaces
       font-synthesis: none;
       font-weight: ${weight};
       src:
-        url(${DD}/${pathName}/${fullName}.woff2) format('woff2'),
-        url(${DD}/${pathName}/${fullName}.woff) format('woff');
+        url(${fontsPath}${fullName}.woff2) format('woff2'),
+        url(${fontsPath}${fullName}.woff) format('woff');
     }`
   style=cssFontRule
 

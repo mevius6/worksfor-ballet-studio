@@ -1,5 +1,7 @@
 @use '../config';
 
+// ARIA: https://www.w3.org/WAI/ARIA/apg/patterns/radio/examples/radio-rating/
+
 [itemprop='reviewRating'] {
   display: flex;
   flex-direction: column;

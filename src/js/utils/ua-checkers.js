@@ -1,6 +1,12 @@
-const UA = navigator.userAgent;
+/* -------------------------------------------------------------------------- */
+/*                    Feature detection using a user agent                    */
+/* -------------------------------------------------------------------------- */
 
-// ? https://github.com/faisalman/ua-parser-js
+// Refs:
+// - https://github.com/faisalman/ua-parser-js
+
+/** @constant @returns the complete `User-Agent` header */
+const UA = navigator.userAgent;
 
 /**
  * [src]: https://github.com/ykob/tplh.net-2019/blob/master/src/utils/checkWebpFeature.js
@@ -36,6 +42,7 @@ const checkWebpFeature = (feature) => {
   });
 };
 
+/** Mobile device detection */
 const isMobileDevice = () => {
   let hasTouchScreen = false;
   if ('maxTouchPoints' in navigator) {
@@ -61,7 +68,8 @@ const isMobileDevice = () => {
   });
 }
 
-function checkBrowser() {
+/** Browser sniffing */
+async function checkBrowser() {
   let UA = navigator.userAgent;
   let browser;
 
@@ -83,7 +91,7 @@ function checkBrowser() {
   return browser;
 }
 
-function checkSystem() {
+async function checkSystem() {
   let AV = navigator.appVersion;
   let os;
 

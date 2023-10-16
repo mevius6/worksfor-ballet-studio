@@ -1,5 +1,9 @@
 import { select } from './dom-elems';
 
+/* -------------------------------------------------------------------------- */
+/*                            Web application APIs                            */
+/* -------------------------------------------------------------------------- */
+
 /**
  * [W3C-Spec]: https://w3c.github.io/IntersectionObserver/
  *
@@ -51,7 +55,7 @@ const animationObserver = new IntersectionObserver((entries, observer) => {
 function inViewport(elem, callback, options = {}) {
   return new IntersectionObserver(entries => {
     entries.forEach(entry => callback(entry));
-  }, options).observe(document.querySelector(elem));
+  }, options).observe(select(elem));
 }
 
 // https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview
@@ -61,6 +65,7 @@ let scrollIntoViewOptions = {
   inline: 'nearest',
 }
 
+// eslint-disable-next-line no-unused-vars
 const scrollTo = (elem, arg = {...scrollIntoViewOptions} ?? {}) => {
   let position = arg.block;
   if (arg.block !== 'start') position = 'end';
@@ -68,6 +73,7 @@ const scrollTo = (elem, arg = {...scrollIntoViewOptions} ?? {}) => {
   target.scrollIntoView({ behavior: 'smooth', block: position });
 }
 
+/** 🍪 */
 let { cookie } = document;
 
 const clearCookies = () => cookie
@@ -86,6 +92,7 @@ const cookiesObj = cookie.split(';').map((item) => item
 /**
  * [W3C CRD TR Spec]: https://www.w3.org/TR/performance-timeline/
  * [W3C ED Spec]: https://w3c.github.io/performance-timeline/
+ * [LCP]: https://github.com/w3c/largest-contentful-paint/#api-shape
  *
  * @description
  * Performance Timeline

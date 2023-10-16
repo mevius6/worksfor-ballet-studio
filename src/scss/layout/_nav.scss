@@ -1,7 +1,9 @@
 @use '../config';
 
-// https://github.com/argyleink/gui-challenges/tree/main/sidenav
+// https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 // https://web.dev/website-navigation/
+// https://github.com/argyleink/gui-challenges/tree/main/sidenav
+
 .nav {
   --duration: 150ms;
   --easing: cubic-bezier(0.215, 0.61, 0.355, 1);
