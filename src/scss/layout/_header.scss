@@ -31,8 +31,9 @@
 
     // aspect-ratio: 16/9;
     // block-size: 72px;
+
     @include config.respond('tablet') {
-      background: no-repeat var(--brand-logo-sm) 50% 50%;
+      // background: no-repeat var(--brand-logo-sm) 50% 50%;
     }
   }
 
