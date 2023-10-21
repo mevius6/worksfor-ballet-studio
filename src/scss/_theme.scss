@@ -863,6 +863,12 @@ footer .copr {
   }
 }
 
+:where(#intent, #about) {
+  & > article {
+    grid-column: content;
+    margin-inline: auto;
+  }
+}
 :where(#intent, #about, #partners) {
   background-attachment: fixed;
 

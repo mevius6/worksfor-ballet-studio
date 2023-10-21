@@ -62,7 +62,7 @@
     }
 
     &:where(:not([class*='control'])) {
-      transition-name:
+      transition-property:
         filter,
         transform,
         box-shadow,
@@ -171,7 +171,7 @@
 
   @media (prefers-reduced-motion: no-preference) {
     button:focus {
-      transition: outline-offset .25s ease;
+      // transition: outline-offset .25s ease;
     }
     button:focus:not(:active) {
       outline-offset: 5px;
