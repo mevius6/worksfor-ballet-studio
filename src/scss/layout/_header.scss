@@ -23,6 +23,19 @@
     }
   }
 
+  & > a {
+    margin-inline-start: var(--spacer);
+    inline-size: 128px;
+    aspect-ratio: 2/1;
+    // block-size: 64px;
+
+    // aspect-ratio: 16/9;
+    // block-size: 72px;
+    @include config.respond('tablet') {
+      background: no-repeat var(--brand-logo-sm) 50% 50%;
+    }
+  }
+
   & > a > picture {
     --grad-color-stop1: hsl(323deg 98% 75%);
     --grad-color-stop2: hsl(45deg 56% 58%);

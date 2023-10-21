@@ -10,6 +10,10 @@
   button {
     --tap-size: var(--min-touch-target-size); // 44px ~ 2.75rem
     --turn-off-shadow: 0 0 0 var(--shadow);
+    --icon-size: 2ch;
+
+    // padding-block: .75ch;
+    // padding-inline: 1.75ch;
 
     position: relative;
     display: inline-flex;
@@ -17,7 +21,7 @@
     justify-content: space-around;
     min-block-size: var(--btn-min-size); //= --tap-size
 
-    padding-block: 0.25ch;
+    padding-block: .25ch;
     padding-inline: 1.25ch;
     border-radius: 0.5ch;
     overflow: hidden;

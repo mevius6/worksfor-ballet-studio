@@ -311,6 +311,9 @@
     // Inlining a bundle as a data URL w/ “data-url:” scheme
     // → https://parceljs.org/features/bundle-inlining/
     --brand-logo: url(data-url:../images/logo.svg);
+    // --brand-logo-sm: url(data-url:../images/logo-sm.svg);
+    --brand-logo-sm: url(data-url:../images/logo-sm-grad.svg);
+    --brand-loop: url(data-url:../images/loop.svg);
 
     // Icons
     // https://icones.js.org/
@@ -857,6 +860,30 @@ footer .copr {
 ) {
   .headline {
     text-align: center;
+  }
+}
+
+:where(#intent, #about, #partners) {
+  background-attachment: fixed;
+
+  [data-theme-style=light] & {
+    background-image: linear-gradient(
+      to bottom right,
+      hsl(var(--sw-quaint-peche)) 0%,
+      hsl(var(--sw-redend-point)) 100%
+    );
+    // https://gradient.style
+    background-image: linear-gradient(
+      to bottom right in oklab,
+      oklch(87% 0.04 45) 0%, oklch(62% 0.09 33) 100%
+    );
+  }
+  [data-theme-style=dark] & {
+    background-image: linear-gradient(
+      to bottom right,
+      #e79580 0%,
+      hsl(var(--sw-carnelian)) 100%
+    );
   }
 }
 
