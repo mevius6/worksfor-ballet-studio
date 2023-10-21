@@ -6,6 +6,8 @@
   * {
     @include config.scrollbar;
     box-sizing: inherit;
+    background-origin: border-box;
+    background-repeat: no-repeat;
 
     &::before,
     &::after { box-sizing: inherit; }
@@ -286,6 +288,21 @@
         var(--accent) 0,
         var(--accent) 5px
       );
+    // [cp]
+    --lin-grad-by:
+      linear-gradient(
+      310deg,
+      hsl(240deg 100% 20%) 0%,
+      hsl(289deg 100% 21%) 2%,
+      hsl(315deg 100% 27%) 6%,
+      hsl(329deg 100% 36%) 12%,
+      hsl(337deg 100% 43%) 22%,
+      hsl(357deg 91% 59%) 47%,
+      hsl(17deg 100% 59%) 81%,
+      hsl(34deg 100% 53%) 93%,
+      hsl(45deg 100% 50%) 98%,
+      hsl(55deg 100% 50%) 100%
+    );
 
     // ----------------------------------
     // Data URLs
@@ -848,6 +865,7 @@ footer .copr {
 
 :where(#locate) {
   &:nth-child(2) { grid-row: 2 }
+  .extra-controls { grid-row: 2 }
 }
 
 .popout {
