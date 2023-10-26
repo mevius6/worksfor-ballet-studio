@@ -26,7 +26,7 @@ append head-start
 
 block content
   section.grid
-    section.container.bg-overlay#hero
+    section.container.bg-overlay#hero(data-sec="hero")
       video-player.grid__full(basename="footage-10s-prod")
       noscript.grid__full
         +video({
@@ -73,7 +73,7 @@ block content
           textWrap: 'article',
         })
 
-    section.container.spaced.--ada-lg#about
+    section.container.spaced.--ada-lg#about.popout
       article.flow.grid__center
         +head({ level: 2, text: about.head, split: 'chars' })
         p= about.body
@@ -98,7 +98,7 @@ block content
           textWrap: 'article',
         })
 
-    section.container.spaced.--lg#partners
+    section.container.spaced.--ada-md#partners
       .grid__third-lhs.sideways
         +head({ level: 2, text: 'Наши партнёры', split: 'chars' })
       .grid__third-rhs.d-grid.grid-items-center
@@ -142,12 +142,12 @@ block content
       .grid__center: +head({ level: 2, text: 'Как добраться', split: 'chars' })
       +map({
         classes: 'grid__full',
-        controls: true })
+        addSidebar: true })
 
     section.container.spaced.--ada-md#contact
       .grid__center: +head({ level: 2, text: 'Пишите нам', split: 'chars' })
-      +form({
-        class: 'grid__center',
+      .grid__content: +form({
+        class: '',
         endpoint: '294b2d20',
         phone: data.meta.phone,
         recaptcha: true })

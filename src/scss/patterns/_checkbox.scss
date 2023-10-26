@@ -1,25 +1,31 @@
 @use '../config';
 
+// @layer defaults, components, states;
+
 [type='checkbox'] {
   --cb-size: 20px;
   --cb-shadow-color: var(--foreground);
   --cb-shadow-spread: 1px;
   --cb-background-color: var(--background);
   --cb-mark-color: var(--accent-extra);
-  --cb-mark-font: var(--font-icons, revert);
+  --cb-mark-font: var(--font-icons, var(--font-stack-mono));
+
+  --half-shift: translate(-50%, -50%);
 
   appearance: none;
   position: relative;
-  top: 0;
-  left: 0;
-  width: var(--cb-size);
-  height: var(--cb-size);
-  margin: 0;
-  cursor: pointer;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: var(--cb-size);
+  block-size: var(--cb-size);
+  aspect-ratio: var(--ratio-square);
+  // TODO: @layer defaults { [1, etc.] }
+  margin: 0; // [1]
+  cursor: pointer; // [2]
   font-family: var(--cb-mark-font);
   background-color: var(--cb-background-color);
-  border-radius: 4px;
-  outline: 0;
+  border-radius: .35ch; // base: 4px
+  outline: 0; // [3]
   box-shadow: var(--cb-shadow-color) 0 0 0 var(--cb-shadow-spread) inset;
   transition:
     background-color 150ms var(--easing) 0s,
@@ -27,13 +33,13 @@
 
   &::after {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    display: block;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    display: inline-block;
     font-family: inherit;
-    font-size: 1em;
-    font-weight: 500;
-    line-height: 1;
+    font-size: .75em;
+    font-weight: 500; // SFMono "wght" variable
+    line-height: 1.1;
     color: var(--cb-mark-color);
 
     // '✓'
@@ -42,12 +48,12 @@
     transition-delay: 0ms;
     transition-timing-function: var(--easing);
     transition-duration: 300ms;
+
     transition-property: opacity, transform;
-    transform: translate(-50%, -50%) scale(0.7) rotateY(45deg);
+    transform: var(--half-shift) scale(0.7) rotateY(45deg);
   }
 
-  &:hover,
-  &:focus {
+  &:where(:hover, :focus) {
     --cb-shadow-color: var(--accent);
     --cb-shadow-spread: 2px;
     // --cb-background-color: var(--foreground);
@@ -60,14 +66,14 @@
     &::after {
       --cb-mark-alpha: 1;
 
-      filter: drop-shadow(0 0 4px);
+      filter: drop-shadow(0 0 4px var(--background-a25));
 
       transition-delay: 150ms;
       transition-timing-function: var(--easing);
       transition-duration: 150ms;
 
       transition-property: opacity, transform;
-      transform: translate(-50%, -50%) scale(0.9);
+      transform: var(--half-shift) scale(0.9);
     }
   }
 

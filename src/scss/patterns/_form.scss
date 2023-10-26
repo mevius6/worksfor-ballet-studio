@@ -4,49 +4,38 @@
 // https://web.dev/learn/forms/
 
 .form-wrapper {
-  align-self: center;
   padding-block: var(--spacer-3x);
   padding-inline: var(--spacer-2x);
   background-color: var(--form-bg, var(--trn));
 
-  h1 { margin-block-end: var(--spacer-2x); }
+  & > h1 { margin-block-end: var(--spacer-2x); }
 
   @include config.respond('tablet') {
     & {
       padding-block: var(--spacer-4x);
-      padding-inline: var(--spacer-4x);
+      padding-inline: var(--spacer-3x);
     }
 
-    & > h1 { margin-block-end: var(--spacer-4x); }
+    & > h1 { margin-block-end: var(--spacer-3x); }
   }
 }
 
 .form {
   --duration: 200ms;
   --easing: var(--ease-out-cubic);
-  // --alert-ok: var(--accent-extra);
-  // --alert-no: hsl(var(--accent));
 
   position: relative;
   display: grid;
   contain: layout;
   grid-template-columns: 1fr;
-  // inline-size: clamp(28ch, 100%, 60ch);
-  // max-inline-size: 75ex;
-  // padding-block: var(--spacer-3x);
-  color: var(--foreground);
-  transition:
-    color var(--duration) var(--easing);
-    // filter 300ms var(--ease-in-out-cubic);
   row-gap: var(--spacer-2x);
   padding-inline: var(--spacer-2x);
+  margin-inline: auto;
 
-  --drop-shadow: drop-shadow(0 3px 6px var(--foreground-a25));
-  // filter: var(--drop-shadow);
+  color: var(--foreground);
+  transition: color var(--duration) var(--easing);
 
-  &:focus-within {
-    --drop-shadow: drop-shadow(0 8px 24px var(--foreground-a25));
-  }
+  // &:focus-within {…}
   // & > *:focus-within {…}
 
   &__field {

@@ -1,6 +1,6 @@
 @use 'config';
 
-@layer theme { @layer any, colors, doc, defaults; }
+@layer theme { @layer any, colors, doc, defaults, custom; }
 
 @layer theme.any {
   * {
@@ -77,6 +77,7 @@
     --sw-toile-red: 5deg 28% 43%;         // 8B534E SW0006 Toile Red (H)
     --sw-pink-shadow: 16deg 36% 80%;      // DEC3B9 SW0070 Pink Shadow (H)
     --sw-abalone-shell: 20deg 29% 80%;    // DBC7BD SW6050 Abalone Shell
+    --sw-romance: 18deg 50% 84%;          // EBCFC3 SW6323 Romance
     --sw-quaint-peche: 18deg 49% 84%;     // EACDC1 SW6330 Quaint Peche
     --sw-red-theatre: 359deg 34% 32%;     // 6E3637 SW7584 Red Theatre
     --sw-coral-clay: 8deg 39% 59%;        // BF796E SW9005 Coral Clay
@@ -134,6 +135,92 @@
     --sw-westhighland: 41deg 40% 92%;     // F3EEE3 SW7566 Westhighland White
     --sw-fleur-de-sel: 72deg 7% 86%;      // DCDDD8 SW7666 Fleur de Sel
 
+    // No. 2 Reds & Purples 2024
+    --sw-ravishing-coral: 12deg 68% 70%; // E79580 SW6612 Ravishing Coral
+    --sw-veri-berri: 295deg 14% 52%; // E79580 SW6612 Ravishing Coral
+    // 937496 SW9069 Veri Berri
+    // AE8E7E SW9081 Redend Point
+    // E0B392 SW6352 Soft Apricot
+
+    // https://gradient.style
+    --lush-coral-purple:
+      linear-gradient(
+        to right,
+        hsl(var(--sw-ravishing-coral)),
+        hsl(var(--sw-veri-berri))
+      );
+    // SW6323 Romance + SW9006 Rojo Dust + SW6328 Fireweed
+    // https://www.joshwcomeau.com/gradient-generator?colors=7b3730|b57466|ebcfc3&angle=45&colorMode=hcl&precision=8&easingCurve=0.333|1|0.666|0
+    --lush-fire-dust-romance: linear-gradient(
+      45deg,
+      hsl(6deg 44% 34%) 0%,
+      hsl(7deg 40% 38%) 20%,
+      hsl(8deg 36% 42%) 29%,
+      hsl(9deg 33% 47%) 36%,
+      hsl(10deg 31% 51%) 43%,
+      hsl(11deg 35% 55%) 50%,
+      hsl(12deg 37% 61%) 57%,
+      hsl(14deg 39% 67%) 64%,
+      hsl(15deg 42% 72%) 71%,
+      hsl(17deg 45% 78%) 80%,
+      hsl(18deg 50% 84%) 100%
+    );
+    // EBE0CE SW9661 Radiant Dawn
+    // F1BFB1 SW0058 Jazz Age Coral
+    // https://www.joshwcomeau.com/gradient-generator?colors=f4bf77|f1bfb1|ebe0ce&angle=45&colorMode=hcl&precision=8&easingCurve=0.333|1|0.666|0
+    --lush-radiant-jazz: linear-gradient(
+      135deg,
+      hsl(37deg 42% 86%) 0%,
+      hsl(34deg 46% 86%) 21%,
+      hsl(31deg 50% 85%) 30%,
+      hsl(29deg 54% 84%) 39%,
+      hsl(26deg 57% 84%) 46%,
+      hsl(24deg 60% 83%) 54%,
+      hsl(21deg 63% 83%) 61%,
+      hsl(19deg 66% 82%) 69%,
+      hsl(16deg 68% 82%) 79%,
+      hsl(13deg 70% 82%) 100%
+    );
+    // https://www.joshwcomeau.com/gradient-generator/?angle=135&easingCurve=0.333%7C1%7C0.666%7C0&colorMode=hcl&precision=8&colors=f1bfb1%7Cebe0ce%7Ce2b6a7%7Cb57466
+    --lush-radiant-salmon-dust:
+      linear-gradient(
+        135deg,
+        hsl(37deg 42% 86%) 0%,
+        hsl(32deg 45% 84%) 20%,
+        hsl(28deg 47% 82%) 29%,
+        hsl(24deg 49% 80%) 36%,
+        hsl(20deg 50% 79%) 43%,
+        hsl(15deg 50% 77%) 50%,
+        hsl(14deg 46% 73%) 57%,
+        hsl(14deg 42% 68%) 64%,
+        hsl(13deg 39% 64%) 71%,
+        hsl(12deg 37% 60%) 80%,
+        hsl(11deg 35% 55%) 100%
+      );
+
+    // TODO: define gradient guides
+    --grad-1: linear-gradient(
+      to bottom right,
+      hsl(var(--sw-quaint-peche)) 0%,
+      hsl(var(--sw-redend-point)) 100%
+    );
+    --grad-2: linear-gradient(
+      to bottom right,
+      hsl(var(--sw-ravishing-coral)) 0%,
+      hsl(var(--sw-carnelian)) 100%
+    );
+    --grad-3: linear-gradient(
+      to bottom right,
+      hsl(var(--sw-romance)) 0%,
+      hsl(var(--sw-rojo-dust)) 100%
+    );
+    --grad-4: var(--lin-coral-purple);
+    --grad-5: linear-gradient(
+      to bottom right,
+      hsl(25deg 56% 73%) 0%,
+      hsl(var(--sw-redend-point)) 100%
+    );
+
     // TODO: Coordinated color palettes
     // Refs:
     // → https://images.sherwin-williams.com/content_images/sw-pdf-sherwin-williams-colorc.pdf
@@ -158,42 +245,42 @@
 
     // Warm shades of red, orange and yellow are associated with the literal warmth that the sun and fire radiate.
     --redend: hsl(var(--sw-redend-point));
-    --red-01: hsl(var(--sw-abalone-shell));
-    --red-02: hsl(var(--sw-quaint-peche));
-    --red-09: hsl(var(--sw-redend-point));
-    --lead-01: var(--redend);
+    --red-1: hsl(var(--sw-abalone-shell));
+    --red-2: hsl(var(--sw-quaint-peche));
+    --red-9: hsl(var(--sw-redend-point));
+    --lead-1: var(--redend);
 
     // Neutral (black, white, gray and beige)
 
     // Cool Whites (undertones of blue, green or violet)
-    --cool-white-01: var(--sw-extra-white);
-    --cool-white-02: var(--sw-fleur-de-sel);
+    --cool-white-1: var(--sw-extra-white);
+    --cool-white-2: var(--sw-fleur-de-sel);
     // Warm Whites (undertones of yellow and red)
-    --warm-white-01: var(--sw-pure-white);
-    --warm-white-02: var(--sw-shoji-white);
-    --warm-white-03: var(--sw-paperwhite);
+    --warm-white-1: var(--sw-pure-white);
+    --warm-white-2: var(--sw-shoji-white);
+    --warm-white-3: var(--sw-paperwhite);
     // Cool (lush) Neutrals (undertones of blue, violet or silver)
-    --cool-gray-01: var(--sw-fashionable-gray);
-    --cool-gray-02: var(--sw-mystical-shade);
-    --cool-gray-03: var(--sw-perle-noir);
+    --cool-gray-1: var(--sw-fashionable-gray);
+    --cool-gray-2: var(--sw-mystical-shade);
+    --cool-gray-3: var(--sw-perle-noir);
     // Warm Neutrals
-    --warm-gray-01: var(--sw-westchester-gray);
-    --warm-gray-02: var(--sw-chelsea-gray);
+    --warm-gray-1: var(--sw-westchester-gray);
+    --warm-gray-2: var(--sw-chelsea-gray);
     // Black (dark shades)
-    --black-01: var(--sw-tricorn-black);
-    --black-02: var(--sw-black-magic);
+    --black-1: var(--sw-tricorn-black);
+    --black-2: var(--sw-black-magic);
     // Beige
-    // --beige-01:;
+    // --beige-1: ;
 
     // Defining the darkest and lightest hues
-    --black: var(--black-01);
-    --white: var(--warm-white-01);
+    --black: var(--black-1);
+    --white: var(--warm-white-1);
 
     // Contrasting highlight
 
-    --accent-a25: hsl(var(--sw-vintage-gold) / 0.25);
-    --accent-a50: hsl(var(--sw-vintage-gold) / 0.5);
-    --accent-a80: hsl(var(--sw-vintage-gold) / 0.8);
+    --accent-a25: hsl(var(--sw-vintage-gold) / .25);
+    --accent-a50: hsl(var(--sw-vintage-gold) / .50);
+    --accent-a80: hsl(var(--sw-vintage-gold) / .80);
     --accent: hsl(var(--sw-vintage-gold));
 
     --accent-shade: hsl(var(--sw-redend-point));
@@ -233,7 +320,7 @@
     --lin-grad-voygb:
       linear-gradient(
         45deg,
-        var(--accent) 0%,
+        hsl(270deg 100% 75%) 0%,
         hsl(270deg 100% 75%) 8%,
         hsl(281deg 100% 77%) 15%,
         hsl(292deg 100% 78%) 23%,
@@ -288,21 +375,27 @@
         var(--accent) 0,
         var(--accent) 5px
       );
-    // [cp]
-    --lin-grad-by:
-      linear-gradient(
-      310deg,
-      hsl(240deg 100% 20%) 0%,
-      hsl(289deg 100% 21%) 2%,
-      hsl(315deg 100% 27%) 6%,
-      hsl(329deg 100% 36%) 12%,
-      hsl(337deg 100% 43%) 22%,
-      hsl(357deg 91% 59%) 47%,
-      hsl(17deg 100% 59%) 81%,
-      hsl(34deg 100% 53%) 93%,
-      hsl(45deg 100% 50%) 98%,
-      hsl(55deg 100% 50%) 100%
-    );
+
+    // Yellow / Goldie
+    // https://www.sherwin-williams.com/en-us/color/color-family/yellow-paint-colors
+    --yellow-0: 39deg 61% 88%; // F3E6CE SW6672 Morning Sun
+    --yellow-1: 39deg 79% 83%; // F6DEB3 SW9663 Honeypot
+    --yellow-2: 37deg 83% 77%; // F5CF92 SW9664 Sun Salutation
+    --yellow-3: 37deg 70% 78%; // EECF9E SW2857 Peace Yellow (H)
+    --yellow-4: 43deg 90% 68%; // F7CE65 SW9665 Sunny Side Up (EDE)
+    --yellow-5: 39deg 88% 77%; // F8D492 SW2865 Classical Yellow (H)
+    --yellow-6: 35deg 76% 74%; // EFC488 SW0030 Colonial Yellow (H)
+    --gold-1: 34deg 46% 67%; // D2B084 SW6129 Restrained Gold
+    --gold-2: 33deg 45% 63%; // CBA576 SW9024 Vintage Gold
+    --gold-3: 33deg 43% 57%; // C19763 SW6130 Mannered Gold
+    --gold-4: 34deg 75% 69%; // EBB875 SW2831 Classical Gold (H)
+    --gold-5: 31deg 54% 67%; // D9AD7F SW7679 Golden Gate
+    --radial-gold:
+      radial-gradient(
+        hsl(var(--gold-1)),
+        hsl(var(--gold-2) / 0) 50%
+      );
+    --star-bg: var(--accent) var(--radial-gold);
 
     // ----------------------------------
     // Data URLs
@@ -311,7 +404,6 @@
     // Inlining a bundle as a data URL w/ “data-url:” scheme
     // → https://parceljs.org/features/bundle-inlining/
     --brand-logo: url(data-url:../images/logo.svg);
-    // --brand-logo-sm: url(data-url:../images/logo-sm.svg);
     --brand-logo-sm: url(data-url:../images/logo-sm-grad.svg);
     --brand-loop: url(data-url:../images/loop.svg);
 
@@ -330,8 +422,8 @@
     // https://web.dev/state-of-css-2022/#scoping-styles-is-really-hard
     // https://css.oddbird.net/scope/explainer/
 
-    &:where(
-      :not([data-theme-style]),
+    &:where(:not(
+      [data-theme-style]),
       [data-theme-style]
     ) {
       --background-a15: hsl(var(--bg-hsl) / .15);
@@ -358,14 +450,14 @@
 
       --bg-hsl: var(--white);
       --fg-hsl: var(--sw-carnelian);
-      --shadow: hsl(var(--fg-hsl) / .16);
+      --shadow: hsl(var(--fg-hsl) / .15);
       --selection-foreground: var(--bg-hsl);
       --selection-background: var(--accent-shade);
     }
 
     // @scope ([data-theme-style=dark]) {…}
-    &:where(
-      :not([data-theme-style]), /* default */
+    &:where(:not(
+      [data-theme-style]),
       [data-theme-style=dark]
     ) {
       color-scheme: dark;
@@ -664,6 +756,9 @@
         0% 40%,100% 40%,100% 60%,0% 60%,
         0% 75%,100% 75%,100% 95%,0% 95%
       );
+    --shape-star:
+      polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+
     // Spec → https://drafts.csswg.org/css-shapes-1/#basic-shape-interpolation
     // Polygonal (pointing) shapes that may be morphing between:
     // 5-angled
@@ -716,19 +811,9 @@
   }
 }
 
-// Sectioning content
-
-:where(main, section) {
-  position: relative;
-}
-
-:where(main) {
-  min-inline-size: 100%;
-  block-size: 100%;
-  contain: size;
-}
-
+//
 // Custom elements
+//
 
 video-player {
   // https://codepen.io/thebabydino/pen/MWYrNaB
@@ -764,9 +849,46 @@ theme-switch {
   }
 }
 
+//
+// Instant helpers: pseudo & attrs
+//
+
+// Sectioning content
+:where(main, section) { position: relative; }
+:where(main) {
+  min-inline-size: 100%;
+  block-size: 100%;
+  contain: size;
+
+  // TODO:
+  // &:where(
+  //   [data-page-id=index]
+  // ) { @layer pages.home }
+}
+
+:where(
+  [data-hidden],
+  [class*=grecaptcha]
+) {
+  @include config.is-hidden;
+}
+
 img:is(.muted) { filter: grayscale(25%) saturate(75%); }
 
-dialog:where(#alert) { // <-- noscript alert
+// rounded-pill
+[class*=cta] { border-radius: calc(var(--big-int) * 1px) !important; }
+
+:where(.reveal-wrapper) {
+  inline-size: fit-content;
+  margin-inline: auto;
+}
+
+.headline:where(.reveal) {
+  position: relative;
+  border-block-end: 4px solid var(--trn); // hidden overflow safe-zone
+}
+
+dialog:where(#alert) { // <-- basic noscript alert
   z-index: var(--big-int);
   position: fixed;
   inset: 0;
@@ -798,69 +920,46 @@ dialog:where(#alert) { // <-- noscript alert
   }
 }
 
-:where(
-  [data-hidden],
-  .grecaptcha-badge
-) {
-  @include config.is-hidden;
-}
-
-@supports(scroll-margin: 1rem) {
-  :where(:target[id^='#']) { // #specific-part:target
-    scroll-margin-block-start: var(--spacer);
-  }
-}
-
-// orphan nodes (i.e. without a parent node)
-:where(.orphan) {
-  padding-inline: var(--spacer-2x);
-
-  @include config.respond('tablet') {
-    padding-inline: var(--spacer-4x);
-  }
-}
-
-:where(.reveal-wrapper) {
-  margin-inline: auto;
-  inline-size: fit-content;
-}
-
-.headline:where(.reveal) {
-  position: relative;
-  border-block-end: 4px solid var(--trn); // hidden overflow safe-zone
-}
-
-// rounded-pill
-[class*=cta] { border-radius: calc(var(--big-int) * 1px) !important; }
-
+//
 // case-, context- or page-specific customization
-// @layer theme.custom {…}
-
-@media (max-width: 48em) {
-  article { padding-inline: var(--spacer-2x); }
-}
+// TODO: @layer theme.custom {…}
+//
 
 header .tels,
 footer .copr {
   margin-block: var(--spacer-2x);
 }
 
-:where(.carousel--1, .carousel--3) .headline {
-  --flow-space: var(--denser);
-  letter-spacing: normal;
-}
-
-// :where(
-//   [data-page-id=index]
-// ) {…}
-
 :where(
   [data-id="syllabus"],
   [data-id="gallery"]
 ) {
-  .headline {
-    text-align: center;
+  .headline { text-align: center; }
+}
+
+:is(.carousel) {
+  // &:where(.carousel--1, .carousel--3),
+  &:where(
+    [class*=--1],
+    [class*=--3]
+  ) {
+    .headline {
+      --flow-space: var(--denser);
+      letter-spacing: normal;
+    }
   }
+  &:where(
+    [class$=--4]
+  ) {
+    li {
+      margin-block: 0 auto;
+      padding-block: var(--spacer-3x);
+    }
+  }
+}
+
+@media (max-width: 48em) {
+  article { padding-inline: var(--spacer-2x); }
 }
 
 :where(#intent, #about) {
@@ -869,37 +968,43 @@ footer .copr {
     margin-inline: auto;
   }
 }
+
 :where(#intent, #about, #partners) {
   background-attachment: fixed;
+  background-image: var(--bg-image, var(--background));
 
   [data-theme-style=light] & {
-    background-image: linear-gradient(
-      to bottom right,
-      hsl(var(--sw-quaint-peche)) 0%,
-      hsl(var(--sw-redend-point)) 100%
-    );
-    // https://gradient.style
-    background-image: linear-gradient(
-      to bottom right in oklab,
-      oklch(87% 0.04 45) 0%, oklch(62% 0.09 33) 100%
-    );
+    --bg-image: var(--drawing-light, var(--grad-1));
   }
+
   [data-theme-style=dark] & {
-    background-image: linear-gradient(
-      to bottom right,
-      #e79580 0%,
-      hsl(var(--sw-carnelian)) 100%
-    );
+    --bg-image: var(--drawing-dark, var(--grad-2));
   }
 }
 
-// :where(#locate) {…}
-// :where(#contact) {…}
+:where(#intent) {
+  --drawing-light: var(--lush-radiant-jazz);
+}
+
+:where(#about) {
+  --drawing-dark: var(--lush-coral-purple);
+  --drawing-light: var(--lush-radiant-salmon-dust);
+}
+
+// :where(#partners) {…}
 
 :where(#locate) {
-  &:nth-child(2) { grid-row: 2 }
-  .extra-controls { grid-row: 2 }
+  block-size: 100svh;
+  grid-template-rows: auto 1fr;
+
+  & > :where(:not(:first-child)) { grid-row: 2 }
+
+  .addon-sidebar {
+    --map-sidebar-spacer: 2ch;
+  }
 }
+
+// :where(#contact) {…}
 
 .popout {
   // color: var(--background);
@@ -916,7 +1021,7 @@ footer .copr {
     position: absolute;
     inset: 0;
     z-index: 1000;
-    content: "";
+    content: '';
     pointer-events: none;
     inline-size: 100%;
     block-size: 100%;
@@ -931,6 +1036,10 @@ footer .copr {
 @keyframes move {
   to { transform: scaleX(1.1) }
 }
+
+//
+// Feature testing
+//
 
 // https://www.w3.org/TR/css-nesting-1/
 // https://developer.chrome.com/articles/css-nesting/
@@ -957,6 +1066,3 @@ footer .copr {
     anchor-name: --my-anchor;
   }
 }
-
-// https://github.com/w3c/csswg-drafts/issues/4559
-// --delay: calc(var(--i, 1) * 400ms);

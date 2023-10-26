@@ -14,7 +14,7 @@ $hashLinks: '/#';
     word-break: normal;
     background: var(--link-background);
 
-    &:any-link { cursor: pointer; }
+    &:where(:not([aria-disabled]):any-link) { cursor: pointer; }
   }
 }
 
@@ -100,7 +100,10 @@ $hashLinks: '/#';
 
     &:is(:active, [aria-current='page']) {
       // color: var(--link-text-color, var(--accent-extra));
-      &:not([class*='cta']) { filter: brightness(120%); }
+      &:where(:not(
+        [aria-disabled=true],
+        [class*='cta']
+      )) { filter: brightness(120%); }
     }
 
     // &[aria-current='page'] {…}
@@ -141,7 +144,6 @@ $hashLinks: '/#';
       // overflow: hidden;
       overflow: visible;
       cursor: pointer;
-      // background-color: var(--background);
       border-radius: 2px;
       // box-shadow: var(--accent) 0 0 0 1px inset;
       box-shadow: 0 8px 24px var(--shadow);

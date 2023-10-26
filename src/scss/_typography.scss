@@ -281,7 +281,7 @@
     max-inline-size: 12ch;
     inline-size: fit-content;
     letter-spacing: 0.63px; // var(--letter-spacing-3);
-    // filter: drop-shadow(0px 0px 0.2vmin hsl(0 0% 0% / 0.3));
+    filter: drop-shadow(0px 0px 0.2vmin hsl(0 0% 0% / 0.3));
   }
 
   // https://adrianroselli.com/2020/08/be-wary-of-doc-subtitle.html
@@ -298,7 +298,8 @@
   }
 
   //= h4–h5
-  [class$='subhead'] {
+  // [class$='subhead'] { // ! :where(h3.h4.subhead) etc.
+  [class*='subhead'] {
     letter-spacing: 0.16px;
     font-weight: 500;
 

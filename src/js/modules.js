@@ -30,7 +30,7 @@ const doc = document, { documentElement: root } = doc;
       root.dataset.themeStyle = themeSwitch.mode;
     });
   });
-  const reveal = await import('./modules/reveal-effect');
+  // const reveal = await import('./modules/reveal-effect');
   const lazyimg = await import('./modules/reveal-image');
   const cursor = await import('./modules/cursor');
 
@@ -47,12 +47,11 @@ const doc = document, { documentElement: root } = doc;
     parsedUrl.pathname === '/syllabus' ||
     parsedUrl.pathname === '/syllabus.html'
   ) {
-    loadMap();
+    await loadMap();
   }
 
   // const nav = await loadNav('.nav-button');
-  // await loadNav('.nav-button');
-  loadNav('.nav-button');
+  await loadNav('.nav-button');
 })();
 
 async function loadNav(control) {

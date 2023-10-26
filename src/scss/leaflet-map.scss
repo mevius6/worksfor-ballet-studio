@@ -293,32 +293,24 @@ $lib: 'leaflet';
           display: flex;
           max-inline-size: 100%;
           block-size: auto;
-          filter: drop-shadow(-2px 3px 2px hsl(0 0% 0% / 0.25));
           align-items: center;
           justify-content: space-around;
           padding: var(--denser);
-
-          &:is(:hover, :focus) { filter: brightness(120%); }
         }
 
         a {
+          --link-background: var(--background);
+
           display: block;
           overflow: visible;
           aspect-ratio: 1;
           min-inline-size: var(--btn-min-size);
           min-block-size: var(--btn-min-size);
           border-radius: 0.5ch;
-          // background-color: var(--accent-shade);
-          background-color: var(--background);
           box-shadow: 0 8px 24px var(--shadow);
 
-          &:not([class*='disabled']):focus { transform: scale(0.8); }
+          &:not([class*=disabled]):focus { transform: scale(0.8); }
         }
-      }
-
-      &-bar &-disabled {
-        cursor: not-allowed;
-        filter: grayscale(1);
       }
     }
 
@@ -522,6 +514,7 @@ $lib: 'leaflet';
     display: inline-block;
     inline-size: var(--icon-size);
     block-size: var(--icon-size);
+
     content: '';
     filter: none; // override
   }
@@ -543,8 +536,6 @@ $lib: 'leaflet';
 #map {
   inline-size: calc(100% - var(--spacer-4x) * 2);
   block-size: 100%;
-  min-block-size: 100svh; // calc(100svh - var(--spacer-4x))
-  // aspect-ratio: 1;
   margin: 0 auto;
   font: inherit;
 
@@ -652,32 +643,51 @@ $lib: 'leaflet';
   }
 }
 
-.extra-controls {
-  --list-gap: 0;
-  --grad-hsl: var(--sw-redend-point);
-
-  grid-row: 2;
+aside:where(.addon-sidebar) {
+  --_map-sidebar-light-bg:
+    linear-gradient(
+      134deg,
+      hsl(var(--sw-quaint-peche) / .50) 0%,
+      hsl(var(--sw-redend-point) / .125) 100%
+    );
+  --_map-sidebar-dark-bg:
+    linear-gradient(
+      134deg,
+      hsl(var(--sw-quaint-peche) / .50) 0%,
+      hsl(var(--sw-redend-point) / .125) 100%
+    );
 
   position: absolute;
   inset-block-start: 0;
+  inset-inline-start: 0;
+
   z-index: 1009;
   display: none;
-  max-block-size: 100%;
-  padding: var(--spacer-4x);
-  overflow-y: auto;
-  flex-direction: column;
-  background:
-    linear-gradient(
-      135deg,
-      hsl(var(--grad-hsl)) 0%,
-      hsl(var(--grad-hsl) / 0.25) 100%
-    );
-  border-radius: 3px;
-  backdrop-filter: blur(6px);
+  padding: var(--map-sidebar-spacer, unset);
 
-  [data-theme-style='light'] & {
-    --grad-hsl: var(--sw-malted-milk);
+  flex-direction: column;
+
+  overflow-x: visible;
+  background: var(--map-sidebar-background, var(--background-a75)); // default
+  border-radius: .5ch;
+  backdrop-filter: var(--map-sidebar-backdrop, blur(7px) brightness(102%));
+
+  :where([data-theme-style=dark]) & {
+    --map-sidebar-background: var(--_map-sidebar-dark-bg);
   }
+
+  :where([data-theme-style=light]) & {
+    --map-sidebar-background: var(--_map-sidebar-light-bg);
+  }
+
+  // @media (any-hover: hover) { display: flex; }
+  @include config.respond('tablet') { display: flex; }
+}
+
+.addon-controls {
+  --list-gap: 0;
+
+  max-block-size: 100%;
 
   [name='location']:checked ~ label,
   [name='location']:focus ~ label {
@@ -687,9 +697,11 @@ $lib: 'leaflet';
   label {
     display: flex;
     flex-flow: column;
-    padding: 2ch;
+    // padding: 2ch;
+    padding-block: 1.25ch;
+    padding-inline: 2.25ch;
     cursor: pointer;
-    border-radius: inherit;
+    border-radius: .25ch;
     transition: background-color 175ms var(--easing);
 
     a {
@@ -709,28 +721,64 @@ $lib: 'leaflet';
       --icon-size: 1rem;
       --sp: 1ex;
 
+      --shadow-size: 0;
+      --shadow-hint-light: hsl(var(--sw-redend-point) / 70%);
+      --shadow-hint-dark: hsl(var(--sw-quaint-peche) / 50%);
+      --shadow-hint: var(--shadow-hint-light);
+
       position: absolute;
-      // inset-block-start: 50%;
-      // inset-inline-end: 0;
-      // transform: translatey(-50%) translatex(50%) scale(var(--s,0.75));
-      inset-block-start: calc(50% - (var(--icon-size) + var(--sp) / 4));
-      inset-inline-end: calc(-1 * (var(--icon-size) + var(--sp) / 4));
-      transform: scale(var(--s,0.75));
+      inset-block-start: calc(50% - (var(--icon-size) + var(--sp) * .25));
+      inset-inline-end: calc(-1 * (var(--icon-size) + var(--sp) * .25));
       padding: var(--sp);
+      opacity: var(--a, .80);
+      pointer-events: none;
 
       font-family: inherit;
       font-weight: 500;
       line-height: 1.1;
-      opacity: var(--a, 1);
-      place-self: start;
       font-feature-settings: 'tnum' 1;
-      will-change: transform;
-      transform-origin: 50% 50%;
-      transition: transform 200ms var(--ease-spring);
+      // color: var(--accent);
+
+      border: 0; // override
+
       background-color: var(--background);
+      background-origin: border-box;
+      box-shadow:
+        0 0 0 var(--shadow-size) var(--shadow-hint);
+
+      will-change: transform;
+      transform: scale(var(--s, .75));
+      transform-origin: 50% 50%;
+      transition:
+        opacity 200ms var(--ease-spring),
+        background-color 200ms var(--ease-out-quart),
+        box-shadow 200ms var(--ease-out-quart),
+        transform 200ms var(--ease-spring);
     }
 
-    &:hover { --s: 1; }
+    // https://html.spec.whatwg.org/multipage/input.html#radio-button-state-(type=radio)
+
+    // &:where(
+    //   :hover,
+    //   :has([type=radio]:checked)
+    // ) { --s: 1 }
+    // OR
+    // &:hover,
+    // &:has([type=radio]:checked)::before { --s: .75 }
+
+    &:where(:not(:has([type=radio]:checked)):is(:hover,:focus))::before {
+      --a: 1;
+      --s: 1;
+      --shadow-size: 1px;
+      --shadow-hint: hsl(var(--sw-redend-point) / .5);
+    }
+    &:has([type=radio]:checked)::before {
+      --a: 1;
+      --s: .875;
+      // --shadow-size: .125em;
+      --shadow-size: 2px;
+      --shadow-hint: var(--accent-a80);
+    }
   }
 
   .social {
@@ -745,7 +793,4 @@ $lib: 'leaflet';
     place-items: center;
     column-gap: var(--icon-size);
   }
-
-  @include config.respond('tablet') { display: flex; }
-  // @media (any-hover: hover) { display: flex; }
 }

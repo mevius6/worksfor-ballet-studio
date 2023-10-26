@@ -167,3 +167,6 @@
   &--l { block-size: 100lvh; }
   &--d { block-size: 100dvh; }
 }
+
+// https://github.com/w3c/csswg-drafts/issues/4559
+// --delay: calc(var(--i, 1) * 400ms);

@@ -87,8 +87,8 @@ const loopItems = (arr) => {
 
 const addData = (name, desc, adds, metro=[], opens, telephone, direction) => `
   <div class="flow">
-    <h4 class="headline" itemprop="name" data-hidden>${name}</h4>
-    <span itemprop="description" data-hidden>${desc}</span>
+    <!--h4 class="headline" itemprop="name" data-hidden>${name}</h4>
+    <span itemprop="description" data-hidden>${desc}</span-->
     <span>${adds}, Москва</span>
   </div>
   <div class="flow">
@@ -170,7 +170,7 @@ const vectorLayerOptions = {
 }
 
 const DARK_STYLE_ID = 'cllsgvh80009g01r4781i6b1h';
-const LIGHT_STYLE_ID = 'cllsgvsqf009t01qy3nn06tf0';
+const LIGHT_STYLE_ID = 'clo78rac000wy01pfg9tshzjf';
 
 const night = L.tileLayer(mapboxUrl, {
   ...vectorLayerOptions,
@@ -267,7 +267,7 @@ L.control
   .addAttribution(ATTR)
   .addTo(map);
 
-selectAll('.extra-controls__item').forEach((control, i) => {
+selectAll('.addon-controls__item').forEach((control, i) => {
   let coords = [locations[i][1], locations[i][2]];
 
   control.addEventListener('change', () => {
