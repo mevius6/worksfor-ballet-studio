@@ -159,7 +159,7 @@
   max-inline-size: 100vw;
 
   @include config.respond('tablet') {
-    padding-block: var(--spacer-6x);
+    // padding-block: var(--spacer-6x);
   }
 }
 

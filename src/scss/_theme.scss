@@ -850,7 +850,7 @@ theme-switch {
 }
 
 //
-// Instant helpers: pseudo & attrs
+// Instant helpers: pseudo-elems & attrs
 //
 
 // Sectioning content
@@ -860,7 +860,7 @@ theme-switch {
   block-size: 100%;
   contain: size;
 
-  // TODO:
+  // TODO: selecting the main element of a specific page by identifier
   // &:where(
   //   [data-page-id=index]
   // ) { @layer pages.home }
@@ -925,11 +925,6 @@ dialog:where(#alert) { // <-- basic noscript alert
 // TODO: @layer theme.custom {…}
 //
 
-header .tels,
-footer .copr {
-  margin-block: var(--spacer-2x);
-}
-
 :where(
   [data-id="syllabus"],
   [data-id="gallery"]
@@ -953,7 +948,7 @@ footer .copr {
   ) {
     li {
       margin-block: 0 auto;
-      padding-block: var(--spacer-3x);
+      padding-block: var(--spacer-3x); // safe-zone for shadows
     }
   }
 }
@@ -962,36 +957,17 @@ footer .copr {
   article { padding-inline: var(--spacer-2x); }
 }
 
+header .tels,
+footer .copr {
+  margin-block: var(--spacer-2x);
+}
+
 :where(#intent, #about) {
   & > article {
     grid-column: content;
     margin-inline: auto;
   }
 }
-
-:where(#intent, #about, #partners) {
-  background-attachment: fixed;
-  background-image: var(--bg-image, var(--background));
-
-  [data-theme-style=light] & {
-    --bg-image: var(--drawing-light, var(--grad-1));
-  }
-
-  [data-theme-style=dark] & {
-    --bg-image: var(--drawing-dark, var(--grad-2));
-  }
-}
-
-:where(#intent) {
-  --drawing-light: var(--lush-radiant-jazz);
-}
-
-:where(#about) {
-  --drawing-dark: var(--lush-coral-purple);
-  --drawing-light: var(--lush-radiant-salmon-dust);
-}
-
-// :where(#partners) {…}
 
 :where(#locate) {
   block-size: 100svh;
@@ -1004,19 +980,59 @@ footer .copr {
   }
 }
 
-// :where(#contact) {…}
-
 .popout {
-  // color: var(--background);
   overflow: hidden;
 
-  :is([data-theme-style='light']) & {
-    background-color: hsl(var(--sw-abalone-shell));
-  }
-  :is([data-theme-style='dark']) & {
-    background-color: hsl(var(--sw-hushed-auburn));
+  &:where(#intent, #partners) {
+    background-attachment: fixed;
+    background-image: var(--bg-image, var(--background));
+
+    [data-theme-style=light] & {
+      --bg-image: var(--drawing-light, var(--grad-1));
+    }
+
+    [data-theme-style=dark] & {
+      --bg-image: var(--drawing-dark, var(--grad-2));
+    }
   }
 
+  &:where(#intent) {
+    --drawing-light: var(--lush-radiant-jazz);
+  }
+
+  &:where(#about) {
+    --drawing-dark: var(--lush-coral-purple);
+    --drawing-light: var(--lush-radiant-salmon-dust);
+  }
+
+  // :is([data-theme-style=light]) & {
+  //   background-color: hsl(var(--sw-abalone-shell) / .25);
+  // }
+  // :is([data-theme-style=dark]) & {
+  //   background-color: hsl(var(--sw-hushed-auburn) / .125);
+  // }
+
+  &::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: '';
+    pointer-events: none;
+    block-size: 100%;
+    inline-size: 100%;
+    background: var(--svg-noise) 0% 0%/512px repeat fixed;
+    opacity: .25;
+    background-blend-mode: overlay;
+    // filter: contrast(120);
+    display: none;
+
+    @include config.respond('tablet') {
+      display: block;
+    }
+  }
+}
+
+:where(.bg-shadow) {
   &::after {
     position: absolute;
     inset: 0;
@@ -1027,9 +1043,21 @@ footer .copr {
     block-size: 100%;
     transform-origin: 100% 0;
     background: url(../images/shadow.png) 100% 0/cover no-repeat fixed;
+    // background-image: var(--bg-image, var(--background));
+    background-attachment: fixed;
     animation: move 7s 2s infinite alternate;
     mix-blend-mode: overlay;
     opacity: 0.7;
+    // border: 1px solid var(--accent);
+
+    // mask: url(../images/shadow.png);
+
+    [data-theme-style=light] & {
+      --bg-image: var(--drawing-light, var(--grad-1));
+    }
+    [data-theme-style=dark] & {
+      --bg-image: var(--drawing-dark, var(--grad-2));
+    }
   }
 }
 

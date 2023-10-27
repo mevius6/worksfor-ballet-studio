@@ -24,6 +24,11 @@ append head-start
       });
     }
 
+mixin sec(props)
+  - let { id, classes={}, attrs={}, ...rest } = props
+  section(id= id class= classes)&attributes(attrs)
+    block
+
 block content
   section.grid
     section.container.bg-overlay#hero(data-sec="hero")
@@ -37,7 +42,7 @@ block content
       hgroup(data-hidden)
         h1(itemprop="name")= brand.name
         p(itemprop="description" role="subtitle")= brand.desc
-      .logo.grid__center: include ../images/logo.svg
+      .grid__center.logo: include ../images/logo.svg
 
       dfn(data-hidden)
         abbr(title= FULL_NAME)= ABBR_NAME
@@ -73,7 +78,7 @@ block content
           textWrap: 'article',
         })
 
-    section.container.spaced.--ada-lg#about.popout
+    section.container.spaced.--ada-md#about
       article.flow.grid__center
         +head({ level: 2, text: about.head, split: 'chars' })
         p= about.body
@@ -99,9 +104,9 @@ block content
         })
 
     section.container.spaced.--ada-md#partners
-      .grid__third-lhs.sideways
+      .grid__center
         +head({ level: 2, text: 'Наши партнёры', split: 'chars' })
-      .grid__third-rhs.d-grid.grid-items-center
+      .grid__full.d-grid.grid-items-center
         +marquee()
 
     section.container.spaced.--ada-md#teachers
@@ -119,7 +124,7 @@ block content
           textWrap: 'article',
         })
 
-    section.container.spaced.--ada-lg#reviews
+    section.container.spaced.--ada-md#reviews
       .grid__center.d-grid.grid-items-center
         +head({ level: 2, text: 'Отзывы', split: 'chars' })
       .grid__content
@@ -138,7 +143,7 @@ block content
           instance: 4,
         })
 
-    section.container#locate
+    section.container.spaced.--ada-md#locate
       .grid__center: +head({ level: 2, text: 'Как добраться', split: 'chars' })
       +map({
         classes: 'grid__full',
@@ -154,5 +159,10 @@ block content
       //- offer: data.pages.offer.path[0]
 
     //- section#feed(aria-label="all blog posts") // News Feed (NF)
+    //- +sec({
+      id: 'feed',
+      attList: {
+        'aria-label': 'all blog posts',
+        'data-sec': 'news' } })
 
 block scripts
