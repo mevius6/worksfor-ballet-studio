@@ -224,8 +224,8 @@ const map = L.map('map', mapOptions).fitBounds(bounds, {padding: [100, 100]});
 // https://leafletjs.com/reference-1.7.1.html#icon
 const markerIcon = L.divIcon({
   html: ICON,
-  iconSize: [40, 45],
-  popupAnchor: [0, -22.5],
+  iconSize: [48, 48],
+  popupAnchor: [0, -24],
   className: 'marker-icon',
 });
 

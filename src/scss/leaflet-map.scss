@@ -648,7 +648,7 @@ aside:where(.addon-sidebar) {
     linear-gradient(
       134deg,
       hsl(var(--sw-quaint-peche) / .50) 0%,
-      hsl(var(--sw-redend-point) / .125) 100%
+      hsl(var(--sw-redend-point) / .25) 100%
     );
   --_map-sidebar-dark-bg:
     linear-gradient(
@@ -750,10 +750,10 @@ aside:where(.addon-sidebar) {
       transform: scale(var(--s, .75));
       transform-origin: 50% 50%;
       transition:
-        opacity 200ms var(--ease-spring),
+        opacity 250ms var(--ease-spring),
         background-color 200ms var(--ease-out-quart),
         box-shadow 200ms var(--ease-out-quart),
-        transform 200ms var(--ease-spring);
+        transform 250ms var(--ease-spring);
     }
 
     // https://html.spec.whatwg.org/multipage/input.html#radio-button-state-(type=radio)
