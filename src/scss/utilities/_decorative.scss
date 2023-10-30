@@ -325,6 +325,32 @@
   -webkit-text-fill-color: transparent;
 }
 
+.anim-text-bg {
+  --bg-size: 400%;
+  --color-one: hsl(var(--sw-ravishing-coral));
+  --color-two: hsl(var(--sw-veri-berri));
+  background: linear-gradient(
+      90deg,
+      var(--color-one),
+      var(--color-two),
+      var(--color-one)
+    )
+    0 0 / var(--bg-size) 100%;
+  color: transparent;
+  background-clip: text;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-text-bg {
+    animation: move-bg 8s linear infinite;
+  }
+  @keyframes move-bg {
+    to {
+      background-position: var(--bg-size) 0;
+    }
+  }
+}
+
 :where([class*='--stroke'], .paint-stroke) {
   --stroke-width: 2px;
   --stroke-color: var(--accent);

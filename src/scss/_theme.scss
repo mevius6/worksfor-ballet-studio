@@ -818,7 +818,8 @@
 video-player {
   // https://codepen.io/thebabydino/pen/MWYrNaB
   --video-player-width: 100%;
-  --video-player-height: 100svh;
+  --video-player-height: 100%;
+  // --video-player-height: 100svh;
 }
 
 theme-switch {
@@ -983,35 +984,40 @@ footer .copr {
 .popout {
   overflow: hidden;
 
-  &:where(#intent, #partners) {
-    background-attachment: fixed;
-    background-image: var(--bg-image, var(--background));
+  // &:where(#) {
+  //   background-attachment: fixed
+  //   background-image: var(--bg-image, var(--background));
 
-    [data-theme-style=light] & {
-      --bg-image: var(--drawing-light, var(--grad-1));
-    }
-
-    [data-theme-style=dark] & {
-      --bg-image: var(--drawing-dark, var(--grad-2));
-    }
-  }
-
-  &:where(#intent) {
-    --drawing-light: var(--lush-radiant-jazz);
-  }
-
-  &:where(#about) {
-    --drawing-dark: var(--lush-coral-purple);
-    --drawing-light: var(--lush-radiant-salmon-dust);
-  }
-
-  // :is([data-theme-style=light]) & {
-  //   background-color: hsl(var(--sw-abalone-shell) / .25);
-  // }
-  // :is([data-theme-style=dark]) & {
-  //   background-color: hsl(var(--sw-hushed-auburn) / .125);
+  //   [data-theme-style=light] & {
+  //     --bg-image: var(--light, var(--grad-1));
+  //   }
+  //   [data-theme-style=dark] & {
+  //     --bg-image: var(--dark, var(--grad-2));
+  //   }
   // }
 
+  :where([data-theme-style=light]) & {
+    // background-color: hsl(var(--sw-abalone-shell) / .25);
+    // background-image: var(--lush-radiant-jazz);
+    background-image: linear-gradient(
+      134deg,
+      hsl(var(--sw-abalone-shell) / .25) 0%,
+      33.333%,
+      hsl(var(--sw-hushed-auburn) / .125) 100%
+    );
+  }
+  :where([data-theme-style=dark]) & {
+    // background-color: hsl(var(--sw-hushed-auburn) / .125);
+    // background-image: var(--lush-coral-purple);
+    background-image: linear-gradient(
+      134deg,
+      hsl(var(--sw-ravishing-coral) / .25) 0%,
+      hsl(var(--sw-carnelian) / .25) 100%
+    );
+  }
+}
+
+:where(.--noise) {
   &::before {
     position: absolute;
     inset: 0;
@@ -1032,7 +1038,7 @@ footer .copr {
   }
 }
 
-:where(.bg-shadow) {
+:where(.--shadow) {
   &::after {
     position: absolute;
     inset: 0;
@@ -1047,17 +1053,9 @@ footer .copr {
     background-attachment: fixed;
     animation: move 7s 2s infinite alternate;
     mix-blend-mode: overlay;
-    opacity: 0.7;
-    // border: 1px solid var(--accent);
+    opacity: 0.5;
 
     // mask: url(../images/shadow.png);
-
-    [data-theme-style=light] & {
-      --bg-image: var(--drawing-light, var(--grad-1));
-    }
-    [data-theme-style=dark] & {
-      --bg-image: var(--drawing-dark, var(--grad-2));
-    }
   }
 }
 

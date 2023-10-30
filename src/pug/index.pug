@@ -47,12 +47,12 @@ block content
       dfn(data-hidden)
         abbr(title= FULL_NAME)= ABBR_NAME
 
-    section.container.spaced.--ada-lg#intent(data-sec="intent")
+    section.container.spaced.--ada-md.popout#intent(data-sec="intent")
       .grid__start-half
         +head({
+          class: 'anim-text-bg',
           level: 2,
-          text: ['Открыт набор', 'на 2023–2024', 'учебный год'],
-          split: 'chars' })
+          text: ['Открыт набор', 'на 2023–2024', 'учебный год']})
       article.flow.grid__end-half.--ada-lg
         p= intent
         p= lead
@@ -78,7 +78,7 @@ block content
           textWrap: 'article',
         })
 
-    section.container.spaced.--ada-md#about
+    section.container.spaced.--ada-md.popout.--shadow#about
       article.flow.grid__center
         +head({ level: 2, text: about.head, split: 'chars' })
         p= about.body
@@ -103,7 +103,7 @@ block content
           textWrap: 'article',
         })
 
-    section.container.spaced.--ada-md#partners
+    section.container.spaced.--ada-md.popout#partners
       .grid__center
         +head({ level: 2, text: 'Наши партнёры', split: 'chars' })
       .grid__full.d-grid.grid-items-center

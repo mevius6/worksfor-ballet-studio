@@ -40,10 +40,11 @@ mixin head(props)
     } = props
   -
     let classList = ['headline']
-    classList[className]
+    //- classList[className]
+    classList.push(className)
   -
     let attrsList = {
-      class: classList,
+      class: [...classList],
     }
 
   if props.overline
