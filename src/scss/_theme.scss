@@ -819,13 +819,12 @@ video-player {
   // https://codepen.io/thebabydino/pen/MWYrNaB
   --video-player-width: 100%;
   --video-player-height: 100%;
-  // --video-player-height: 100svh;
 }
 
 theme-switch {
   --theme-switch-border-color: var(--trn);
   --theme-switch-icon-size: 1.75em;
-  --theme-switch-icon-filter: drop-shadow(0 3px 6px var(--accent-a50));
+  // --theme-switch-icon-filter: drop-shadow(0 3px 6px var(--accent-a80));
   --theme-switch-icon-fill: var(--accent);
   --theme-switch-icon-fill-hover: var(--accent);
 
@@ -842,11 +841,12 @@ theme-switch {
   background-color: var(--background);
   box-shadow: 0 8px 24px var(--shadow);
 
-  :is(
+  :where(
     [data-theme-style='light'],
     [data-theme-style='dark']
   ) & {
     // --theme-switch-icon: var(--_sym-day-night);
+    // ..
   }
 }
 
@@ -863,8 +863,8 @@ theme-switch {
 
   // TODO: selecting the main element of a specific page by identifier
   // &:where(
-  //   [data-page-id=index]
-  // ) { @layer pages.home }
+  //   [data-id=index]
+  // ) { @layer theme.custom.home }
 }
 
 :where(
@@ -1014,6 +1014,7 @@ footer .copr {
       hsl(var(--sw-ravishing-coral) / .25) 0%,
       hsl(var(--sw-carnelian) / .25) 100%
     );
+    background-blend-mode: overlay;
   }
 }
 

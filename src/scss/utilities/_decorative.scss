@@ -242,14 +242,14 @@
 // https://css-tricks.com/different-ways-to-get-css-gradient-shadows/
 [data-backdrop='bloom'],
 .fx-bloom {
-  --offset: 2.75rem;
-  --clip: polygon(0 0,
-      calc(100% - var(--offset, 0)) 0,
-      100% var(--offset, 0),
-      100% 100%,
-      var(--offset, 0) 100%,
-      0px calc(100% - var(--offset, 0)));
-  position: relative;
+  // --offset: 2.75rem;
+  // --clip: polygon(0 0,
+  //     calc(100% - var(--offset, 0)) 0,
+  //     100% var(--offset, 0),
+  //     100% 100%,
+  //     var(--offset, 0) 100%,
+  //     0px calc(100% - var(--offset, 0)));
+  // position: relative;
 
   &::after,
   &::before {
@@ -257,10 +257,10 @@
     position: absolute;
   }
 
-  &::before,
-  &>img {
-    clip-path: var(--clip);
-  }
+  // &::before,
+  // & > img {
+  //   clip-path: var(--clip);
+  // }
 
   // gradient bloom
   &::after {
@@ -272,12 +272,12 @@
   }
 
   // gradient frame
-  &::before {
-    inset: -1px;
-    background-image: linear-gradient(90deg,
-        var(--accent),
-        var(--accent-shade));
-  }
+  // &::before {
+  //   inset: -1px;
+  //   background-image: linear-gradient(90deg,
+  //       var(--accent),
+  //       var(--accent-shade));
+  // }
 }
 
 // https://dev.to/codingdudecom/everything-about-stroke-text-in-css-561i
@@ -317,7 +317,7 @@
   // );
 
   color: var(--trn);
-  background: var(--lin-grad-4-hues);
+  background: var(--bg-layer, var(--lin-grad-4-hues));
   background-clip: text; // border-box
   box-decoration-break: clone;
 
@@ -494,91 +494,8 @@
   }
 }
 
-.admission {
-  // @include config.ticket();
-}
-
-// ( º0º) https://codepen.io/t_afif/pen/dyexeKO
-/* .rounded-cut-out {
-  --circle-offset:
-    calc(var(--big-circle-r) + var(--pillar-size) + var(--circle-r));
-  --filler:
-    conic-gradient(
-      at right var(--circle-r) top var(--circle-r),
-      #0000 25%,
-      var(--color) 0
-    );
-
-  position: relative;
-  border-top-right-radius: 0;
-  filter: drop-shadow(var(--shadow));
-  background:
-    radial-gradient(
-      var(--big-circle-r) at 100% 0%,
-      #0000 98%,
-      var(--color)
-    ) calc(-1*var(--pillar-size)) var(--pillar-size),
-    radial-gradient(
-      var(--circle-r) at top var(--circle-r) right var(--circle-offset),
-      var(--color) 98%,#0000),
-    radial-gradient(
-      var(--circle-r) at right var(--circle-r) top var(--circle-offset), var(--color) 98%,#0000
-    ),
-    var(--filler) calc(-1*(var(--big-circle-r) + var(--pillar-size))) 0,
-    var(--filler) 0 calc(var(--big-circle-r) + var(--pillar-size));
-  background-repeat: no-repeat;
-
-  --circle-r: 20px;
-  --big-circle-r: 22px;
-  --pillar-size: max(23px , var(--circle-r));
-  --color: #fff;
-  --shadow: 0 10px 48px rgba(21, 44, 115, 0.15);
-
-  width: 200px;
-  min-height: 240px;
-  border-radius: 25px;
-} */
-
-// Part of CSS-drawing glory -> https://codepen.io/alvaromontoro/pen/WNJyqxO
-.bg-halo {
-  --x: 50%;
-  background: radial-gradient(10vw 4vw at 50% calc(100% - 75.5vw),
-      #ccc 20%,
-      #0000 0) var(--x) 0 / 50% 50% no-repeat,
-    radial-gradient(10vw 4vw at 50% calc(100% - 75vw), #888 30%, #0000 0) var(--x) 0 / 50% 50% no-repeat,
-    /* sun rising */
-    radial-gradient(circle at 50% calc(100% - 20vw),
-      #ffef 1vw,
-      #fccc,
-      #fc89,
-      #f855,
-      #f851,
-      #fff0 45vw) 50% 100%,
-    radial-gradient(circle at 50% calc(100% - 20vw), #fff 0.5vw, #fff0 4%),
-    /* stars */
-    radial-gradient(circle, #fff5 0.125vmin, #fff0 0) 17% 17% / 31% 31%,
-    radial-gradient(circle, #fff8 0.15vmin, #fff0 0) 11% 21% / 21% 41%,
-    radial-gradient(circle, #fff4 0.125vmin, #fff0 0) 15% 11% / 41% 33%,
-    radial-gradient(circle, #fff3 0.2vmin, #fff0 0) 50% 50% / 37% 25%,
-    radial-gradient(circle, #fff7 0.125vmin, #fff0 0) 57% 13% / 34% 23%,
-    radial-gradient(circle, #ffc5 0.125vmin, #fff0 0) 77% -17% / 23% 27%,
-    /* dark areas */
-    radial-gradient(at 0 0, #123, #1230 50%),
-    radial-gradient(at 100% 0, #123, #1230 80%),
-    radial-gradient(circle at 50% 0, #456, #4560 30%),
-    radial-gradient(at 50% 0, #123 30%, #1230 50%),
-    radial-gradient(100% 100% at 0% 50%, #123, #1230 50%),
-    radial-gradient(100% 100% at 100% 50%, #123, #1230 70%),
-    radial-gradient(50% 25% at 50% calc(100% - 20vw), #34c7, #34c0 45vw) 50% 100%,
-    /* sun rays */
-    repeating-conic-gradient(at 50% calc(100% - 20vw),
-      #ffffff05 0 3%,
-      #fff0 7%),
-    repeating-conic-gradient(at 50% calc(100% - 20vw), #ffffff03 6%, #fff0 11%),
-    repeating-conic-gradient(at 50% calc(100% - 20vw),
-      #ffffff03 1deg,
-      #fff0 3deg);
-}
+// ( º0º)/ https://codepen.io/t_afif/pen/dyexeK
+// .rounded-cut-out {…}
 
 // https://codepen.io/thebabydino/pen/GRwLOKp?editors=0100
 .tucked-corners {
@@ -619,4 +536,45 @@
     --c: 40px;
     --p: 20px;
   }
+}
+
+// Part of CSS-drawing glory -> https://codepen.io/alvaromontoro/pen/WNJyqxO
+.bg-halo {
+  --x: 50%;
+  background: radial-gradient(10vw 4vw at 50% calc(100% - 75.5vw),
+      #ccc 20%,
+      #0000 0) var(--x) 0 / 50% 50% no-repeat,
+    radial-gradient(10vw 4vw at 50% calc(100% - 75vw), #888 30%, #0000 0) var(--x) 0 / 50% 50% no-repeat,
+    /* sun rising */
+    radial-gradient(circle at 50% calc(100% - 20vw),
+      #ffef 1vw,
+      #fccc,
+      #fc89,
+      #f855,
+      #f851,
+      #fff0 45vw) 50% 100%,
+    radial-gradient(circle at 50% calc(100% - 20vw), #fff 0.5vw, #fff0 4%),
+    /* stars */
+    radial-gradient(circle, #fff5 0.125vmin, #fff0 0) 17% 17% / 31% 31%,
+    radial-gradient(circle, #fff8 0.15vmin, #fff0 0) 11% 21% / 21% 41%,
+    radial-gradient(circle, #fff4 0.125vmin, #fff0 0) 15% 11% / 41% 33%,
+    radial-gradient(circle, #fff3 0.2vmin, #fff0 0) 50% 50% / 37% 25%,
+    radial-gradient(circle, #fff7 0.125vmin, #fff0 0) 57% 13% / 34% 23%,
+    radial-gradient(circle, #ffc5 0.125vmin, #fff0 0) 77% -17% / 23% 27%,
+    /* dark areas */
+    radial-gradient(at 0 0, #123, #1230 50%),
+    radial-gradient(at 100% 0, #123, #1230 80%),
+    radial-gradient(circle at 50% 0, #456, #4560 30%),
+    radial-gradient(at 50% 0, #123 30%, #1230 50%),
+    radial-gradient(100% 100% at 0% 50%, #123, #1230 50%),
+    radial-gradient(100% 100% at 100% 50%, #123, #1230 70%),
+    radial-gradient(50% 25% at 50% calc(100% - 20vw), #34c7, #34c0 45vw) 50% 100%,
+    /* sun rays */
+    repeating-conic-gradient(at 50% calc(100% - 20vw),
+      #ffffff05 0 3%,
+      #fff0 7%),
+    repeating-conic-gradient(at 50% calc(100% - 20vw), #ffffff03 6%, #fff0 11%),
+    repeating-conic-gradient(at 50% calc(100% - 20vw),
+      #ffffff03 1deg,
+      #fff0 3deg);
 }

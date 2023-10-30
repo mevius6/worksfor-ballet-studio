@@ -167,7 +167,7 @@ $lib: 'leaflet';
 
       &-fade-anim &-popup {
         opacity: 0;
-        transition: opacity 300ms var(--ease-out-cubic);
+        transition: opacity .25s var(--ease-out-cubic);
       }
 
       &-fade-anim &-map-pane &-popup {
@@ -180,7 +180,7 @@ $lib: 'leaflet';
 
       &-zoom-anim &-zoom-animated {
         will-change: transform;
-        transition: transform 250ms cubic-bezier(0, 0, 0.25, 1);
+        transition: transform .25s cubic-bezier(0, 0, 0.25, 1);
       }
 
       &-pan-anim &-tile,
@@ -310,6 +310,7 @@ $lib: 'leaflet';
           box-shadow: 0 8px 24px var(--shadow);
 
           &:not([class*=disabled]):focus { transform: scale(0.8); }
+          &:where(:active) { box-shadow: 0 0 0 var(--shadow); }
         }
       }
     }
@@ -553,12 +554,10 @@ $lib: 'leaflet';
   }
 }
 
+// Pop-up
 .microdata-popup {
   --_triangle-size: .75rem;
 
-  // width: calc(50% - 2ch);
-  // min-width: 20ch;
-  // max-width: 40ch;
   inline-size: clamp(25ch, 50% - 2ch, 39ch);
   margin-block-end: var(--_triangle-size);
 
@@ -573,14 +572,15 @@ $lib: 'leaflet';
     --_p-inline: 1.5ch;
     --_p-block: .75ch;
     --_tip: var(--_bottom-tip);
+
     content: "";
-    background: var(--background);
-    position: absolute;
     z-index: -1;
+    position: absolute;
     inset: 0;
-    mask: var(--_tip);
     inset-block-end: calc(var(--_triangle-size) * -1);
     border-block-end: var(--_triangle-size) solid transparent;
+    background: var(--background);
+    mask: var(--_tip);
   }
 
   .leaflet-popup-content {
@@ -611,7 +611,6 @@ $lib: 'leaflet';
 
     b, strong {
       // padding-block-end: var(--denser);
-
       color: var(--accent-shade);
       text-transform: uppercase;
       font-size: .75em;
@@ -643,6 +642,7 @@ $lib: 'leaflet';
   }
 }
 
+// Sidebar
 aside:where(.addon-sidebar) {
   --_map-sidebar-light-bg:
     linear-gradient(
@@ -684,33 +684,12 @@ aside:where(.addon-sidebar) {
   @include config.respond('tablet') { display: flex; }
 }
 
+// Sidebar nodes
 .addon-controls {
   --list-gap: 0;
+  --sync-timing: 175ms;
 
   max-block-size: 100%;
-
-  [name='location']:checked ~ label,
-  [name='location']:focus ~ label {
-    background-color: var(--background);
-  }
-
-  label {
-    display: flex;
-    flex-flow: column;
-    // padding: 2ch;
-    padding-block: 1.25ch;
-    padding-inline: 2.25ch;
-    cursor: pointer;
-    border-radius: .25ch;
-    transition: background-color 175ms var(--easing);
-
-    a {
-      --arrow: '';
-      font-family: inherit;
-
-      &[href*='tel:'] { align-self: flex-start; }
-    }
-  }
 
   &__item {
     position: relative;
@@ -722,8 +701,8 @@ aside:where(.addon-sidebar) {
       --sp: 1ex;
 
       --shadow-size: 0;
-      --shadow-hint-light: hsl(var(--sw-redend-point) / 70%);
-      --shadow-hint-dark: hsl(var(--sw-quaint-peche) / 50%);
+      --shadow-hint-light: hsl(var(--sw-redend-point) / .7);
+      --shadow-hint-dark: hsl(var(--sw-quaint-peche) / .5);
       --shadow-hint: var(--shadow-hint-light);
 
       position: absolute;
@@ -732,6 +711,7 @@ aside:where(.addon-sidebar) {
       padding: var(--sp);
       opacity: var(--a, .80);
       pointer-events: none;
+      overflow: visible;
 
       font-family: inherit;
       font-weight: 500;
@@ -739,20 +719,19 @@ aside:where(.addon-sidebar) {
       font-feature-settings: 'tnum' 1;
       // color: var(--accent);
 
-      border: 0; // override
+      border: 0 solid var(--trn); // override
 
       background-color: var(--background);
       background-origin: border-box;
       box-shadow:
-        0 0 0 var(--shadow-size) var(--shadow-hint);
+        0 0 0 var(--shadow-size, 0px) var(--shadow-hint);
 
       will-change: transform;
       transform: scale(var(--s, .75));
       transform-origin: 50% 50%;
       transition:
         opacity 250ms var(--ease-spring),
-        background-color 200ms var(--ease-out-quart),
-        box-shadow 200ms var(--ease-out-quart),
+        box-shadow var(--sync-timing) var(--ease-out-cubic),
         transform 250ms var(--ease-spring);
     }
 
@@ -769,19 +748,38 @@ aside:where(.addon-sidebar) {
     &:where(:not(:has([type=radio]:checked)):is(:hover,:focus))::before {
       --a: 1;
       --s: 1;
-      --shadow-size: 1px;
+      // --shadow-size: 1px;
       --shadow-hint: hsl(var(--sw-redend-point) / .5);
     }
     &:has([type=radio]:checked)::before {
       --a: 1;
       --s: .875;
-      // --shadow-size: .125em;
       --shadow-size: 2px;
       --shadow-hint: var(--accent-a80);
     }
   }
 
-  .social {
+  label {
+    display: flex;
+    flex-flow: column;
+    padding-block: 1.25ch;
+    padding-inline: 2.25ch;
+    border-radius: .25ch;
+    transition: background-color var(--sync-timing) var(--ease-out-cubic);
+    cursor: pointer;
+
+    a {
+      --arrow: '';
+      font-family: inherit;
+    }
+  }
+
+  [name=location]:checked ~ label,
+  [name=location]:focus ~ label {
+    background-color: var(--background);
+  }
+
+  :where(.social) {
     --icon-size: 1.25rem;
 
     padding-block-start: var(--spacer-3);

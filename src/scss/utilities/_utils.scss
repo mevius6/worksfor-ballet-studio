@@ -7,7 +7,22 @@
   &-unset   { all: unset; }
 }
 
+// Stack level
+// https://drafts.csswg.org/css2/#stacking-context
+.zi { z-index: var(--zi, 1) }
+
+// https://web.dev/content-visibility/
+.content-vis {
+  content-visibility: auto;
+  // when E is subject to size containment
+  // https://wicg.github.io/display-locking/sample-code/contain-intrinsic-size-examples.html
+  contain-intrinsic-size: auto var(--size-containment, 1000px);
+}
+
+//
 // Positioning
+//
+
 .wrapper {
   position: relative;
   max-width: var(--container-lg);
@@ -25,18 +40,6 @@
   top: var(--offset, 0);
   z-index: 1;
   align-self: start;
-}
-
-// Stack level
-// https://drafts.csswg.org/css2/#stacking-context
-.zi { z-index: var(--zi, 1); }
-
-// https://web.dev/content-visibility/
-.content-vis {
-  content-visibility: auto;
-  // when E is subject to size containment
-  // https://wicg.github.io/display-locking/sample-code/contain-intrinsic-size-examples.html
-  contain-intrinsic-size: auto var(--size-containment, 1000px);
 }
 
 .scroller { overflow: auto; }
@@ -62,6 +65,17 @@
   width: 100vw;
   margin-right: -50vw;
   margin-left: -50vw;
+}
+
+.clamp-inline-size {
+  --_min: 20ch;
+  --_max: 40ch;
+  --_sp: 2ch;
+  --_th: 50%;
+
+  inline-size: calc(var(--_th) - var(--_sp));
+  min-inline-size: var(--_min);
+  max-inline-size: var(--_max);
 }
 
 // Inline and block size utilities, helpful in combination
