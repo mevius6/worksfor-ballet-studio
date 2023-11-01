@@ -234,7 +234,7 @@ const popupOptions = {
   maxWidth: 'unset',
   // keepInView: true,
   closeButton: true,
-  className: 'microdata-popup',
+  className: 'map-popup',
 };
 
 const markers = [];

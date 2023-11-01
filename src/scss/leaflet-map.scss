@@ -252,7 +252,6 @@ $lib: 'leaflet';
         background: var(--background);
         outline: 0;
         touch-action: none;
-        // min-block-size: 100svh;
 
         *,
         ::after,
@@ -331,13 +330,14 @@ $lib: 'leaflet';
         font-size: 0.75em;
         line-height: 1.25;
         box-shadow: none;
+        backdrop-filter: blur(7px);
 
         [data-theme-style='light'] & {
-          background-color: var(--background-a75);
+          background-color: var(--background-a50);
         }
 
         [data-theme-style='dark'] & {
-          background-color: var(--background-a75);
+          background-color: var(--background-a50);
         }
       }
 
@@ -365,7 +365,6 @@ $lib: 'leaflet';
         }
 
         &-content {
-          // padding: 1.5rem;
           padding: 2ch;
           margin: 0;
           line-height: inherit;
@@ -398,14 +397,19 @@ $lib: 'leaflet';
           text-align: center;
           // text-indent: -999em;
           pointer-events: all;
-          border-radius: 0 1ch 0;
-          transition:
-            color 150ms var(--ease-in-out-quart),
-            background-color 150ms var(--ease-in-out-quart);
+          transition: color 175ms var(--ease-in-out-quart);
 
-          &:hover {
-            color: var(--foreground);
-            background-color: var(--accent);
+          & > span {
+            display: inline-block;
+            transform: rotate(var(--rot, 90deg));
+            transition: transform 175ms var(--ease-in-out-quart);
+          }
+
+          &:is(:hover, :focus) {
+            color: var(--accent);
+            // background-color: var(--accent);
+
+            & > span { --rot: 0; }
           }
         }
 
@@ -555,7 +559,7 @@ $lib: 'leaflet';
 }
 
 // Pop-up
-.microdata-popup {
+.map-popup {
   --_triangle-size: .75rem;
 
   inline-size: clamp(25ch, 50% - 2ch, 39ch);
@@ -565,6 +569,23 @@ $lib: 'leaflet';
     color: var(--foreground);
     background-color: var(--background);
     border-radius: 1ch;
+  }
+
+  & {
+    border: solid 2px var(--trn);
+    border-radius: 1ch;
+  }
+
+  &, &::after {
+    background:
+      linear-gradient(var(--background), var(--background)) padding-box,
+      var(--grad-1) border-box;
+
+    [data-theme-style=dark] & {
+      background:
+        linear-gradient(var(--background), var(--background)) padding-box,
+        var(--grad-5) border-box;
+    }
   }
 
   // https://github.com/argyleink/gui-challenges/tree/main/tooltips
@@ -579,7 +600,7 @@ $lib: 'leaflet';
     inset: 0;
     inset-block-end: calc(var(--_triangle-size) * -1);
     border-block-end: var(--_triangle-size) solid transparent;
-    background: var(--background);
+    // background: var(--background);
     mask: var(--_tip);
   }
 
