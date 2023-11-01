@@ -686,8 +686,6 @@ aside:where(.addon-sidebar) {
   display: none;
   padding: var(--map-sidebar-spacer, unset);
 
-  flex-direction: column;
-
   overflow-x: visible;
   background: var(--map-sidebar-background, var(--background-a75)); // default
   border-radius: .5ch;
@@ -710,7 +708,7 @@ aside:where(.addon-sidebar) {
   --list-gap: 0;
   --sync-timing: 175ms;
 
-  max-block-size: 100%;
+  // max-block-size: 100%;
 
   &__item {
     position: relative;
