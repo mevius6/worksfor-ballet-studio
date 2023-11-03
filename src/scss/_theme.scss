@@ -893,10 +893,7 @@ dialog:where(#alert) { // <-- basic noscript alert
   }
 }
 
-//
-// case-, context- or page-specific customization
-//
-
+// Case-, context- or page-specific customization
 @layer theme.custom {
   video-player {
     // https://codepen.io/thebabydino/pen/MWYrNaB
